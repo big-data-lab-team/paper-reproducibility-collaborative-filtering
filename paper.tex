@@ -1,0 +1,109 @@
+\documentclass[10pt, conference, compsocconf]{IEEEtran}
+
+% packages
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{amsfonts} % for R symbol (the set of real numbers)
+\usepackage{color}
+\usepackage[pdftex]{graphicx}
+\usepackage[bookmarks=false]{hyperref}
+\hypersetup{colorlinks=true,linkcolor=black,citecolor=black,filecolor=black,urlcolor=blue}
+\usepackage{mathtools}
+\usepackage{multirow}
+\usepackage{stmaryrd} % for llbracket and rrbracket
+\usepackage{subcaption}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+
+% new commands
+\newcommand{\todo}[1]{\marginpar{\parbox{18mm}{\flushleft\tiny\color{red}\textbf{TODO}:
+      #1}}}
+
+\newcommand{\note}[1]{
+  \color{blue}\emph{[Note: #1]}
+  \color{black}
+}
+
+\begin{document}
+
+\title{Predicting computational reproducibility of scientific pipelines using collaborative filtering}
+
+\author{Soudabeh Barghi, Lalet Scaria, Tristan Glatard\\
+  Department of Computer Science and Software Engineering\\ Concordia University, Montreal, Quebec, Canada\\
+  {first.last}@concordia.ca\\
+  $^*$ These authors have contributed equally
+}
+
+\maketitle
+
+\begin{abstract}
+\end{abstract}
+
+
+\section{Introduction}
+
+% Computational reproducibility is an issue, for instance among
+% different operating systems (refer to Glatard FINF 2015,
+% Gronenschild 2012).
+
+% Scientific data analysis pipeline executions are long (give examples
+% from neuroimaging).
+
+% Define subjects.
+
+% Problem: predict the reproducibility of pipeline files from other
+% subjects and the first files produced by a pipeline. Restrict the
+% study to binary classification.
+
+
+\section{Method}
+
+\subsection{Collaborative filtering using ALS}
+
+% Summarize Koren, Bell and Volinsky: https://dl.acm.org/citation.cfm?id=1608614
+% Explain that you have binary classes (rounding)
+% Biases
+
+\subsection{Sampling the Training Set}
+
+% Explain all sampling techniques (maybe rename 4, 5, and 6)
+% 1. random unreal (baseline)
+% 2. columns
+% 3. rows
+% 4. random real
+% 5. random diagonal
+% 6. random triangular
+% For every method, show a training matrix to illustrate for a given ratio. 
+
+\section{Dataset}
+
+% Describe your dataset: pipeline(s) used, input data, operating systems (CentOS5, 6, 7), matrix.
+
+% 1. Prefreesurfer (what you have)
+% 2. Freesurfer, with the same subjects as in Prefreesurfer.
+% 3. PostFreesurfer
+% 4. fmriVolume
+
+\section{Results}
+
+% Present your results: accuracy, ROC curves, transparency matrix. 
+
+\section{Discussion}
+
+% Which sampling method is best
+
+% How can this be used in practice
+
+% What are the limitations
+
+\section{Conclusion}
+
+% Summary of the results and discussion. The take-home message.
+
+\section*{Acknowledgment}
+
+\bibliographystyle{IEEEtran}
+\bibliography{IEEEabrv,biblio.bib}
+
+
+\end{document}
