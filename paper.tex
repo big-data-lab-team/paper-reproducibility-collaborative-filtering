@@ -49,6 +49,8 @@
 % Scientific data analysis pipeline executions are long (give examples
 % from neuroimaging).
 
+% Refer to Germain et al 2008.
+
 % Define subjects.
 
 % Problem: predict the reproducibility of pipeline files from other
@@ -58,10 +60,18 @@
 
 \section{Method}
 
+% What is specific to our problem compared to regular collaborative filtering:
+%+ subjects are equivalent to users. Not all subjects have the same input data. Anatomical variability, acquisition variability (e.g., 1 subject may have multiple T1s).
+%+ files are produced in a specific order (movies aren't),
+% which add constraints on the training set (cannot sample late files and not early ones).
+%+ utility matrix is not sparse: we can potentially populate it completely. Which means that we can decide precisely which samples we need (active sampling). Therefore we can take the first row and first column to avoid cold start issues.
+
 \subsection{Collaborative filtering using ALS}
 
 % Summarize Koren, Bell and Volinsky: https://dl.acm.org/citation.cfm?id=1608614
+
 % Explain that you have binary classes (rounding)
+
 % Biases
 
 \subsection{Sampling the Training Set}
