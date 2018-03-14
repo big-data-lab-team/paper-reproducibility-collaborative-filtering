@@ -69,16 +69,18 @@ pipeline and input data.
 
 % Refer to Germain et al 2008.
 
-% Define subjects.
+% Define subjects, pipelines.
 
 % Problem: predict the reproducibility of pipeline files from other
 % subjects and the first files produced by a pipeline. Restrict the
 % study to binary classification.
 
 
+
+
 \section{Method}
 
-% What is specific to our problem compared to regular collaborative filtering:
+what is specific to our problem compared to regular collaborative filtering:
 %+ subjects are equivalent to users. Not all subjects have the same input data. Anatomical variability, acquisition variability (e.g., 1 subject may have multiple T1s).
 %+ files are produced in a specific order (movies aren't),
 % which add constraints on the training set (cannot sample late files and not early ones).
@@ -104,6 +106,36 @@ pipeline and input data.
 % For every method, show a training matrix to illustrate for a given ratio. 
 
 \section{Dataset}
+
+We acquired data about the computational reproducibility of analysis
+pipelines of the Human Connectome Project~\cite{general-hcp}. We
+processed a set S of 94 subjects randomly selected in the S500 HCP
+release~\todo{URL} in three execution conditions with different
+versions of the CentOS operating system (5.?, 6.? and 7.?), using the
+PreFreesurfer, Freesurfer, PostFreesurfer and fMRIVolume pipelines
+described in~\cite{hcp-pipelines} and available at \todo{URL}. For
+each pipeline, we identified the set F of files produced for all
+subjects in all conditions. For each condition pair and each pipeline,
+we computed a binary difference matrix D of size $|F|\times|S|$, where $D_{i,j}$ is true
+if file $i$ of subject $j$ was different in each condition. Rows of
+$M$ are ordered by ascending file modification time in the pipeline.
+
+Figure~\ref{fig:pre-freesurfer-5-7} shows the difference matrix
+obtained for the PreFreesurfer pipeline\todo{Remove title from figure,
+  remove color scale, add axes labels.}. The computational
+reproducibility of the PreFreesurfer pipeline varies across subjects,
+which motivates our study. Nevertheless, some files behave
+consistently across all subjects, leading to complete black or white
+lines. The ratio of positive elements in this matrix is
+\todo{x}\%. Similar matrices were obtained with this pipeline for
+CentOS~6 vs CentOS~7 and for CentOS~5 vs CentOS~6, see
+Figures~\ref{fig:pre-freesurfer-5-6} and~\ref{fig:pre-freesurfer-5-7}.
+
+\begin{figure}
+  \includegraphics[width=\columnwidth]{figures/original_matrix_CentOS5vsCentOS7.pdf}
+  \caption{Difference matrix, PreFreesurfer pipeline, CentOS~5 vs CentOS~7.}
+  \label{fig:pre-freesurfer-5-7}
+\end{figure}
 
 % Describe your dataset: pipeline(s) used, input data, operating systems (CentOS5, 6, 7), matrix.
 
