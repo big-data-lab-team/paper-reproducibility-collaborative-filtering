@@ -98,11 +98,17 @@ what is specific to our problem compared to regular collaborative filtering:
 
 % Explain all sampling techniques (maybe rename 4, 5, and 6)
 % 1. random unreal (baseline)
+Training set, is fitted with no restriction and it is totally based on random selection of files regardless of their generation time. Although this method is not applicable in our study, it is used as a baseline for having a comparison on the performance of other methods. 
 % 2. columns
+Training set defined by selecting random subject in turns and reading their files’ value in respect to the file generation in pipeline. This selection will continue till the training set reaches the user-defined training ratio.
 % 3. rows
+Training set defined from the first files produced by the processing of each subject. All subjects will be processed on to the specific point of the pipeline and according to the generated files until that point the prediction of the value of the rest files will occur.
 % 4. random real
+This approach will select its next training set element according to the next file turn in the next random selected subject.
 % 5. random diagonal
+For every subject, the number of files added to the training set is randomly picked from a uniform distribution.
 % 6. random triangular
+To acquire about those files which are generated almost at the end of pipeline processing with respect of the training ratio, we used triangular ratio to calculate the number of files for each subject and added them to the training set.
 % For every method, show a training matrix to illustrate for a given ratio. 
 
 \section{Dataset}
