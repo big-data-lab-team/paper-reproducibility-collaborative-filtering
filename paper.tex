@@ -6,6 +6,7 @@
 \usepackage{amsfonts} % for R symbol (the set of real numbers)
 \usepackage{color}
 \usepackage[pdftex]{graphicx}
+\usepackage{graphicx}
 \usepackage[bookmarks=false]{hyperref}
 \hypersetup{colorlinks=true,linkcolor=black,citecolor=black,filecolor=black,urlcolor=blue}
 \usepackage{mathtools}
@@ -106,7 +107,7 @@ regardless of their generation time.  This method will be used as a
 baseline for comparison with other methods, although it is not
 realistic.
 \begin{figure}
-  \includegraphics[width=\columnwidth]{figures/5vs7_random-unreal_0.3_training_plot.png}
+\includegraphics[width=\columnwidth]{figures/5vs7_random-unreal_03_training_plot}
   \caption{Sample training set of random Unreal method with 0.3 training ratio in condition pair of CentOS~5 vs CentOS~7}
   \label{fig:Sample Training set }
 \end{figure}
@@ -120,7 +121,7 @@ method is realistic: it corresponds to a situation where the
 collaborative filtering method will predict the reproducibility in the
 remaining subjects from the subjects in the training set.
 \begin{figure}
-  \includegraphics[width=\columnwidth]{figures/5vs7_columns_0.3_training_plot.png}
+  \includegraphics[width=\columnwidth]{figures/5vs7_columns_03_training_plot}
   \caption{Sample training set of Columns method with 0.3 training ratio in condition pair of CentOS~5 vs CentOS~7}
   \label{fig:Sample Training set }
 \end{figure}
@@ -134,7 +135,7 @@ interrupted before the execution is complete. The collaborative
 filtering method will then predict the reproducibility of the
 remaining files.
 \begin{figure}
-  \includegraphics[width=\columnwidth]{figures/5vs7_rows_0.3_training_plot.png}
+  \includegraphics[width=\columnwidth]{figures/5vs7_rows_03_training_plot}
   \caption{Sample training set of Rows method with 0.3 training ratio in condition pair of CentOS~5 vs CentOS~7}
   \label{fig:Sample Training set }
 \end{figure}
@@ -145,7 +146,7 @@ remaining files.
 The key difference lies in the way that the next subject is selected randomly. In this respect, subjects' files
 are selected by coming their turn which is defined according to their generation time in the pipeline.
 \begin{figure}
-  \includegraphics[width=\columnwidth]{figures/5vs7_random-real_0.3_training_plot.png}
+ \includegraphics[width=\columnwidth]{figures/5vs7_random-real_03_training_plot}
   \caption{Sample training set of random Real method with 0.3 training ratio in condition pair of CentOS~5 vs CentOS~7}
   \label{fig:Sample Training set }
 \end{figure}
@@ -161,6 +162,7 @@ uniform distribution which illustrates a diagonal pattern of sampled files from 
 random difference tagert ratio and the efficiant one could be more than 0.01 and less than 0.1
 \begin{comment}
 \end{comment}
+
 % 6. random triangular
 \paragraph{Random triangular}
 \subparagraph{largest-a}
