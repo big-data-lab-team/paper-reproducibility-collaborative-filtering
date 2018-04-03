@@ -105,6 +105,11 @@ The training set is sampled randomly with no restriction, that is,
 regardless of their generation time.  This method will be used as a
 baseline for comparison with other methods, although it is not
 realistic.
+\begin{figure}
+  \includegraphics[width=\columnwidth]{figures/5vs7_random-unreal_0.3_training_plot.png}
+  \caption{Sample training set of random Unreal method with 0.3 training ratio in condition pair of CentOS~5 vs CentOS~7}
+  \label{fig:Sample Training set }
+\end{figure}
 
 % 2. columns
 \paragraph{Complete columns}
@@ -114,30 +119,59 @@ column might be incomplete to meet the exact training ratio. This
 method is realistic: it corresponds to a situation where the
 collaborative filtering method will predict the reproducibility in the
 remaining subjects from the subjects in the training set.
-
+\begin{figure}
+  \includegraphics[width=\columnwidth]{figures/5vs7_columns_0.3_training_plot.png}
+  \caption{Sample training set of Columns method with 0.3 training ratio in condition pair of CentOS~5 vs CentOS~7}
+  \label{fig:Sample Training set }
+\end{figure}
 % 3. rows
-\paragraph{Complete rows} The training set is sampled by randomly
-selecting complete rows in the matrix, that is, the first files in
+\paragraph{Complete rows} The training set is sampled by selecting complete 
+rows in the matrix, that is, the first files in
 every execution. The last selected row might be incomplete to meet the
 exact training ratio. This method is realistic: it corresponds to a
 situation where the processing of all the subjects is launched and
-interrupted before the execution is complete. The collaborative
+interrupted before the execution is complete. The collaborative 
 filtering method will then predict the reproducibility of the
 remaining files.
+\begin{figure}
+  \includegraphics[width=\columnwidth]{figures/5vs7_rows_0.3_training_plot.png}
+  \caption{Sample training set of Rows method with 0.3 training ratio in condition pair of CentOS~5 vs CentOS~7}
+  \label{fig:Sample Training set }
+\end{figure}
 
 % 4. random real
-\paragraph{Random real}
-\todo{Explain this better} This approach will select its next training set element according to
-the next file turn in the next random selected subject.
+\paragraph{Random real (Uniform-S)}
+\todo{Explain this better}The training set sampling in this method is quite simillar to rows method.
+The key difference lies in the way that the next subject is selected randomly. In this respect, subjects' files
+are selected by coming their turn which is defined according to their generation time in the pipeline.
+\begin{figure}
+  \includegraphics[width=\columnwidth]{figures/5vs7_random-real_0.3_training_plot.png}
+  \caption{Sample training set of random Real method with 0.3 training ratio in condition pair of CentOS~5 vs CentOS~7}
+  \label{fig:Sample Training set }
+\end{figure}
 
 % 5. random diagonal
-\paragraph{Random diagonal}
-For every subject, the number of files added to the training set is randomly picked from a uniform distribution.
-
+\paragraph{Random diagonal (Uniform-SF)}
+The training set suffers from lacking the files which are almost generated towareds the end of pipeline.
+(Or: This method aims to sample some of the files which are almost generated at the end of the pipeline).
+In this regard, the number of sampling files' of each random subject is calculated according to a 
+uniform distribution which illustrates a diagonal pattern of sampled files from the utility matrix.
+\todo{random difference tagert ratio and the efficiant one could be more than 0.01 and less than 0.1}
+\begin{comment}
+random difference tagert ratio and the efficiant one could be more than 0.01 and less than 0.1
+\begin{comment}
+\end{comment}
 % 6. random triangular
 \paragraph{Random triangular}
-To acquire about those files which are generated almost at the end of pipeline processing with respect of the training ratio, we used triangular ratio to calculate the number of files for each subject and added them to the training set.
+\subparagraph{largest-a}
+The training set is sampled by randomly selecting subjects in the matrix.
+The number of their files to be sampled in training set is calculated according to triangular distribution.
+This ununiform distribution targeting to sample files which are generated 
+almost the end of pipeline by meeting the closest training ratio  to the requested one by user.
+In this approach at laest some of the first generated files of the pipelines are set in the training for each subject and there is no possibility of not having more than the first generated file for a subject. 
+\subparagraph{smallest-a}
 % For every method, show a training matrix to illustrate for a given ratio. 
+This approach is almost the same as largest-a but the only difference is that there is probability of not having more than one file of a subject in the sample training set. 
 
 \todo{Find better names: consistent with either the graphical patter or the distribution.}
 \todo{Add a summary figure of the sampling methods.}
