@@ -231,6 +231,21 @@ Figures~\ref{fig:pre-freesurfer-5-6} and~\ref{fig:pre-freesurfer-5-7}.
 % 4. fmriVolume
 
 \section{Results}
+The experimental results have been obtained from four different approaches:
+1. Straightforward results by applying ALS technique
+2. Results achieved through employing Bias as well as ALS technique
+3. Results just got through Bias 
+4. Results stemmed from ommiting the impact of predicted value for canstant files 
+In all above approaches, dummy classifier which makes predictions using simple rules\cite{URL}has been used to indicate that how much predicted value would tend to be anticipate as the dominent value of the utility matrix. This classifier is considered as an accuracy evaluator since the binary utility matrix is consist of \{1,0\} which respectively represent whether a difference has been observed between the same files in two different conditions (by comapring their checksums) or not.
+With the knowledge of the fact that random-unreal method is not applicable to our case study we used its results as the comparision between the unrealistic method and realistics ones. In this regard, the aformentioned approaches are propossed and tried to lessen the gaps between the best results from random-unreal and the applied one.
+\subsection{Straightforward results by applying ALS technique}
+Results show that in all condition pairs Complete Column method has almost a constant accuracy even if the training ratio increased and it is almost two times less than dummy accuracy in more differentiated condition pairs (CentOS5 vs CentOS7 and CentOS6 vs CentOS7). But in the best case which it means in similar conditions the Complete column accuracy is as much accurate as the Dummy accuracy is, \num{0.65} percent.
+In general the accuracy pattern of the two complete Rows and Uniform-s methods show similar decline and grow behavior over the training ratio axis however it can be subject to considerable fluctuations in differentiated condition pairs. Dispite of their seemingly irrational behaviour, they always perform a better accuracy for the training size with less than \num{0.3} in comparison to other methods. This better performance (around 75 percent)is almost three times higher than other methods in condition pairs with more differences but just 20 percent better when the conditions are more similar to each other (CentOS5 vs CentOS6) with accuracy of \num{90\%}.
+All the other random methods, Uniform-SF and both Triangular approaches are performing a continues groth. Although some considerable variation for both triangular approches have been observed (CentOS5 vs CentOS6) their constant rise leads us to the next phase of experiments which was adding up bias into the current ALS technique. 
+
+
+
+
 
 % Present your results: accuracy, ROC curves, transparency matrix, factors. 
 
