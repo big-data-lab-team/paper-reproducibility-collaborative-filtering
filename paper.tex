@@ -19,6 +19,8 @@
 % new commands
 \newcommand{\todo}[1]{\marginpar{\parbox{18mm}{\flushleft\tiny\color{red}\textbf{TODO}:
       #1}}}
+\newcommand{\comment}[1]{\marginpar{\parbox{18mm}{\flushleft\tiny\color{blue}\textbf{Comment}:
+      #1}}}
 
 \newcommand{\note}[1]{
   \color{blue}\emph{[Note: #1]}
@@ -89,111 +91,110 @@ what is specific to our problem compared to regular collaborative filtering:
 
 \subsection{Collaborative filtering using ALS}
 
+We consider the collaborative filtering method as implemented in Spark's MLlb.
 % Summarize Koren, Bell and Volinsky: https://dl.acm.org/citation.cfm?id=1608614
 
 % Explain that you have binary classes (rounding)
 
 % Biases
 
+
 \subsection{Sampling the Training Set}
 
 We investigated the following sampling techniques for the training set. 
+In each method, we included the first row of the matrix (first 
+generated file of each subject) and a random column (all files of a 
+random subject) to avoid cold start issues. \todo{Check why the first line is not in random unreal}
 
 % Explain all sampling techniques (maybe rename 4, 5, and 6)
 % 1. random unreal (baseline)
-\paragraph{Random unreal}
+\paragraph{Random Unreal}
 The training set is sampled randomly with no restriction, that is,
-regardless of their generation time.  This method will be used as a
+regardless of the file generation time. This method will be used as a
 baseline for comparison with other methods, although it is not
-realistic.~\ref{fig:Random-Unreal-Sample-Training-set}
+realistic. Figure~\ref{fig:Random-Unreal-Sample-Training-set} represents 
+a training set sampled using this method.
 \begin{figure}
 \includegraphics[width=\columnwidth]{figures/5vs7_random-unreal_03_training}
-  \caption{Sample training set of random Unreal method with 0.3 training ratio in condition pair of CentOS~5 vs CentOS~7}
+  \caption{Sample training set obtained with the Random Unreal method with a training ratio of 0.3.}
   \label{fig:Random-Unreal-Sample-Training-set}
 \end{figure}
 
-Note: In the following provided methods in order to overcome the cold start problem and ensure that there is 
-at least one sample from each subject and also from each file in the training set, the first generated file of each 
-subjects and the whole files of the first random subject are sampled into 
-the training set by default. 
-
 % 2. columns
-\paragraph{Complete columns}
+\paragraph{Complete Columns}
 The training set is sampled by randomly selecting complete columns in
 the matrix, that is, complete subject executions. The last selected
-column might be incomplete to meet the exact training ratio. This
-method is realistic: it corresponds to a situation where the
-collaborative filtering method will predict the reproducibility in the
-remaining subjects from the subjects in the training set. ~\ref{fig:Columns-Sample-Training-set}
+column might be incomplete to meet the exact training ratio. This 
+method is realistic: it corresponds to a situation where the 
+collaborative filtering method will predict the reproducibility in the 
+remaining subjects from the subjects in the training set. 
+Figure~\ref{fig:Columns-Sample-Training-set} represents a training set 
+sampled using this method.
 \begin{figure}
   \includegraphics[width=\columnwidth]{figures/5vs7_columns_03_training}
-  \caption{Sample training set of Columns method with 0.3 training ratio in condition pair of CentOS~5 vs CentOS~7}
+  \caption{Sample training set obtained with the Complete Columns method with a training ratio of 0.3.}
   \label{fig:Columns-Sample-Training-set}
 \end{figure}
+
 % 3. rows
-\paragraph{Complete rows} The training set is sampled by selecting complete 
-rows in the matrix, that is, the first files in
+\paragraph{Complete Rows} The training set is sampled by selecting complete 
+rows in the matrix, that is, the first files produced by
 every execution. The last selected row might be incomplete to meet the
-exact training ratio. This method is realistic: it corresponds to a
-situation where the processing of all the subjects is launched and
+exact training ratio. This method is realistic: it corresponds to a 
+situation where the processing of all the subjects is launched and 
 interrupted before the execution is complete. The collaborative 
-filtering method will then predict the reproducibility of the
-remaining files.~\ref{fig:Rows-Sample-Training-set}
+filtering method will then predict the reproducibility of the remaining 
+files. Figure~\ref{fig:Rows-Sample-Training-set} represents a training 
+set sampled using this method.
 \begin{figure}
   \includegraphics[width=\columnwidth]{figures/5vs7_rows_03_training}
-  \caption{Sample training set of Rows method with 0.3 training ratio in condition pair of CentOS~5 vs CentOS~7}
+  \caption{Sample training set obtained with the Complete Rows method with a training ratio of 0.3.}
   \label{fig:Rows-Sample-Training-set}
 \end{figure}
 
-% 4. random real
-\paragraph{Random real (Uniform-S)}
-\todo{Explain this better}The training set sampling in this method is quite simillar to complete rows method.
-The key difference lies in the way that the next subject is selected randomly. In this respect, subjects' files
-are selected by coming their turn which is defined according to their generation time in the pipeline.~\ref{fig:Uniform-S-Sample-Training-set}
+\paragraph{Random Subjects} This method builds the 
+training set by selecting the next generated file of a random subject 
+until the training ratio is reached. The next generated file of a 
+subject is the file with the lowest index in this subject that has not 
+been already selected in the training set. This method is realistic as 
+files are sampled according to their production timestamps. 
+Figure~\ref{fig:Uniform-S-Sample-Training-set} represents a training 
+set sampled using this method.
 \begin{figure}
  \includegraphics[width=\columnwidth]{figures/5vs7_random-real_03_training}
-  \caption{Sample training set of random Real method with 0.3 training ratio in condition pair of CentOS~5 vs CentOS~7}
+  \caption{Sample training set obtained with the Random Subjects method with a training ratio of 0.3.}
   \label{fig:Uniform-S-Sample-Training-set}
 \end{figure}
 
-% 5. random diagonal
-\paragraph{Random diagonal (Uniform-SF)}
-The training set suffers from lacking the files which are almost generated towareds the end of pipeline.
-In this regard, the number of sampling files' of each random subject is calculated according to a 
-uniform distribution which illustrates a diagonal pattern of sampled files from the utility matrix.
-\todo{random difference tagert ratio and the efficiant one could be more than 0.01 and less than 0.1}
-\begin{comment}
-random difference tagert ratio and the efficiant one could be more than 0.01 and less than 0.1
-\begin{comment}
-\end{comment}
+\paragraph{Random File Numbers (Uniform)}
+The 
+number of files selected in every subject is randomly selected in a 
+uniform distribution with parameters a and b where a and b are set as follows: \ldots{}
+This method is realistic as files are sampled according to their production timestamps.
+Due to sampling issues, it is possible that the actual training ratio obtained with this method
+does not match the target one. We check that the difference between the target and real training ratios
+was lower than 0.01. 
 
-% 6. random triangular
-\paragraph{Random triangular}
-The training set is sampled by randomly selecting subjects in the matrix.
-The number of their files to be sampled in training set is calculated according to triangular distribution.
-This ununiform distribution targeting to sample files which are generated almost the end of pipeline by 
-meeting the closest training ratio to the requested one by user.
-Two approches are tried to apply this method.  
-
-\subparagraph{Largest-a}	
-In this approach there is a concern to eliminate the possibility of having less 
+\paragraph{Random File Numbers (Triangular)}
+The number of files selected in every subject is randomly selected in a triangular distribution
+with parameters a, b and c where a, b and c are set as follows: \ldots{}
+This ununiform distribution aims at sampling files produced towards the end of the execution.
+Two approches are tried to apply this method:
+\begin{enumerate}
+\item Largest-a:  In this approach there is a concern to eliminate the possibility of having less \todo{Reformulate, this is unclear.}
 than the two first generated files of any subjects in the sampled training set. 
 The possibility of missing some subjects in training set can happen to some of them due to 
 random selection of subjects or even meeting the determined training ratio before 
 having the chance of being selected.
-
-\subparagraph{smallest-a}
-In this approach of utilizing triangular distribution,despite of Largest-a approch, there is a possibility 
-that some subjects be reperesented in the training set just by their first generated file and no more files.
-
-% For every method, show a training matrix to illustrate for a given ratio. 
-
-\todo{Find better names: consistent with either the graphical patter or the distribution.}
-\todo{Add a summary figure of the sampling methods.}
+\todo{Add a Figure.}
+\item Smallest-a: In this approach of utilizing triangular distribution,despite of Largest-a approch, there is a possibility 
+that some subjects be reperesented in the training set just by their first generated file and no more files. \todo{Reformulate, this is unclear.}
+\todo{Add a Figure.}
+\end{enumerate}
 
 \section{Dataset}
 
-We acquired data about the computational reproducibility of analysis
+We collected data to evaluate the computational reproducibility of analysis
 pipelines of the Human Connectome Project~\cite{general-hcp}. We
 processed a set S of 94 subjects randomly selected in the S500 HCP
 release~\todo{URL} in three execution conditions with different
@@ -231,6 +232,8 @@ Figures~\ref{fig:pre-freesurfer-5-6} and~\ref{fig:pre-freesurfer-5-7}.
 % 4. fmriVolume
 
 \section{Results}
+
+\todo{Revise intro to this section}
 The experimental results have been obtained from four different approaches:
 1. Straightforward results by applying ALS technique
 2. Results achieved through employing Bias as well as ALS technique
@@ -238,12 +241,33 @@ The experimental results have been obtained from four different approaches:
 4. Results stemmed from ommiting the impact of predicted value for canstant files 
 In all above approaches, dummy classifier which makes predictions using simple rules\cite{URL}has been used to indicate that how much predicted value would tend to be anticipate as the dominent value of the utility matrix. This classifier is considered as an accuracy evaluator since the binary utility matrix is consist of \{1,0\} which respectively represent whether a difference has been observed between the same files in two different conditions (by comapring their checksums) or not.
 With the knowledge of the fact that random-unreal method is not applicable to our case study we used its results as the comparision between the unrealistic method and realistics ones. In this regard, the aformentioned approaches are propossed and tried to lessen the gaps between the best results from random-unreal and the applied one.
-\subsection{Straightforward results by applying ALS technique}
-Results show that in all condition pairs Complete Column method has almost a constant accuracy even if the training ratio increased and it is almost two times less than dummy accuracy in more differentiated condition pairs (CentOS5 vs CentOS7 and CentOS6 vs CentOS7). But in the best case which it means in similar conditions the Complete column accuracy is as much accurate as the Dummy accuracy is, \num{0.65} percent.
-In general the accuracy pattern of the two complete Rows and Uniform-s methods show similar decline and grow behavior over the training ratio axis however it can be subject to considerable fluctuations in differentiated condition pairs. Dispite of their seemingly irrational behaviour, they always perform a better accuracy for the training size with less than \num{0.3} in comparison to other methods. This better performance (around 75 percent)is almost three times higher than other methods in condition pairs with more differences but just 20 percent better when the conditions are more similar to each other (CentOS5 vs CentOS6) with accuracy of \num{90\%}.
-All the other random methods, Uniform-SF and both Triangular approaches are performing a continues groth. Although some considerable variation for both triangular approches have been observed (CentOS5 vs CentOS6) their constant rise leads us to the next phase of experiments which was adding up bias into the current ALS technique. 
 
 
+\subsection{ALS without biases}
+Results show that in all condition pairs Complete Column method has 
+almost a constant accuracy even if the training ratio increased and it 
+is almost two times less than dummy accuracy in more differentiated 
+condition pairs (CentOS5 vs CentOS7 and CentOS6 vs CentOS7). But in the 
+best case which it means in similar conditions the Complete column 
+accuracy is as much accurate as the Dummy accuracy is, $0.65$ 
+percent. In general the accuracy pattern of the two complete Rows and 
+Uniform-s methods show similar decline and grow behavior over the 
+training ratio axis however it can be subject to considerable 
+fluctuations in differentiated condition pairs. Dispite of their 
+seemingly irrational behaviour, they always perform a better accuracy 
+for the training size with less than $0.3$ in comparison to other 
+methods. This better performance (around 75 percent)is almost three 
+times higher than other methods in condition pairs with more 
+differences but just 20 percent better when the conditions are more 
+similar to each other (CentOS5 vs CentOS6) with accuracy of $90\%$. 
+All the other random methods, Uniform-SF and both Triangular approaches 
+are performing a continues groth. Although some considerable variation 
+for both triangular approches have been observed (CentOS5 vs CentOS6) 
+their constant rise leads us to the next phase of experiments which was 
+adding up bias into the current ALS technique. 
+
+
+The training set suffers from lacking the files which are almost generated towareds the end of pipeline.
 
 
 
