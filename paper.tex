@@ -115,8 +115,8 @@ baseline for comparison with other methods, although it is not
 realistic. Figure~\ref{fig:Random-Unreal-Sample-Training-set} represents 
 a training set sampled using this method.
 \begin{figure}
-\includegraphics[width=\columnwidth]{figures/5vs7_random-unreal_03_training}
-  \caption{Sample training set obtained with the Random Unreal method with a training ratio of 0.3.}
+\includegraphics[width=\columnwidth]{figures/5vs7_random-unreal_04_training}
+  \caption{Sample training set obtained with the Random Unreal method with a training ratio of 0.4.}
   \label{fig:Random-Unreal-Sample-Training-set}
 \end{figure}
 
@@ -131,8 +131,8 @@ remaining subjects from the subjects in the training set.
 Figure~\ref{fig:Columns-Sample-Training-set} represents a training set 
 sampled using this method.
 \begin{figure}
-  \includegraphics[width=\columnwidth]{figures/5vs7_columns_03_training}
-  \caption{Sample training set obtained with the Complete Columns method with a training ratio of 0.3.}
+  \includegraphics[width=\columnwidth]{figures/5vs7_columns_04_training}
+  \caption{Sample training set obtained with the Complete Columns method with a training ratio of 0.4.}
   \label{fig:Columns-Sample-Training-set}
 \end{figure}
 
@@ -146,10 +146,18 @@ interrupted before the execution is complete. The collaborative
 filtering method will then predict the reproducibility of the remaining 
 files. Figure~\ref{fig:Rows-Sample-Training-set} represents a training 
 set sampled using this method.
-\begin{figure}
-  \includegraphics[width=\columnwidth]{figures/5vs7_rows_03_training}
-  \caption{Sample training set obtained with the Complete Rows method with a training ratio of 0.3.}
-  \label{fig:Rows-Sample-Training-set}
+\begin{figure}[h!]
+	\centering
+	\begin{subfigure}[b]{0.4\linewidth}
+  		\includegraphics[width=\columnwidth]{figures/5vs7_rows_04_training}
+  		\caption{Sample training set obtained with the Complete Rows method with a training ratio of 0.4.}
+  		\label{fig:Rows-Sample-Training-set}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.4\linewidth}
+ 		\includegraphics[width=\columnwidth]{figures/5vs7_random-real_04_training}
+		\caption{Sample training set obtained with the Random Subjects method with a training ratio of 0.4.}
+  		\label{fig:Uniform-S-Sample-Training-set}
+	\end{subfigure}
 \end{figure}
 
 \paragraph{Random Subjects} This method builds the 
@@ -161,8 +169,8 @@ files are sampled according to their production timestamps.
 Figure~\ref{fig:Uniform-S-Sample-Training-set} represents a training 
 set sampled using this method.
 \begin{figure}
- \includegraphics[width=\columnwidth]{figures/5vs7_random-real_03_training}
-  \caption{Sample training set obtained with the Random Subjects method with a training ratio of 0.3.}
+ \includegraphics[width=\columnwidth]{figures/5vs7_random-real_04_training}
+  \caption{Sample training set obtained with the Random Subjects method with a training ratio of 0.4.}
   \label{fig:Uniform-S-Sample-Training-set}
 \end{figure}
 
@@ -174,6 +182,11 @@ This method is realistic as files are sampled according to their production time
 Due to sampling issues, it is possible that the actual training ratio obtained with this method
 does not match the target one. We check that the difference between the target and real training ratios
 was lower than 0.01. 
+\begin{figure}
+  \includegraphics[width=\columnwidth]{figures/5vs7_diagonal_04_training}
+  \caption{Sample training set obtained with the Random File Numbers (Uniform) method with a training ratio of 0.4.}
+  \label{fig:Diagonal-Sample-Training-set}
+\end{figure}
 
 \paragraph{Random File Numbers (Triangular)}
 The number of files selected in every subject is randomly selected in a triangular distribution
@@ -186,10 +199,18 @@ than the two first generated files of any subjects in the sampled training set.
 The possibility of missing some subjects in training set can happen to some of them due to 
 random selection of subjects or even meeting the determined training ratio before 
 having the chance of being selected.
-\todo{Add a Figure.}
+\begin{figure}
+  \includegraphics[width=\columnwidth]{figures/5vs7_random-triangular-largest_04_training}
+  \caption{Sample training set obtained with the Random File Numbers (Triangular-L) method with a training ratio of 0.4.}
+  \label{fig:triangular-L-Sample-Training-set}
+\end{figure}
 \item Smallest-a: In this approach of utilizing triangular distribution,despite of Largest-a approch, there is a possibility 
 that some subjects be reperesented in the training set just by their first generated file and no more files. \todo{Reformulate, this is unclear.}
-\todo{Add a Figure.}
+\begin{figure}
+  \includegraphics[width=\columnwidth]{figures/5vs7_random-triangular-smallest_04_training}
+  \caption{Sample training set obtained with the Random File Numbers (Triangular-S) method with a training ratio of 0.4.}
+  \label{fig:triangular-S-Sample-Training-set}
+\end{figure}
 \end{enumerate}
 
 \section{Dataset}
