@@ -194,6 +194,14 @@ uniform distribution with parameters \textit{\textbf{a}} and \textit{\textbf{b}}
 \textit{\textbf{b}} : The highest possibility of file index that could be selected for a subject\\
 $\mathbf{\alpha}$ : Training ratio\\
 \textit{\textbf{Nf}} : Index file which means all files with lower and equal to this number should be sampled into the training set.
+\[
+  f(\alpha;p) =
+  \begin{cases}
+	  R(0,Nf)      & \text{if $\alpha \leq 0.5$ }, \\
+	  R(\alpha,Nf),  
+	  a = (2\alpha - 1) Nf & \text{if $\alpha > 0.5$}.
+  \end{cases}
+\]
 This method is realistic as files are sampled according to their production timestamps.
 Due to sampling issues, it is possible that the actual training ratio obtained with this method
 does not match the target one. We check that the difference between the target and real training ratios
