@@ -114,11 +114,7 @@ regardless of the file generation time. This method will be used as a
 baseline for comparison with other methods, although it is not
 realistic. Figure~\ref{fig:Random-Unreal-Sample-Training-set} represents 
 a training set sampled using this method.
-\begin{figure}
-\includegraphics[width=\columnwidth]{figures/5vs7_random-unreal_04_training}
-  \caption{Sample training set obtained with the Random Unreal method with a training ratio of 0.4.}
-  \label{fig:Random-Unreal-Sample-Training-set}
-\end{figure}
+
 
 % 2. columns
 \paragraph{Complete Columns}
@@ -130,11 +126,7 @@ collaborative filtering method will predict the reproducibility in the
 remaining subjects from the subjects in the training set. 
 Figure~\ref{fig:Columns-Sample-Training-set} represents a training set 
 sampled using this method.
-\begin{figure}
-  \includegraphics[width=\columnwidth]{figures/5vs7_columns_04_training}
-  \caption{Sample training set obtained with the Complete Columns method with a training ratio of 0.4.}
-  \label{fig:Columns-Sample-Training-set}
-\end{figure}
+
 
 % 3. rows
 \paragraph{Complete Rows} The training set is sampled by selecting complete 
@@ -148,19 +140,45 @@ files. Figure~\ref{fig:Rows-Sample-Training-set} represents a training
 set sampled using this method.
 \begin{figure}[h!]
 	\centering
+	\begin{subfigure}[b]{0.6\linewidth}
+		\includegraphics[width=\columnwidth]{figures/5vs7_random-unreal_04_training}
+  		\caption{Random Unreal method}
+  		\label{fig:Random-Unreal-Sample-Training-set}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.4\linewidth}
+  		\includegraphics[width=\columnwidth]{figures/5vs7_columns_04_training}
+  		\caption{Complete Columns method}
+  		\label{fig:Columns-Sample-Training-set}
+	\end{subfigure}
 	\begin{subfigure}[b]{0.4\linewidth}
   		\includegraphics[width=\columnwidth]{figures/5vs7_rows_04_training}
-  		\caption{Sample training set obtained with the Complete Rows method with a training ratio of 0.4.}
+  		\caption{Complete Rows method}
   		\label{fig:Rows-Sample-Training-set}
 	\end{subfigure}
 	\begin{subfigure}[b]{0.4\linewidth}
  		\includegraphics[width=\columnwidth]{figures/5vs7_random-real_04_training}
-		\caption{Sample training set obtained with the Random Subjects method with a training ratio of 0.4.}
+		\caption{Random Subjects method}
   		\label{fig:Uniform-S-Sample-Training-set}
 	\end{subfigure}
+	\begin{subfigure}[b]{0.4\linewidth}
+  		\includegraphics[width=\columnwidth]{figures/5vs7_diagonal_04_training}
+  		\caption{(Uniform) method }
+  		\label{fig:Diagonal-Sample-Training-set}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.4\linewidth}
+  		\includegraphics[width=\columnwidth]{figures/5vs7_random-triangular-largest_04_training}
+  		\caption{(Triangular-L) method}
+  		\label{fig:triangular-L-Sample-Training-set}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.4\linewidth}
+  		\includegraphics[width=\columnwidth]{figures/5vs7_random-triangular-smallest_04_training}
+  		\caption{(Triangular-S) method}
+  		\label{fig:triangular-S-Sample-Training-set}
+	\end{subfigure}
+	\caption{Sample training set for different methods with a training ratio of 0.4.}		
 \end{figure}
 
-\paragraph{Random Subjects} This method builds the 
+\paragraph{Random Subjects- RS} This method builds the 
 training set by selecting the next generated file of a random subject 
 until the training ratio is reached. The next generated file of a 
 subject is the file with the lowest index in this subject that has not 
@@ -168,13 +186,8 @@ been already selected in the training set. This method is realistic as
 files are sampled according to their production timestamps. 
 Figure~\ref{fig:Uniform-S-Sample-Training-set} represents a training 
 set sampled using this method.
-\begin{figure}
- \includegraphics[width=\columnwidth]{figures/5vs7_random-real_04_training}
-  \caption{Sample training set obtained with the Random Subjects method with a training ratio of 0.4.}
-  \label{fig:Uniform-S-Sample-Training-set}
-\end{figure}
 
-\paragraph{Random File Numbers (Uniform)}
+\paragraph{Random File Numbers (Uniform)- RFNU}
 The 
 number of files selected in every subject is randomly selected in a 
 uniform distribution with parameters a and b where a and b are set as follows: \ldots{}
@@ -182,35 +195,22 @@ This method is realistic as files are sampled according to their production time
 Due to sampling issues, it is possible that the actual training ratio obtained with this method
 does not match the target one. We check that the difference between the target and real training ratios
 was lower than 0.01. 
-\begin{figure}
-  \includegraphics[width=\columnwidth]{figures/5vs7_diagonal_04_training}
-  \caption{Sample training set obtained with the Random File Numbers (Uniform) method with a training ratio of 0.4.}
-  \label{fig:Diagonal-Sample-Training-set}
-\end{figure}
 
-\paragraph{Random File Numbers (Triangular)}
+\paragraph{Random File Numbers (Triangular)- RFNT}
 The number of files selected in every subject is randomly selected in a triangular distribution
 with parameters a, b and c where a, b and c are set as follows: \ldots{}
 This ununiform distribution aims at sampling files produced towards the end of the execution.
 Two approches are tried to apply this method:
 \begin{enumerate}
-\item Largest-a:  In this approach there is a concern to eliminate the possibility of having less \todo{Reformulate, this is unclear.}
+\item Largest-a (RFNT-L):  In this approach there is a concern to eliminate the possibility of having less \todo{Reformulate, this is unclear.}
 than the two first generated files of any subjects in the sampled training set. 
 The possibility of missing some subjects in training set can happen to some of them due to 
 random selection of subjects or even meeting the determined training ratio before 
 having the chance of being selected.
-\begin{figure}
-  \includegraphics[width=\columnwidth]{figures/5vs7_random-triangular-largest_04_training}
-  \caption{Sample training set obtained with the Random File Numbers (Triangular-L) method with a training ratio of 0.4.}
-  \label{fig:triangular-L-Sample-Training-set}
-\end{figure}
-\item Smallest-a: In this approach of utilizing triangular distribution,despite of Largest-a approch, there is a possibility 
+
+\item Smallest-a (RNFT-S): In this approach of utilizing triangular distribution,despite of Largest-a approch, there is a possibility 
 that some subjects be reperesented in the training set just by their first generated file and no more files. \todo{Reformulate, this is unclear.}
-\begin{figure}
-  \includegraphics[width=\columnwidth]{figures/5vs7_random-triangular-smallest_04_training}
-  \caption{Sample training set obtained with the Random File Numbers (Triangular-S) method with a training ratio of 0.4.}
-  \label{fig:triangular-S-Sample-Training-set}
-\end{figure}
+
 \end{enumerate}
 
 \section{Dataset}
@@ -256,33 +256,33 @@ Figures~\ref{fig:pre-freesurfer-5-6} and~\ref{fig:pre-freesurfer-5-7}.
 
 \todo{Revise intro to this section}
 The experimental results have been obtained from four different approaches:
-1. Straightforward results by applying ALS technique
-2. Results achieved through employing Bias as well as ALS technique
-3. Results just got through Bias 
-4. Results stemmed from ommiting the impact of predicted value for canstant files 
+1. Applying ALS technique
+2. Employing Bias as well as ALS technique
+3. Using just Bias 
+4. Results stemmed from ommiting the impact of predicted value of canstant files 
 In all above approaches, dummy classifier which makes predictions using simple rules\cite{URL}has been used to indicate that how much predicted value would tend to be anticipate as the dominent value of the utility matrix. This classifier is considered as an accuracy evaluator since the binary utility matrix is consist of \{1,0\} which respectively represent whether a difference has been observed between the same files in two different conditions (by comapring their checksums) or not.
-With the knowledge of the fact that random-unreal method is not applicable to our case study we used its results as the comparision between the unrealistic method and realistics ones. In this regard, the aformentioned approaches are propossed and tried to lessen the gaps between the best results from random-unreal and the applied one.
+With the knowledge of the fact that Random Unreal method is not applicable into our case study we used its results as the comparision between the unrealistic method and realistics ones. In this regard, the aformentioned approaches are propossed and tried to lessen the gaps between the best results from random-unreal and the applied one.
 
 
 \subsection{ALS without biases}
-Results show that in all condition pairs Complete Column method has 
+Results show that in all condition pairs Complete Columns method has 
 almost a constant accuracy even if the training ratio increased and it 
-is almost two times less than dummy accuracy in more differentiated 
+is almost two times less than dummy classifier in more differentiated 
 condition pairs (CentOS5 vs CentOS7 and CentOS6 vs CentOS7). But in the 
-best case which it means in similar conditions the Complete column 
-accuracy is as much accurate as the Dummy accuracy is, $0.65$ 
-percent. In general the accuracy pattern of the two complete Rows and 
-Uniform-s methods show similar decline and grow behavior over the 
+best case which it means in similar conditions the Complete Columns 
+accuracy is as much accurate as the Dummy classifier which is $0.65$ 
+percent. In general the accuracy pattern of the two Complete Rows and 
+RS methods show similar decline and grow behavior over the 
 training ratio axis however it can be subject to considerable 
 fluctuations in differentiated condition pairs. Dispite of their 
-seemingly irrational behaviour, they always perform a better accuracy 
+likely irrational behaviour, they always have better accuracy 
 for the training size with less than $0.3$ in comparison to other 
 methods. This better performance (around 75 percent)is almost three 
 times higher than other methods in condition pairs with more 
 differences but just 20 percent better when the conditions are more 
 similar to each other (CentOS5 vs CentOS6) with accuracy of $90\%$. 
-All the other random methods, Uniform-SF and both Triangular approaches 
-are performing a continues groth. Although some considerable variation 
+All the other random methods, RS and both RFNT approaches 
+are performing a continues growth. Although some considerable variation 
 for both triangular approches have been observed (CentOS5 vs CentOS6) 
 their constant rise leads us to the next phase of experiments which was 
 adding up bias into the current ALS technique. 
