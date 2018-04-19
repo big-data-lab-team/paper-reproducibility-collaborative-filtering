@@ -188,9 +188,12 @@ Figure~\ref{fig:Uniform-S-Sample-Training-set} represents a training
 set sampled using this method.
 
 \paragraph{Random File Numbers (Uniform)- RFNU}
-The 
-number of files selected in every subject is randomly selected in a 
-uniform distribution with parameters a and b where a and b are set as follows: \ldots{}
+The number of files selected for every subject is randomly selected in a 
+uniform distribution with parameters \textit{\textbf{a}} and \textit{\textbf{b}} where \textit{\textbf{a}} and \textit{\textbf{b}} are set as follows:\\
+\textit{\textbf{a}} : The minimume random of file index that could be selected for a subject\\ 
+\textit{\textbf{b}} : The highest possibility of file index that could be selected for a subject\\
+$\mathbf{\alpha}$ : Training ratio\\
+\textit{\textbf{Nf}} : Index file which means all files with lower and equal to this number should be sampled into the training set.
 This method is realistic as files are sampled according to their production timestamps.
 Due to sampling issues, it is possible that the actual training ratio obtained with this method
 does not match the target one. We check that the difference between the target and real training ratios
@@ -271,7 +274,24 @@ is almost two times less than dummy classifier in more differentiated
 condition pairs (CentOS5 vs CentOS7 and CentOS6 vs CentOS7). But in the 
 best case which it means in similar conditions the Complete Columns 
 accuracy is as much accurate as the Dummy classifier which is $0.65$ 
-percent. In general the accuracy pattern of the two Complete Rows and 
+percent Figure~\ref{fig:columns method} represents
+the ROC curves of Complete Columns method with comparision to dummy 
+classifier over the increasement of the training ratio.
+\begin{figure}[h!]
+        \centering
+        \begin{subfigure}[b]{0.3\linewidth}
+                \includegraphics[width=\columnwidth]{figures/columns_5vs6}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.3\linewidth}
+                \includegraphics[width=\columnwidth]{figures/columns_5vs7}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.3\linewidth}
+                \includegraphics[width=\columnwidth]{figures/columns_6vs7}
+        \end{subfigure}
+        \caption{Average performance of Complete Columns methods in three different condition pairs}
+        \label{fig:columns method}
+\end{figure}
+In general the accuracy pattern of the two Complete Rows and 
 RS methods show similar decline and grow behavior over the 
 training ratio axis however it can be subject to considerable 
 fluctuations in differentiated condition pairs. Dispite of their 
@@ -280,17 +300,48 @@ for the training size with less than $0.3$ in comparison to other
 methods. This better performance (around 75 percent)is almost three 
 times higher than other methods in condition pairs with more 
 differences but just 20 percent better when the conditions are more 
-similar to each other (CentOS5 vs CentOS6) with accuracy of $90\%$. 
+similar to each other (CentOS5 vs CentOS6) with accuracy of $90\%$.
+Figure~\ref{fig:RS_Rows} represents
+the ROC curves of these two methods with comparision to dummy
+classifier over the increasement of the training ratio.
+\begin{figure}[h!]
+        \centering
+        \begin{subfigure}[b]{0.4\linewidth}
+                \includegraphics[width=\columnwidth]{figures/RS_Rows_5vs6}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.4\linewidth}
+                \includegraphics[width=\columnwidth]{figures/RS_Rows_5vs7}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.4\linewidth}
+                \includegraphics[width=\columnwidth]{figures/RS_Rows_6vs7}
+        \end{subfigure}
+        \caption{Average performance of RS and Complete Rows methods in three different condition pairs}
+        \label{fig:RS_RowS}
+\end{figure}
+
 All the other random methods, RS and both RFNT approaches 
-are performing a continues growth. Although some considerable variation 
+are performing a continues growth Figure~\ref{fig:simple-methods} represents
+the ROC curves of all random methods with comparision to dummy
+classifier over the increasement of the training ratio.. Although some considerable variation 
 for both triangular approches have been observed (CentOS5 vs CentOS6) 
 their constant rise leads us to the next phase of experiments which was 
 adding up bias into the current ALS technique. 
-
-
 The training set suffers from lacking the files which are almost generated towareds the end of pipeline.
 
-
+\begin{figure}[h!]
+        \centering
+        \begin{subfigure}[b]{0.4\linewidth}
+                \includegraphics[width=\columnwidth]{figures/simple-methods-5vs6}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.4\linewidth}
+		\includegraphics[width=\columnwidth]{figures/simple-methods-5vs7}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.4\linewidth}
+                \includegraphics[width=\columnwidth]{figures/simple-methods-6vs7}
+        \end{subfigure}
+	\caption{Average performance of Complete Columns methods in three different condition pairs}
+	\label{fig:simple-methods}
+\end{figure}
 
 % Present your results: accuracy, ROC curves, transparency matrix, factors. 
 
