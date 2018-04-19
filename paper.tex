@@ -191,9 +191,8 @@ set sampled using this method.
 The number of files selected for every subject is randomly selected in a 
 uniform distribution with parameters \textit{\textbf{a}} and \textit{\textbf{b}} where \textit{\textbf{a}} and \textit{\textbf{b}} are set as follows:\\
 \textit{\textbf{a}} : The minimume random of file index that could be selected for a subject\\ 
-\textit{\textbf{b}} : The highest possibility of file index that could be selected for a subject\\
+\textit{\textbf{b}} : The highest possibility of file index that could be selected for a subject which is equal to the maximum index file (total number of subject's files,Nf)\\
 $\mathbf{\alpha}$ : Training ratio\\
-\textit{\textbf{Nf}} : Index file which means all files with lower and equal to this number should be sampled into the training set.
 \[
   f(\alpha;p) =
   \begin{cases}
