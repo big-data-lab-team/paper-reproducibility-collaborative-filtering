@@ -99,7 +99,7 @@ We consider the collaborative filtering method as implemented in Spark's MLlb.
 % Biases
 
 
-\subsection{Sampling the Training Set}
+\subsection{Sampling the training set}
 
 We investigated the following sampling techniques for the training set. 
 In each method, we included the first row of the matrix (first 
@@ -140,7 +140,7 @@ files. Figure~\ref{fig:Rows-Sample-Training-set} represents a training
 set sampled using this method.
 \begin{figure}[h!]
 	\centering
-	\begin{subfigure}[b]{0.6\linewidth}
+	\begin{subfigure}[b]{0.4\linewidth}
 		\includegraphics[width=\columnwidth]{figures/5vs7_random-unreal_04_training}
   		\caption{Random Unreal method}
   		\label{fig:Random-Unreal-Sample-Training-set}
@@ -178,38 +178,33 @@ set sampled using this method.
 	\caption{Sample training set for different methods with a training ratio of 0.4.}		
 \end{figure}
 
-\paragraph{Random Subjects- RS} This method builds the 
-training set by selecting the next generated file of a random subject 
-until the training ratio is reached. The next generated file of a 
+\paragraph{Random Subjects -- RS} This method builds the 
+training set by selecting the files from random subjects 
+until the training ratio is reached. The file selected in a 
 subject is the file with the lowest index in this subject that has not 
 been already selected in the training set. This method is realistic as 
 files are sampled according to their production timestamps. 
 Figure~\ref{fig:Uniform-S-Sample-Training-set} represents a training 
 set sampled using this method.
 
-\paragraph{Random File Numbers (Uniform)- RFNU}
-The number of files selected for every subject is randomly selected in a 
-uniform distribution with parameters \textit{\textbf{a}} and \textit{\textbf{b}} where \textit{\textbf{a}} and \textit{\textbf{b}} are set as follows:\\
-\textit{\textbf{a}} : The minimume random of file index that could be selected for a subject\\ 
-\textit{\textbf{b}} : The highest possibility of file index that could be selected for a subject which is equal to the maximum index file (total number of subject's files,Nf)\\
-$\mathbf{\alpha}$ : Training ratio\\
-\[
-  f(\alpha;p) =
-  \begin{cases}
-	  R(0,Nf)      & \text{if $\alpha \leq 0.5$ }, \\
-	  R(\alpha,Nf),  
-	  a = (2\alpha - 1) Nf & \text{if $\alpha > 0.5$}.
-  \end{cases}
-\]
+\paragraph{Random File Numbers (Uniform) -- RFNU}
+
+The number of files selected for every subject is randomly selected in 
+a uniform distribution with parameters \textit{\textbf{a}} and 
+\textit{\textbf{b}} where \textit{\textbf{b}} is set to the total 
+number of files $N_{f}$ and \textit{\textbf{a}} is set such that the 
+distribution average equals to $\alpha N_{f}$ where $\alpha$ is the training ratio,  that is, 
+$\textit{\textbf{a}}=(2\alpha-1)N_{f}$. \todo{Explain what you do when alpha is lower than 0.5}
+
 This method is realistic as files are sampled according to their production timestamps.
 Due to sampling issues, it is possible that the actual training ratio obtained with this method
 does not match the target one. We check that the difference between the target and real training ratios
 was lower than 0.01. 
 
-\paragraph{Random File Numbers (Triangular)- RFNT}
+\paragraph{Random File Numbers (Triangular) -- RFNT}
 The number of files selected in every subject is randomly selected in a triangular distribution
 with parameters a, b and c where a, b and c are set as follows: \ldots{}
-This ununiform distribution aims at sampling files produced towards the end of the execution.
+This distribution aims at sampling files produced towards the end of the execution.
 Two approches are tried to apply this method:
 \begin{enumerate}
 \item Largest-a (RFNT-L):  In this approach there is a concern to eliminate the possibility of having less \todo{Reformulate, this is unclear.}
@@ -275,6 +270,11 @@ With the knowledge of the fact that Random Unreal method is not applicable into 
 
 
 \subsection{ALS without biases}
+
+\todo{1. Use the same ordering and paragraph headings as in the method 
+section. 2. Don't mix multiple ideas/results in the same paragraph. 3. 
+Mention and describe the figure before discussing it.}
+
 Results show that in all condition pairs Complete Columns method has 
 almost a constant accuracy even if the training ratio increased and it 
 is almost two times less than dummy classifier in more differentiated 
