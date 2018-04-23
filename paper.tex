@@ -245,9 +245,20 @@ CentOS~6 vs CentOS~7 and for CentOS~5 vs CentOS~6, see
 Figures~\ref{fig:pre-freesurfer-5-6} and~\ref{fig:pre-freesurfer-5-7}.
 
 \begin{figure}
-  \includegraphics[width=\columnwidth]{figures/original_matrix_CentOS5vsCentOS7.pdf}
-  \caption{Difference matrix, PreFreesurfer pipeline, CentOS~5 vs CentOS~7.}
-  \label{fig:pre-freesurfer-5-7}
+  \centering
+  \begin{subfigure}[b]{0.5\linewidth}
+	\includegraphics[width=\columnwidth]{figures/utility_5vs6_PFS}
+  \caption{Utility matrix of CentOS5 vs CentOS6}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.5\linewidth}
+	 \includegraphics[width=\columnwidth]{figures/utility_5vs7_PFS}
+  \caption{Utility matrix of CentOS5 vs CentOS7}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.5\linewidth}
+	\includegraphics[width=\columnwidth]{figures/utility_6vs7_PFS}
+  \caption{Utility matrix of CentOS6 vs CentOS7}
+  \label{fig:utility metrics}
+  \end{subfigure}
 \end{figure}
 
 % Describe your dataset: pipeline(s) used, input data, operating systems (CentOS5, 6, 7), matrix.
