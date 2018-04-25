@@ -242,16 +242,13 @@ we computed a binary difference matrix D of size $|F|\times|S|$, where $D_{i,j}$
 if file $i$ of subject $j$ was different in each condition. Rows of
 $M$ are ordered by ascending file modification time in the pipeline.
 
-Figure~\ref{fig:pre-freesurfer-5-7} shows the difference matrix
-obtained for the PreFreesurfer pipeline\todo{Remove title from figure,
-  remove color scale, add axes labels.}. The computational
+Figure~\ref{fig:utility metrices} shows the difference matrices
+obtained for the PreFreesurfer pipeline. The computational
 reproducibility of the PreFreesurfer pipeline varies across subjects,
 which motivates our study. Nevertheless, some files behave
 consistently across all subjects, leading to complete black or white
-lines. The ratio of positive elements in this matrix is
-\todo{x}\%. Similar matrices were obtained with this pipeline for
-CentOS~6 vs CentOS~7 and for CentOS~5 vs CentOS~6, see
-Figures~\ref{fig:pre-freesurfer-5-6} and~\ref{fig:pre-freesurfer-5-7}.
+lines. The ratio of positive elements in utility matrix of CentOS5 vs CentOS6(C5C6),  CentOS5 vs CentOS7(C5C7) and  CentOS6 vs CentOS7(C6C7) are
+$0.34$, $0.79$ and $0.79$ respectively.
 
 \begin{figure}
   \centering
@@ -266,7 +263,7 @@ Figures~\ref{fig:pre-freesurfer-5-6} and~\ref{fig:pre-freesurfer-5-7}.
   \begin{subfigure}[b]{0.5\linewidth}
 	\includegraphics[width=\columnwidth]{figures/utility_6vs7_PFS}
   \caption{Utility matrix of CentOS6 vs CentOS7}
-  \label{fig:utility metrics}
+  \label{fig:utility metrices}
   \end{subfigure}
 \end{figure}
 
