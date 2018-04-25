@@ -13,6 +13,7 @@
 \usepackage{multirow}
 \usepackage{stmaryrd} % for llbracket and rrbracket
 \usepackage{subcaption}
+\usepackage{nicefrac}
 \DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
 \DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
 
@@ -189,21 +190,29 @@ set sampled using this method.
 
 \paragraph{Random File Numbers (Uniform) -- RFNU}
 
-The number of files selected for every subject is randomly selected in 
-a uniform distribution with parameters \textit{\textbf{a}} and 
-\textit{\textbf{b}} where \textit{\textbf{b}} is set to the total 
-number of files $N_{f}$ and \textit{\textbf{a}} is set such that the 
-distribution average equals to $\alpha N_{f}$ where $\alpha$ is the training ratio,  that is, 
-$\textit{\textbf{a}}=(2\alpha-1)N_{f}$. \todo{Explain what you do when alpha is lower than 0.5}
+The number of files selected for every subject is randomly selected in
+a uniform distribution $U(\textit{a},\textit{b})$, where \textit{\textbf{b}} is set to the total
+number of files $N_{f}$ and \textit{\textbf{a}} is set according to training ratio ($\alpha$) as follow:
+
+\[
+  \begin{cases}
+          \textit{\textbf{a}} = 0      & \text{if $\alpha \leq 0.5$ }\\
+          
+          \textit{\textbf{a}} = (2\alpha - 1) N_{f} & \text{if $\alpha > 0.5$}
+  \end{cases}
+\]
+
 
 This method is realistic as files are sampled according to their production timestamps.
 Due to sampling issues, it is possible that the actual training ratio obtained with this method
 does not match the target one. We check that the difference between the target and real training ratios
-was lower than 0.01. 
+was lower than 0.01.\\ 
 
 \paragraph{Random File Numbers (Triangular) -- RFNT}
-The number of files selected in every subject is randomly selected in a triangular distribution
-with parameters a, b and c where a, b and c are set as follows: \ldots{}
+The number of files selected for every subject is randomly selected in
+a triangular distribution with parameters \textit{\textbf{a}}, \textit{\textbf{c}} and \textit{\textbf{b}} where \textit{\textbf{b}} is set to $N_{f}$ and the other two parameters could be set according to two different approaches. By considering $\alpha$ as training ratio, the distribution average equals to $\alpha N_{f}$ which that means f  $\alpha$ less than $\nicefrac{1}{3}$ the lower limmit \textit{\textbf{a}} would get a negative value in this regard, therefore to avoid this issue the uniform distribution is applied for $\alpha < \nicefrac{1}{3}$. But for $\alpha \leq \nicefrac{1}{3}$ the following approaches are applicable.
+
+ \ldots{}
 This distribution aims at sampling files produced towards the end of the execution.
 Two approches are tried to apply this method:
 \begin{enumerate}
@@ -213,7 +222,7 @@ The possibility of missing some subjects in training set can happen to some of t
 random selection of subjects or even meeting the determined training ratio before 
 having the chance of being selected.
 
-\item Smallest-a (RNFT-S): In this approach of utilizing triangular distribution,despite of Largest-a approch, there is a possibility 
+\item Smallest-a (RFNT-S): In this approach of utilizing triangular distribution,despite of Largest-a approch, there is a possibility 
 that some subjects be reperesented in the training set just by their first generated file and no more files. \todo{Reformulate, this is unclear.}
 
 \end{enumerate}
@@ -285,7 +294,133 @@ With the knowledge of the fact that Random Unreal method is not applicable into 
 \todo{1. Use the same ordering and paragraph headings as in the method 
 section. 2. Don't mix multiple ideas/results in the same paragraph. 3. 
 Mention and describe the figure before discussing it.}
-
+\subsubsection{Random Unreal}
+Figure~\ref{fig:unreal method} represents
+the accuracy graph of Complete Columns method with comparision to dummy
+classifier over the increasement of the training ratio.
+\begin{figure}[h!]
+        \centering
+        \begin{subfigure}[b]{0.8\linewidth}
+                \includegraphics[width=\columnwidth]{figures/ALS/unreal-ALS-5vs6-PFS}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.8\linewidth}
+                \includegraphics[width=\columnwidth]{figures/ALS/unreal-ALS-5vs7-PFS}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.8\linewidth}
+                \includegraphics[width=\columnwidth]{figures/ALS/unreal-ALS-6vs7-PFS}
+        \end{subfigure}
+        \caption{Average performance of Random Unreal methods in three different condition pairs}
+        \label{fig:unreal method}
+\end{figure}
+\subsubsection{Complete Columns}
+Figure~\ref{fig:columns method} represents
+the accuracy graph of Complete Columns method with comparision to dummy
+classifier over the increasement of the training ratio.
+\begin{figure}[h!]
+        \centering
+        \begin{subfigure}[b]{0.8\linewidth}
+                \includegraphics[width=\columnwidth]{figures/ALS/columns-ALS-5vs6-PFS}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.8\linewidth}
+                \includegraphics[width=\columnwidth]{figures/ALS/columns-ALS-5vs7-PFS}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.8\linewidth}
+                \includegraphics[width=\columnwidth]{figures/ALS/columns-ALS-6vs7-PFS}
+        \end{subfigure}
+        \caption{Average performance of Complete Columns methods in three different condition pairs}
+        \label{fig:columns method}
+\end{figure}
+\subsubsection{Complete Rows}
+Figure~\ref{fig:rows method} represents
+the accuracy graph of Complete Rows method with comparision to dummy
+classifier over the increasement of the training ratio.
+\begin{figure}[h!]
+        \centering
+        \begin{subfigure}[b]{0.8\linewidth}
+                \includegraphics[width=\columnwidth]{figures/ALS/rows-ALS-5vs6-PFS}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.8\linewidth}
+                \includegraphics[width=\columnwidth]{figures/ALS/rows-ALS-5vs7-PFS}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.8\linewidth}
+                \includegraphics[width=\columnwidth]{figures/ALS/rows-ALS-6vs7-PFS}
+        \end{subfigure}
+        \caption{Average performance of Complete Rows methods in three different condition pairs}
+        \label{fig:rows method}
+\end{figure}
+\subsubsection{Random Subjects-RS}
+Figure~\ref{fig:RS method} represents
+the accuracy graph of RS method with comparision to dummy
+classifier over the increasement of the training ratio.
+\begin{figure}[h!]
+        \centering
+        \begin{subfigure}[b]{0.8\linewidth}
+                \includegraphics[width=\columnwidth]{figures/ALS/RS-ALS-5vs6-PFS}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.8\linewidth}
+                \includegraphics[width=\columnwidth]{figures/ALS/RS-ALS-5vs7-PFS}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.8\linewidth}
+                \includegraphics[width=\columnwidth]{figures/ALS/RS-ALS-6vs7-PFS}
+        \end{subfigure}
+        \caption{Average performance of Complete RS methods in three different condition pairs}
+        \label{fig:RS method}
+\end{figure}
+\subsubsection{RandomFile Numbers(Uniform) - RFNU}
+Figure~\ref{fig:RFNU method} represents
+the accuracy graph of RFNU method with comparision to dummy
+classifier over the increasement of the training ratio.
+\begin{figure}[h!]
+        \centering
+        \begin{subfigure}[b]{0.8\linewidth}
+                \includegraphics[width=\columnwidth]{figures/ALS/RFNU-ALS-5vs6-PFS}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.8\linewidth}
+                \includegraphics[width=\columnwidth]{figures/ALS/RFNU-ALS-5vs7-PFS}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.8\linewidth}
+                \includegraphics[width=\columnwidth]{figures/ALS/RFNU-ALS-6vs7-PFS}
+        \end{subfigure}
+        \caption{Average performance of RFNU methods in three different condition pairs}
+        \label{fig:RFNU method}
+\end{figure}
+\subsubsection{RNFT-L}
+Figure~\ref{fig:RFNT-L method} represents
+the accuracy graph of RFNT-L method with comparision to dummy
+classifier over the increasement of the training ratio.
+\begin{figure}[h!]
+        \centering
+        \begin{subfigure}[b]{0.8\linewidth}
+                \includegraphics[width=\columnwidth]{figures/ALS/RFNT-L-ALS-5vs6-PFS}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.8\linewidth}
+                \includegraphics[width=\columnwidth]{figures/ALS/RFNT-L-ALS-5vs7-PFS}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.8\linewidth}
+                \includegraphics[width=\columnwidth]{figures/ALS/RFNT-L-ALS-6vs7-PFS}
+        \end{subfigure}
+        \caption{Average performance of RFNT-L methods in three different condition pairs}
+        \label{fig:RFNT-L method}
+\end{figure}
+\subsubsection{RFNT-S}
+Figure~\ref{fig:RFNT-S method} represents
+the accuracy graph of RFNTS method with comparision to dummy
+classifier over the increasement of the training ratio.
+\begin{figure}[h!]
+        \centering
+        \begin{subfigure}[b]{0.8\linewidth}
+                \includegraphics[width=\columnwidth]{figures/ALS/RFNT-S-ALS-5vs6-PFS}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.8\linewidth}
+                \includegraphics[width=\columnwidth]{figures/ALS/RFNT-S-ALS-5vs7-PFS}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.8\linewidth}
+                \includegraphics[width=\columnwidth]{figures/ALS/RFNT-S-ALS-6vs7-PFS}
+        \end{subfigure}
+        \caption{Average performance of RFNT-S methods in three different condition pairs}
+        \label{fig:RFNT-S method}
+\end{figure}
+% General conclution on results of ALS without Bias 
 Results show that in all condition pairs Complete Columns method has 
 almost a constant accuracy even if the training ratio increased and it 
 is almost two times less than dummy classifier in more differentiated 
@@ -294,21 +429,8 @@ best case which it means in similar conditions the Complete Columns
 accuracy is as much accurate as the Dummy classifier which is $0.65$ 
 percent Figure~\ref{fig:columns method} represents
 the accuracy graph of Complete Columns method with comparision to dummy 
-classifier over the increasement of the training ratio.
-\begin{figure}[h!]
-        \centering
-        \begin{subfigure}[b]{0.5\linewidth}
-                \includegraphics[width=\columnwidth]{figures/columns_5vs6}
-        \end{subfigure}
-        \begin{subfigure}[b]{0.5\linewidth}
-                \includegraphics[width=\columnwidth]{figures/columns_5vs7}
-        \end{subfigure}
-        \begin{subfigure}[b]{0.5\linewidth}
-                \includegraphics[width=\columnwidth]{figures/columns_6vs7}
-        \end{subfigure}
-        \caption{Average performance of Complete Columns methods in three different condition pairs}
-        \label{fig:columns method}
-\end{figure}
+classifier over the increasement of the training ratio.\\
+
 In general the accuracy pattern of the two Complete Rows and 
 RS methods show similar decline and grow behavior over the 
 training ratio axis however it can be subject to considerable 
@@ -360,7 +482,64 @@ The training set suffers from lacking the files which are almost generated towar
 	\caption{Average performance of Complete Columns methods in three different condition pairs}
 	\label{fig:simple-methods}
 \end{figure}
+%-----------------------------------------------------------
+\subsection{ALS with biases}
 
+\subsubsection{RandomFile Numbers(Uniform) - RFNU}
+Figure~\ref{fig:RFNU method} represents
+the accuracy graph of RFNU method with comparision to dummy
+classifier over the increasement of the training ratio.
+\begin{figure}[h!]
+        \centering
+        \begin{subfigure}[b]{0.8\linewidth}
+                \includegraphics[width=\columnwidth]{figures/ALS-Bias/RFNU-ALS-Bias-5vs6-PFS}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.8\linewidth}
+                \includegraphics[width=\columnwidth]{figures/ALS-Bias/RFNU-ALS-Bias-5vs7-PFS}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.8\linewidth}
+                \includegraphics[width=\columnwidth]{figures/ALS-Bias/RFNU-ALS-Bias-6vs7-PFS}
+        \end{subfigure}
+        \caption{Average performance of RFNU methods in three different condition pairs}
+        \label{fig:RFNU method}
+\end{figure}
+\subsubsection{RNFT-L}
+Figure~\ref{fig:RFNT-L method} represents
+the accuracy graph of RFNT-L method with comparision to dummy
+classifier over the increasement of the training ratio.
+\begin{figure}[h!]
+        \centering
+        \begin{subfigure}[b]{0.8\linewidth}
+                \includegraphics[width=\columnwidth]{figures/ALS-Bias/RFNT-L-ALS-Bias-5vs6-PFS}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.8\linewidth}
+                \includegraphics[width=\columnwidth]{figures/ALS-Bias/RFNT-L-ALS-Bias-5vs7-PFS}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.8\linewidth}
+                \includegraphics[width=\columnwidth]{figures/ALS-Bias/RFNT-L-ALS-Bias-6vs7-PFS}
+        \end{subfigure}
+        \caption{Average performance of RFNT-L methods in three different condition pairs}
+        \label{fig:RFNT-L method}
+\end{figure}
+\subsubsection{RFNT-S}
+Figure~\ref{fig:RFNT-S method} represents
+the accuracy graph of RFNTS method with comparision to dummy
+classifier over the increasement of the training ratio.
+\begin{figure}[h!]
+        \centering
+        \begin{subfigure}[b]{0.8\linewidth}
+                \includegraphics[width=\columnwidth]{figures/ALS-Bias/RFNT-S-ALS-Bias-5vs6-PFS}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.8\linewidth}
+                \includegraphics[width=\columnwidth]{figures/ALS-Bias/RFNT-S-ALS-Bias-5vs7-PFS}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.8\linewidth}
+                \includegraphics[width=\columnwidth]{figures/ALS-Bias/RFNT-S-ALS-Bias-6vs7-PFS}
+        \end{subfigure}
+        \caption{Average performance of RFNT-S methods in three different condition pairs}
+        \label{fig:RFNT-S method}
+\end{figure}
+%-----------------------------------------------------------
 % Present your results: accuracy, ROC curves, transparency matrix, factors. 
 
 % Try with different numbers of factors. 
