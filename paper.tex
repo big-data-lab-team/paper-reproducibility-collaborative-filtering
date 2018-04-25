@@ -210,20 +210,23 @@ was lower than 0.01.\\
 
 \paragraph{Random File Numbers (Triangular) -- RFNT}
 The number of files selected for every subject is randomly selected in
-a triangular distribution with parameters \textit{\textbf{a}}, \textit{\textbf{c}} and \textit{\textbf{b}} where \textit{\textbf{b}} is set to $N_{f}$ and the other two parameters could be set according to two different approaches. By considering $\alpha$ as training ratio, the distribution average equals to $\alpha N_{f}$ which that means f  $\alpha$ less than $\nicefrac{1}{3}$ the lower limmit \textit{\textbf{a}} would get a negative value in this regard, therefore to avoid this issue the uniform distribution is applied for $\alpha < \nicefrac{1}{3}$. But for $\alpha \leq \nicefrac{1}{3}$ the following approaches are applicable.
-
- \ldots{}
-This distribution aims at sampling files produced towards the end of the execution.
+a triangular distribution with parameters \textit{\textbf{a}}, \textit{\textbf{c}} and \textit{\textbf{b}} where \textit{\textbf{b}} is set to $N_{f}$ and the other two parameters could be set according to two different approaches. By considering $\alpha$ as training ratio, the distribution average equals to $\alpha N_{f}$ which that means f  $\alpha$ less than $\nicefrac{1}{3}$ the lower limmit \textit{\textbf{a}} would get a negative value in this regard, therefore to avoid this issue the uniform distribution is applied for $\alpha < \nicefrac{1}{3}$. But for $\alpha \leq \nicefrac{1}{3}$ the following approaches are applicable. This distribution aims at sampling files produced towards the end of the pipeline execution.
 Two approches are tried to apply this method:
 \begin{enumerate}
-\item Largest-a (RFNT-L):  In this approach there is a concern to eliminate the possibility of having less \todo{Reformulate, this is unclear.}
+\item Largest-a (RFNT-L):  
+ This approach of triangular distribution with parameters \textit{\textbf{a}}, \textit{\textbf{c}} and \textit{\textbf{b}} where \textit{\textbf{b}} is set to $N_{f}$ and the two other parameters are reperesent the limmited bond and mode of the distribution respectively. The \textit{\textbf{a}} equals to $\nicefrac {N_{f}(3\alpha-1)}{2}$ while \textit{\textbf{c}} is considered as equal as \textit{\textbf{a}}, $(\textit{\textbf{c}} = \textit{\textbf{a}})$.\\
+
+In this approach there is a concern to eliminate the possibility of having less 
 than the two first generated files of any subjects in the sampled training set. 
 The possibility of missing some subjects in training set can happen to some of them due to 
 random selection of subjects or even meeting the determined training ratio before 
 having the chance of being selected.
 
-\item Smallest-a (RFNT-S): In this approach of utilizing triangular distribution,despite of Largest-a approch, there is a possibility 
-that some subjects be reperesented in the training set just by their first generated file and no more files. \todo{Reformulate, this is unclear.}
+\item Smallest-a (RFNT-S):
+This approach of triangular distribution with parameters \textit{\textbf{a}}, \textit{\textbf{c}} and \textit{\textbf{b}} where \textit{\textbf{b}} is set to $N_{f}$ and the
+ two other parameters are reperesent the limmited bond and mode of the distribution respectively. The \textit{\textbf{a}} is set to $0$  while \textit{\textbf{c}} equals to $N_{f}(3\alpha-1)$.\\
+In this approach of utilizing triangular distribution,despite of Largest-a approch, there is a possibility 
+that some subjects be reperesented in the training set just by their first generated file and no more files.
 
 \end{enumerate}
 
