@@ -105,7 +105,7 @@ We consider the collaborative filtering method as implemented in Spark's MLlb.
 We investigated the following sampling techniques for the training set. 
 In each method, we included the first row of the matrix (first 
 generated file of each subject) and a random column (all files of a 
-random subject) to avoid cold start issues. \todo{Check why the first line is not in random unreal}
+random subject) to avoid cold start issues. 
 
 % Explain all sampling techniques (maybe rename 4, 5, and 6)
 % 1. random unreal (baseline)
@@ -383,6 +383,7 @@ Same to the Complete Row method, RS method has some flactuation but not as frequ
 Figure~\ref{fig:RFNU method} represents
 the accuracy graph of RFNU method with comparision to dummy
 classifier over the increasement of the training ratio.
+The graphs show a continuous rise in the accuracy trend in all condition pairs however a 0.03 drop is recorder in C6C7 beteen training ratio size of $0.8$ to $0.9$. This metod takes over the dummy accuracy after having a training size over 40 percent in C5vsC7 and C6vsC7 but it always shows better acuracy than dummy classifier ($0.73$ percent with traininfg ratio of $0.1$)    
 \begin{figure}[h!]
         \centering
         \begin{subfigure}[b]{0.8\linewidth}
