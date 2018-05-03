@@ -278,6 +278,21 @@ $0.34$, $0.79$ and $0.79$ respectively.
 % 4. fmriVolume
 
 \section{Results}
+TP: The number of cases correctly predicted as occurance of difference \\
+FP: The number of cases incorrectly predicted as occurance of difference \\
+TN: The number of cases correctly predicted as no occurance of difference \\ 
+FN: The number of cases incorrectly predicted as no occurance of difference \\
+\[
+	    Accuracy = \frac{TP+TN}{TP+TN+FP+FN}
+\]
+Sensitivity: The ability to predict the differences cases correctly. The bellow formula can be used to calculate sensitivity of a test.
+\[
+            Sensitivity = \frac{TP}{TP+FN}
+\]
+Specificity: The ability to predict the non differences cases correctly. The following formula can be used to calculate specificity of a test. 
+\[
+            Specificity = \frac{TN}{TN+FP}
+\]
 
 The experimental results have been obtained from four different approaches:
 1. Applying ALS technique (ALS)
