@@ -107,8 +107,7 @@ In each method, we included the first row of the matrix (first
 generated file of each subject) and a random column (all files of a 
 random subject) to avoid cold start issues. 
 
-% Explain all sampling techniques (maybe rename 4, 5, and 6)
-% 1. random unreal (baseline)
+% 0. random unreal (baseline)
 \paragraph{Random Unreal}
 The training set is sampled randomly with no restriction, that is,
 regardless of the file generation time. This method will be used as a
@@ -210,21 +209,36 @@ was lower than 0.01.\\
 
 \paragraph{Random File Numbers (Triangular) -- RFNT}
 The number of files selected for every subject is randomly selected in
-a triangular distribution with parameters \textit{\textbf{a}}, \textit{\textbf{c}} and \textit{\textbf{b}} where \textit{\textbf{b}} is set to $N_{f}$ and the other two parameters could be set according to two different approaches. By considering $\alpha$ as training ratio, the distribution average equals to $\alpha N_{f}$ which that means f  $\alpha$ less than $\nicefrac{1}{3}$ the lower limmit \textit{\textbf{a}} would get a negative value in this regard, therefore to avoid this issue the uniform distribution is applied for $\alpha < \nicefrac{1}{3}$. But for $\alpha \leq \nicefrac{1}{3}$ the following approaches are applicable. This distribution aims at sampling files produced towards the end of the pipeline execution.
+a triangular distribution with parameters \textit{\textbf{a}}, \textit{\textbf{c}} 
+and \textit{\textbf{b}} where \textit{\textbf{b}} is set to $N_{f}$ and the other 
+two parameters could be set according to two different approaches. By considering $\alpha$ 
+as training ratio, the distribution average equals to $\alpha N_{f}$ which that means 
+for $\alpha$ less than $\nicefrac{1}{3}$ the lower limmit \textit{\textbf{a}} would 
+get a negative value in this regard, therefore to avoid this issue the uniform distribution 
+is applied for $\alpha < \nicefrac{1}{3}$. But for $\alpha \leq \nicefrac{1}{3}$ the following 
+approaches are applicable. This distribution aims at sampling files produced towards 
+the end of the pipeline execution.
+
 Two approches are tried to apply this method:
 \begin{enumerate}
 \item Largest-a (RFNT-L):  
- This approach of triangular distribution with parameters \textit{\textbf{a}}, \textit{\textbf{c}} and \textit{\textbf{b}} where \textit{\textbf{b}} is set to $N_{f}$ and the two other parameters are reperesent the limmited bond and mode of the distribution respectively. The \textit{\textbf{a}} equals to $\nicefrac {N_{f}(3\alpha-1)}{2}$ while \textit{\textbf{c}} is considered as equal as \textit{\textbf{a}}, $(\textit{\textbf{c}} = \textit{\textbf{a}})$.\\
+This approach of triangular distribution with parameters \textit{\textbf{a}}, \textit{\textbf{c}} 
+and \textit{\textbf{b}} where \textit{\textbf{b}} is set to $N_{f}$ and the two other 
+parameters are reperesent the limmited bond and mode of the distribution respectively. 
+The \textit{\textbf{a}} equals to $\nicefrac {N_{f}(3\alpha-1)}{2}$ while \textit{\textbf{c}} 
+is considered as equal as \textit{\textbf{a}}, $(\textit{\textbf{c}} = \textit{\textbf{a}})$.\\
 
 In this approach there is a concern to eliminate the possibility of having less 
-than the two first generated files of any subjects in the sampled training set. 
+than the first two generated files of any subjects in the sampled training set. 
 The possibility of missing some subjects in training set can happen to some of them due to 
 random selection of subjects or even meeting the determined training ratio before 
 having the chance of being selected.
 
 \item Smallest-a (RFNT-S):
-This approach of triangular distribution with parameters \textit{\textbf{a}}, \textit{\textbf{c}} and \textit{\textbf{b}} where \textit{\textbf{b}} is set to $N_{f}$ and the
- two other parameters are reperesent the limmited bond and mode of the distribution respectively. The \textit{\textbf{a}} is set to $0$  while \textit{\textbf{c}} equals to $N_{f}(3\alpha-1)$.\\
+This approach of triangular distribution with parameters \textit{\textbf{a}}, \textit{\textbf{c}} 
+and \textit{\textbf{b}} where \textit{\textbf{b}} is set to $N_{f}$ and the
+two other parameters are reperesent the limmited bond and mode of the distribution respectively. 
+The \textit{\textbf{a}} is set to $0$  while \textit{\textbf{c}} equals to $N_{f}(3\alpha-1)$.\\
 In this approach of utilizing triangular distribution,despite of Largest-a approch, there is a possibility 
 that some subjects be reperesented in the training set just by their first generated file and no more files.
 
@@ -278,6 +292,7 @@ $0.34$, $0.79$ and $0.79$ respectively.
 % 4. fmriVolume
 
 \section{Results}
+
 TP: The number of cases correctly predicted as occurance of difference \\
 FP: The number of cases incorrectly predicted as occurance of difference \\
 TN: The number of cases correctly predicted as no occurance of difference \\ 
@@ -299,156 +314,111 @@ The experimental results have been obtained from four different approaches:\\
 2. Employing Bias as well as ALS technique (ALS-Bias)\\
 3. Using just Bias (Bias)\\
 4. Results stemmed from ommiting the impact of predicted value of canstant files \\
-In all above approaches, dummy classifier which makes predictions using simple rules\cite{URL}has been used to indicate that how much predicted value would tend to be anticipate as the dominent value of the utility matrix. This classifier is considered as an accuracy evaluator since the binary utility matrix is consist of \{1,0\} which respectively represent whether a difference has been observed between the same files in two different conditions (by comapring their checksums) or not.
-With the knowledge of the fact that Random Unreal method is not applicable into our case study we used its results as the comparision between the unrealistic method and realistics ones. In this regard, the aformentioned approaches are propossed and tried to lessen the gaps between the best results from random-unreal and the applied one.
+In all above approaches, dummy classifier which makes prediction by using simple rules\cite{URL}
+has been used to indicate that how much the predicted value would tend to be anticipate 
+as the dominent value of the utility matrix. This classifier is considered as an 
+accuracy evaluator since the binary utility matrix is consist of \{1,0\} which  
+respectively represent whether a difference has been observed between the same files 
+in two different conditions (by comapring their checksums) or not.
+With the knowledge of the fact that Random Unreal method is not applicable into our 
+case study, we used its results as the comparision between the unrealistic method 
+and realistics ones. In this regard, the aformentioned approaches are propossed and 
+tried to lessen the gaps between the best results from random-unreal and the applied one.
 
 
 \subsection{ALS without biases}
 In this phase of the experiment, the Alternating Least Squares techniq of Collaborative Filtering is applied for all provided methods. \todo{should I talk about ALS in here?}
-\subsubsection{Random Unreal}
-Figure~\ref{fig:unreal method} represents
-The accuracy graph of Random Unreal method with comparision to dummy
-classifier over the increasement of the training ratio.
+Figure~\ref{fig:ALS-Failure} represents
+The accuracy graph of four diferent Complete Columns, RS, Complete Rows and Random Unreal methods.The comparision to dummy
+classifier over the increasement of the training ratio can be seen in this figure.
 \begin{figure}[h!]
         \centering
         \begin{subfigure}[b]{0.8\linewidth}
-                \includegraphics[width=\columnwidth]{figures/ALS/unreal-ALS-5vs6-PFS}
+                \includegraphics[width=\columnwidth]{figures/ALS/AlS-Failure-5vs6}
         \end{subfigure}
         \begin{subfigure}[b]{0.8\linewidth}
-                \includegraphics[width=\columnwidth]{figures/ALS/unreal-ALS-5vs7-PFS}
+                \includegraphics[width=\columnwidth]{figures/ALS/AlS-Failure-5vs7}
         \end{subfigure}
         \begin{subfigure}[b]{0.8\linewidth}
-                \includegraphics[width=\columnwidth]{figures/ALS/unreal-ALS-6vs7-PFS}
+                \includegraphics[width=\columnwidth]{figures/ALS/AlS-Failure-6vs7}
         \end{subfigure}
-        \caption{Average performance of Random Unreal methods in three different condition pairs}
-        \label{fig:unreal method}
+        \caption{Average performance of Complete Columns, RS, Complete Rows and Random Unreal methods in three different condition pairs}
+        \label{fig:ALS-Failure}
 \end{figure}
-This method has a great performance with absolute accouracy of more than $0.95$ even by accessing to small taining size of 10 percent. As it mentioned earlier this method is not applicable in pipline due to timestamp cosideration but it is a good criteria to estmiate the performance of other methods and try to modify the proposed methods in order to their accuracy be as colsed as possible to the Random Unreal method ones.  
+
+\subsubsection{Random Unreal}
+This method has a great performance with absolute accouracy of more than $0.95$ 
+even by accessing to small taining size of 10 percent. As it mentioned earlier 
+this method is not applicable in pipline due to timestamp cosideration but it 
+is a good criteria to estmiate the performance of other methods and try to modify 
+the proposed methods in order to their accuracy be as colsed as possible to the 
+Random Unreal method ones.  
 
 
 \subsubsection{Complete Columns}
-
-Figure~\ref{fig:columns method} represents
-the accuracy graph of Complete Columns method with comparision to dummy
-classifier over the increasement of the training ratio.
-As it can be seen Complete Columns method has
+As it shown in Figure~\ref{fig:ALS-Failure} the Complete Columns method has
 almost a constant accuracy even if the training ratio increased and it
 is almost two times less than dummy classifier in more differentiated
 condition pairs (CentOS5 vs CentOS7 and CentOS6 vs CentOS7). But in the
 best case which it means in similar conditions the Complete Columns
 accuracy is as much accurate as the Dummy classifier which is $0.65$
 percent.
-
-\begin{figure}[h!]
-        \centering
-        \begin{subfigure}[b]{0.8\linewidth}
-                \includegraphics[width=\columnwidth]{figures/ALS/columns-ALS-5vs6-PFS}
-        \end{subfigure}
-        \begin{subfigure}[b]{0.8\linewidth}
-                \includegraphics[width=\columnwidth]{figures/ALS/columns-ALS-5vs7-PFS}
-        \end{subfigure}
-        \begin{subfigure}[b]{0.8\linewidth}
-                \includegraphics[width=\columnwidth]{figures/ALS/columns-ALS-6vs7-PFS}
-        \end{subfigure}
-        \caption{Average performance of Complete Columns methods in three different condition pairs}
-        \label{fig:columns method}
-\end{figure}
- 
-
-
+\\
 \subsubsection{Complete Rows}
-Figure~\ref{fig:rows method} represents
-the accuracy graph of Complete Rows method with comparision to dummy
-classifier over the increasement of the training ratio.
-As it can be observed, This method has some flactuation over the gowth of training set size. These falactuations are more frequent in condition pairs which have higher difference positive ratio. Also by enlarging the training ratio specially between $0.3$ to $0.7$, we can see dummy classifier has better results than Complete Rows ones. In other words despite of better performance of Complete Rows than dummy classifier at the last 10 percent of the graph, its accuracies are less than dummy classifiers ones.  
-\begin{figure}[h!]
-        \centering
-        \begin{subfigure}[b]{0.8\linewidth}
-                \includegraphics[width=\columnwidth]{figures/ALS/rows-ALS-5vs6-PFS}
-        \end{subfigure}
-        \begin{subfigure}[b]{0.8\linewidth}
-                \includegraphics[width=\columnwidth]{figures/ALS/rows-ALS-5vs7-PFS}
-        \end{subfigure}
-        \begin{subfigure}[b]{0.8\linewidth}
-                \includegraphics[width=\columnwidth]{figures/ALS/rows-ALS-6vs7-PFS}
-        \end{subfigure}
-        \caption{Average performance of Complete Rows methods in three different condition pairs}
-        \label{fig:rows method}
-\end{figure}
+As it can be observed, Figure~\ref{fig:ALS-Failure}, This method has some 
+flactuation over the gowth of training set size. These falactuations are more 
+frequent in condition pairs which have higher difference positive ratio. 
+Also by enlarging the training ratio specially between $0.3$ to $0.7$, 
+we can see dummy classifier has better results than Complete Rows ones. 
+In other words despite of better performance of Complete Rows than 
+dummy classifier at the last 10 percent of the graph, its accuracies 
+are less than dummy classifiers ones.  
+\\
 \subsubsection{Random Subjects-RS}
-Figure~\ref{fig:RS method} represents
-the accuracy graph of RS method with comparision to dummy
-classifier over the increasement of the training ratio.
-Same to the Complete Row method, RS method has some flactuation but not as frequent as Complete Rows method. Althogh there are some up and down trends specialy with training ratio range of $0.2$ to $0.6$ but its constant growth trend after training ratio $0.3$ in condition pairs with high difference positive ratio is considerable. The method can be $0.99$ percent accurate when it has over 70 percent of the data however this accuracy can be achived with higher training ratio (over 80 percent) for C5C6.  
+The performance of RS method is represented in Figure~\ref{fig:ALS-Failure}.
+Same to the Complete Row method, RS method has some flactuation but not as frequent 
+as Complete Rows method. Althogh there are some up and down trends specialy with 
+training ratio range of $0.2$ to $0.6$ but its constant growth trend after 
+training ratio $0.3$ in condition pairs with high difference positive ratio is considerable.
+The method can be $0.99$ percent accurate when it has over 70 percent of the data however 
+this accuracy can be achived with higher training ratio (over 80 percent) for C5C6.  
+\\
+\\
+\noindent Figure~\ref{fig:ALS-Succeed} represents
+the accuracy graph of all Random kind methods with comparision to dummy
+classifier over the increasement of the training ratio.\\
 \begin{figure}[h!]
         \centering
         \begin{subfigure}[b]{0.8\linewidth}
-                \includegraphics[width=\columnwidth]{figures/ALS/RS-ALS-5vs6-PFS}
+                \includegraphics[width=\columnwidth]{figures/ALS/ALS-Succeed-5vs6}
         \end{subfigure}
         \begin{subfigure}[b]{0.8\linewidth}
-                \includegraphics[width=\columnwidth]{figures/ALS/RS-ALS-5vs7-PFS}
+                \includegraphics[width=\columnwidth]{figures/ALS/ALS-Succeed-5vs7}
         \end{subfigure}
         \begin{subfigure}[b]{0.8\linewidth}
-                \includegraphics[width=\columnwidth]{figures/ALS/RS-ALS-6vs7-PFS}
-        \end{subfigure}
-        \caption{Average performance of Complete RS methods in three different condition pairs}
-        \label{fig:RS method}
-\end{figure}
-\subsubsection{RandomFile Numbers(Uniform) - RFNU}
-Figure~\ref{fig:RFNU method} represents
-the accuracy graph of RFNU method with comparision to dummy
-classifier over the increasement of the training ratio.
-The graphs show a continuous rise in the accuracy trend in all condition pairs however a 0.03 drop is recorder in C6C7 beteen training ratio size of $0.8$ to $0.9$. This metod takes over the dummy accuracy after having a training size over 40 percent in C5vsC7 and C6vsC7 but it always shows better acuracy than dummy classifier ($0.73$ percent with traininfg ratio of $0.1$)    
-\begin{figure}[h!]
-        \centering
-        \begin{subfigure}[b]{0.8\linewidth}
-                \includegraphics[width=\columnwidth]{figures/ALS/RFNU-ALS-5vs6-PFS}
-        \end{subfigure}
-        \begin{subfigure}[b]{0.8\linewidth}
-                \includegraphics[width=\columnwidth]{figures/ALS/RFNU-ALS-5vs7-PFS}
-        \end{subfigure}
-        \begin{subfigure}[b]{0.8\linewidth}
-                \includegraphics[width=\columnwidth]{figures/ALS/RFNU-ALS-6vs7-PFS}
+                \includegraphics[width=\columnwidth]{figures/ALS/ALS-Succeed-6vs7}
         \end{subfigure}
         \caption{Average performance of RFNU methods in three different condition pairs}
-        \label{fig:RFNU method}
+        \label{fig:ALS-Succeed}
 \end{figure}
-\subsubsection{RNFT-L}
-Figure~\ref{fig:RFNT-L method} represents
-the accuracy graph of RFNT-L method with comparision to dummy
-classifier over the increasement of the training ratio.
-\begin{figure}[h!]
-        \centering
-        \begin{subfigure}[b]{0.8\linewidth}
-                \includegraphics[width=\columnwidth]{figures/ALS/RFNT-L-ALS-5vs6-PFS}
-        \end{subfigure}
-        \begin{subfigure}[b]{0.8\linewidth}
-                \includegraphics[width=\columnwidth]{figures/ALS/RFNT-L-ALS-5vs7-PFS}
-        \end{subfigure}
-        \begin{subfigure}[b]{0.8\linewidth}
-                \includegraphics[width=\columnwidth]{figures/ALS/RFNT-L-ALS-6vs7-PFS}
-        \end{subfigure}
-        \caption{Average performance of RFNT-L methods in three different condition pairs}
-        \label{fig:RFNT-L method}
-\end{figure}
+\subsubsection{Random File Numbers(Uniform) - RFNU}
+The continuous rise of RFNU accuracy trend can be observed in Figure~\ref{fig:ALS-Succeed}.
+However a 0.03 drop is recorded in C6C7 between training ratio size of $0.8$ to $0.9$. 
+This method takes over the dummy accuracy after having a training size more than 40 percent 
+in condition pairs of C5vsC7 and C6vsC7 but it always shows better acuracy than 
+dummy classifier ($0.73$ percent with traininfg ratio of $0.1$).    
+
+As it mentioned earlier, for $\alpha < \nicefrac{1}{3}$ RFNT approaches are not applicable, 
+therefor for training ratio less than $0.4$ RFNU method is employed. As a result, in terms of 
+evaluating the performance of RFNT-L and RFNT-S approches, only those accuracy results are 
+considered which their training set are equal or geather than 0.4 percent of the whole utility matrix. 
+
+\subsubsection{RFNT-L}
+Figure~\ref{fig:ALS-Succeed} 
+
 \subsubsection{RFNT-S}
-Figure~\ref{fig:RFNT-S method} represents
-the accuracy graph of RFNTS method with comparision to dummy
-classifier over the increasement of the training ratio.
-\begin{figure}[h!]
-        \centering
-        \begin{subfigure}[b]{0.8\linewidth}
-                \includegraphics[width=\columnwidth]{figures/ALS/RFNT-S-ALS-5vs6-PFS}
-        \end{subfigure}
-        \begin{subfigure}[b]{0.8\linewidth}
-                \includegraphics[width=\columnwidth]{figures/ALS/RFNT-S-ALS-5vs7-PFS}
-        \end{subfigure}
-        \begin{subfigure}[b]{0.8\linewidth}
-                \includegraphics[width=\columnwidth]{figures/ALS/RFNT-S-ALS-6vs7-PFS}
-        \end{subfigure}
-        \caption{Average performance of RFNT-S methods in three different condition pairs}
-        \label{fig:RFNT-S method}
-\end{figure}
+Figure~\ref{fig:ALS-Succeed} 
+
 % General conclution on results of ALS without Bias 
 In general the accuracy pattern of the two Complete Rows and 
 RS methods show similar decline and grow behavior over the 
@@ -578,7 +548,7 @@ classifier over the increasement of the training ratio.
 \section{Conclusion}
 
 % Summary of the results and discussion. The take-home message.
-
+%%%%%% why there is a drop in ALS-RFNT-L with 60% ratio?  
 \section*{Acknowledgment}
 
 \bibliographystyle{IEEEtran}
