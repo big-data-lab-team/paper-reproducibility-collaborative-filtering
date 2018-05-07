@@ -293,44 +293,36 @@ $0.34$, $0.79$ and $0.79$ respectively.
 
 \section{Results}
 
-TP: The number of cases correctly predicted as occurance of difference \\
-FP: The number of cases incorrectly predicted as occurance of difference \\
-TN: The number of cases correctly predicted as no occurance of difference \\ 
-FN: The number of cases incorrectly predicted as no occurance of difference \\
-\[
-	    Accuracy = \frac{TP+TN}{TP+TN+FP+FN}
-\]
-Sensitivity: The ability to predict the differences cases correctly. The bellow formula can be used to calculate sensitivity of a test.
-\[
-            Sensitivity = \frac{TP}{TP+FN}
-\]
-Specificity: The ability to predict the non differences cases correctly. The following formula can be used to calculate specificity of a test. 
-\[
-            Specificity = \frac{TN}{TN+FP}
-\]
 
-The experimental results have been obtained from four different approaches:\\
-1. Applying ALS technique (ALS)\\
-2. Employing Bias as well as ALS technique (ALS-Bias)\\
-3. Using just Bias (Bias)\\
-4. Results stemmed from ommiting the impact of predicted value of canstant files \\
-In all above approaches, dummy classifier which makes prediction by using simple rules\cite{URL}
-has been used to indicate that how much the predicted value would tend to be anticipate 
-as the dominent value of the utility matrix. This classifier is considered as an 
-accuracy evaluator since the binary utility matrix is consist of \{1,0\} which  
-respectively represent whether a difference has been observed between the same files 
-in two different conditions (by comapring their checksums) or not.
-With the knowledge of the fact that Random Unreal method is not applicable into our 
-case study, we used its results as the comparision between the unrealistic method 
-and realistics ones. In this regard, the aformentioned approaches are propossed and 
-tried to lessen the gaps between the best results from random-unreal and the applied one.
+Four experiments have been conducted to evaluate the performance of our 
+predictions using (1) ALS without biases, (2) ALS with biases, (3) Biases only. 
+Results will be evaluated on the complete datasets and specifically on the files that
+do not behave consistently across subjects (\todo{explain this in introduction}).
 
+We evaluate prediction methods using accuracy, sensitivity and specificity defined as follows:
+\[
+        Accuracy = \frac{TP+TN}{TP+TN+FP+FN}
+\]
+\[
+        Sensitivity = \frac{TP}{TP+FN}
+\]
+\[
+        Specificity = \frac{TN}{TN+FP}
+\]
+Where TP is the number of True Positives (correctly predicted errors), 
+FP is the number of False Positives, TN is the number of true negatives 
+and FN is the number of false negatives.
+
+We compare our methods to two references, (1) a dummy classifier that always predicts the dominant class.
+as the dominent value of the utility matrix (1 or 0), (2) the Random Unreal method, used as the baseline sampling technique.
 
 \subsection{ALS without biases}
-In this phase of the experiment, the Alternating Least Squares techniq of Collaborative Filtering is applied for all provided methods. \todo{should I talk about ALS in here?}
-Figure~\ref{fig:ALS-Failure} represents
-The accuracy graph of four diferent Complete Columns, RS, Complete Rows and Random Unreal methods.The comparision to dummy
-classifier over the increasement of the training ratio can be seen in this figure.
+In this phase of the experiment, the Alternating Least Squares 
+technique of Collaborative Filtering is applied for all provided 
+methods. Our four sampling techniques are compared in 
+Figure~\ref{fig:ALS-Failure} and the results are described in the next 
+sub-sections.
+
 \begin{figure}[h!]
         \centering
         \begin{subfigure}[b]{0.8\linewidth}
@@ -342,21 +334,21 @@ classifier over the increasement of the training ratio can be seen in this figur
         \begin{subfigure}[b]{0.8\linewidth}
                 \includegraphics[width=\columnwidth]{figures/ALS/AlS-Failure-6vs7}
         \end{subfigure}
-        \caption{Average performance of Complete Columns, RS, Complete Rows and Random Unreal methods in three different condition pairs}
+        \caption{Average accuracy of Complete Columns, RS, Complete Rows and Random Unreal methods in three different condition pairs.}
         \label{fig:ALS-Failure}
 \end{figure}
 
 \subsubsection{Random Unreal}
-This method has a great performance with absolute accouracy of more than $0.95$ 
-even by accessing to small taining size of 10 percent. As it mentioned earlier 
-this method is not applicable in pipline due to timestamp cosideration but it 
-is a good criteria to estmiate the performance of other methods and try to modify 
-the proposed methods in order to their accuracy be as colsed as possible to the 
+This method has a great performance with absolute accuracy of more than $0.95$ 
+even by accessing to small training size of 10 percent. As it mentioned earlier 
+this method is not applicable in pipline due to timestamp consideration but it 
+is a good criteria to estimate the performance of other methods and try to modify 
+the proposed methods in order to their accuracy be as closed as possible to the 
 Random Unreal method ones.  
 
 
 \subsubsection{Complete Columns}
-As it shown in Figure~\ref{fig:ALS-Failure} the Complete Columns method has
+The Complete Columns method has
 almost a constant accuracy even if the training ratio increased and it
 is almost two times less than dummy classifier in more differentiated
 condition pairs (CentOS5 vs CentOS7 and CentOS6 vs CentOS7). But in the
@@ -365,7 +357,7 @@ accuracy is as much accurate as the Dummy classifier which is $0.65$
 percent.
 \\
 \subsubsection{Complete Rows}
-As it can be observed, Figure~\ref{fig:ALS-Failure}, This method has some 
+This method has some 
 flactuation over the gowth of training set size. These falactuations are more 
 frequent in condition pairs which have higher difference positive ratio. 
 Also by enlarging the training ratio specially between $0.3$ to $0.7$, 
@@ -375,7 +367,6 @@ dummy classifier at the last 10 percent of the graph, its accuracies
 are less than dummy classifiers ones.  
 \\
 \subsubsection{Random Subjects-RS}
-The performance of RS method is represented in Figure~\ref{fig:ALS-Failure}.
 Same to the Complete Row method, RS method has some flactuation but not as frequent 
 as Complete Rows method. Althogh there are some up and down trends specialy with 
 training ratio range of $0.2$ to $0.6$ but its constant growth trend after 
