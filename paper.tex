@@ -408,20 +408,56 @@ This method takes over the dummy accuracy after having a training size more than
 in condition pairs of C5vsC7 and C6vsC7 but it always shows better acuracy than 
 dummy classifier ($0.73$ percent with traininfg ratio of $0.1$).    
 
-<<<<<<< HEAD
 % ALS-RFNT approaches
-=======
->>>>>>> results-categorized
 As it mentioned earlier, for $\alpha < \nicefrac{1}{3}$ RFNT approaches are not applicable, 
 therefor for training ratio less than $0.4$ RFNU method is employed. As a result, in terms of 
 evaluating the performance of RFNT-L and RFNT-S approches, only those accuracy results are 
 considered which their training set are equal or geather than 0.4 percent of the whole utility matrix. 
 
 \subsubsection{RFNT-L}
-Figure~\ref{fig:ALS-Succeed} 
+In Figure~\ref{fig:ALS-Succeed}, the results show that RFNT-L performance is always more accurate than
+dummy classifier even in its lowest accuracy value observed at training ratio of $0.6$ in C5C6 ($0.78$ percent).
+Dispite of this sudden mentioned drop to $78\%$ accuracy, RFNT-L method has slight growing trend throughout the 
+increment of training ratio and its accuracy is always more than $90\%$. 
 
 \subsubsection{RFNT-S}
-Figure~\ref{fig:ALS-Succeed} 
+Figure~\ref{fig:ALS-Succeed} shows the overall performance of RFNT-S methods in three different condition pairs.
+Similar to RFNT-L, this method also has constant accuracy increament with maximum less accuracy of 0.07 than 
+Random Unreal method throughout the experiment of C5C7 and C6C7.
+
+\subsection{Adding biases}
+In this phase of experiment, the variation in values of utility matrix which caused by subjects and files are also considered. 
+Figure~\ref{fig:ALS-Bias-PFS} presents the result of three methods of RFNU, RFNT-L and RFNT-S with having a comparison with
+Random Unreal method.
+
+\begin{figure}[h!]
+        \centering
+        \begin{subfigure}[b]{0.8\linewidth}
+                \includegraphics[width=\columnwidth]{figures/ALS-Bias/ALS-Bias-5vs6-PFS}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.8\linewidth}
+                \includegraphics[width=\columnwidth]{figures/ALS-Bias/ALS-Bias-5vs7-PFS}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.8\linewidth}
+                \includegraphics[width=\columnwidth]{figures/ALS-Bias/ALS-Bias-6vs7-PFS}
+        \end{subfigure}
+        \caption{Average performance of random methods in three different condition pairs with cosidering Bias of both subjects and files}
+        \label{fig:ALS-Bias-PFS}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 % General conclution on results of ALS without Bias 
 In general the accuracy pattern of the two Complete Rows and 
