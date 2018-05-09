@@ -298,7 +298,8 @@ Four experiments have been conducted to evaluate the performance of our
 predictions using (1) ALS without biases, (2) ALS with biases, (3) Biases only. 
 Results will be evaluated on the complete datasets and specifically on the files that
 do not behave consistently across subjects (\todo{explain this in introduction}).
-
+\todo{the last sentence just applies for Traiangular-L and on the case that I called 
+pure accuracy, other results of ALS, ALS-biases are not applied in this case}
 We evaluate prediction methods using accuracy, sensitivity and specificity defined as follows:
 \[
         Accuracy = \frac{TP+TN}{TP+TN+FP+FN}
@@ -342,23 +343,21 @@ sub-sections.
 This method has a great performance with absolute accuracy of more than $0.95$ 
 even by accessing to small training size of 10 percent. As it mentioned earlier 
 this method is not applicable in pipline due to timestamp consideration but it 
-is a good criteria to estimate the performance of other methods and try to modify 
+is a good criterion to estimate the performance of other methods and try to modify 
 the proposed methods in order to their accuracy be as closed as possible to the 
 Random Unreal method ones.  
 
 
 \subsubsection{Complete Columns}
-The Complete Columns method has
-almost a constant accuracy even if the training ratio increased and it
+The Complete Columns method has almost a constant accuracy even if the training ratio increased and it
 is almost two times less than dummy classifier in more differentiated
 condition pairs (CentOS5 vs CentOS7 and CentOS6 vs CentOS7). But in the
 best case which it means in similar conditions the Complete Columns
-accuracy is as much accurate as the Dummy classifier which is $0.65$
+accuracy is as much accurate as the Dummy classifier is, $0.65$
 percent.
 \\
 \subsubsection{Complete Rows}
-This method has some 
-flactuation over the gowth of training set size. These falactuations are more 
+This method has some flactuation over the gowth of training set size. These falactuations are more 
 frequent in condition pairs which have higher difference positive ratio. 
 Also by enlarging the training ratio specially between $0.3$ to $0.7$, 
 we can see dummy classifier has better results than Complete Rows ones. 
@@ -397,18 +396,19 @@ The continuous rise of RFNU accuracy trend can be observed in Figure~\ref{fig:AL
 However a 0.03 drop is recorded in C6C7 between training ratio size of $0.8$ to $0.9$. 
 This method takes over the dummy accuracy after having a training size more than 40 percent 
 in condition pairs of C5vsC7 and C6vsC7 but it always shows better acuracy than 
-dummy classifier ($0.73$ percent with traininfg ratio of $0.1$).    
+dummy classifier ($0.73$ percent with traininfg ratio of $0.1$).\newline
 
 % ALS-RFNT approaches
-As it mentioned earlier, for $\alpha < \nicefrac{1}{3}$ RFNT approaches are not applicable, 
+\indent As it mentioned earlier, for $\alpha < \nicefrac{1}{3}$ RFNT approaches are not applicable, 
 therefor for training ratio less than $0.4$ RFNU method is employed. As a result, in terms of 
 evaluating the performance of RFNT-L and RFNT-S approches, only those accuracy results are 
-considered which their training set are equal or geather than 0.4 percent of the whole utility matrix. 
+considered which their training set are equal or geather than 0.4 percent of the whole utility matrix.\newline 
 
 \subsubsection{RFNT-L}
+
 In Figure~\ref{fig:ALS-Succeed}, the results show that RFNT-L performance is always more accurate than
 dummy classifier even in its lowest accuracy value observed at training ratio of $0.6$ in C5C6 ($0.78$ percent).
-Dispite of this sudden mentioned drop to $78\%$ accuracy, RFNT-L method has slight growing trend throughout the 
+Dispite of this sudden, RFNT-L method has slight growing trend throughout the 
 increment of training ratio and its accuracy is always more than $90\%$. 
 
 \subsubsection{RFNT-S}
@@ -416,10 +416,11 @@ Figure~\ref{fig:ALS-Succeed} shows the overall performance of RFNT-S methods in 
 Similar to RFNT-L, this method also has constant accuracy increament with maximum less accuracy of 0.07 than 
 Random Unreal method throughout the experiment of C5C7 and C6C7.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Adding biases}
-In this phase of experiment, the variation in values of utility matrix which caused by subjects and files are also considered. 
-Figure~\ref{fig:ALS-Bias-PFS} presents the result of three methods of RFNU, RFNT-L and RFNT-S with having a comparison with
-Random Unreal method.
+In this part of the experiment, the effect of both subjects' and files' biases are considered in the predicted value. 
+Our three random sampeling techniques are compered in Figure~\ref{fig:ALS-Bias-PFS} accross the accretion of training 
+ratio;$\alpha$; and the results are reported at the following subsections.
 
 \begin{figure}[h!]
         \centering
@@ -436,6 +437,23 @@ Random Unreal method.
         \label{fig:ALS-Bias-PFS}
 \end{figure}
 
+
+\subsubsection{RFNU}
+The obtained results show that by sampling at least half of the utility matrix, 
+the predicted accuracy would be as accurate as the baseline (Random Unreal technique) 
+but for the $\alpha$ of less than $50\%$ this is not true. Actually there is a 
+difference range of $0.2$ to $0.7$ between the accuracy of Random Unreal and RFNU techniques for
+$\alpha <0.5$ in C5C7 and C6C7 but this range chanhe to $(0.07,0.17)$ in C5C6. 
+
+\subsubsection{RFNT-L}
+As it mentioned earlier RFNT-L technique is applicable for $\alpha \leq \nicefrac{1}{3}$, therefore its 
+accuracy description is summerized for $\alpha > 0.3$. This accuracy of this technique is always higher than 
+dummy classifier. Results show that this RFNT-L reaches to $100\%$ accuracy by $\alpha >0.8$ in condition pairs
+with more errors, however the baseline never reached this high accuracy throughout of whole experiment.
+
+\subsubsection{RFNT-S}
+This sampling technique is as precise as Random Unreal with maximum difference gap of 0.07 between them which that 
+happend in C5C7 at $\alpha = 0.7$ with accuracy of $0.91$. 
 
 
 
