@@ -58,11 +58,16 @@ system on computational results. However, conducting such
 reproducibility studies at scale is cumbersome due to the execution
 time of data analysis pipelines, which easily exceeds a few hours.
 
+
+
+
 In this paper we investigate approximate methods to predict the
 reproducibility of a computational analysis from the first files that
 it produces. Our main intuition is that reproducibility errors are
 caused by a reduced number of factors that originate in the analysis
 pipeline and input data. 
+
+ 
 
 % Computational reproducibility is an issue, for instance among
 % different operating systems (refer to Glatard FINF 2015,
@@ -83,7 +88,30 @@ pipeline and input data.
 
 
 \section{Method}
+To evaluate the reproducibility of a pipeline, a retrieved matrix from 
+the subjects and file-ids is built. Subjects and file-ids are equivalent 
+to users and items, respectively, as they are known in Collaborative Filtering (CF) technique.
+Filling in the missing entries of this matrix encompasses some issues 
+which take some barriers for use of Collaborative filtering technique as it 
+has being used in e-commerce applications.
+For instance, files-ids (items) are produced in a specific order in the 
+pipeline however items are sequentially independent in general use of CF in e-commerce.
+This issue adds constraints on the selection of CF training set. Despite of random 
+selection strategy which does not taking care of item order, we had to come up with those 
+selection strategies that respect the pipeline fundamental fact about file order generation.  
+The aforementioned matrix (utility matrix), con be fully completed by processing all subjects 
+in pipeline however the whole processing can takes loads of time. This possibility of 
+having a potential complete populated matrix means despite of potential sparse matrices 
+in e-commerce case studies here the utility matrix is not sparse and 
+we can decide precisely which samples we need to select as our training set selection. 
+In this regard, to avoid the cold start issue we can take the first file-id of all 
+subjects in order to get sure that for all subjects there is at least one 
+selected element in training ratio and in the same way, all generated files 
+from the process of a random subject which can guarantee that all files 
+are presented in the selection set at least for once. 
+ 
 
+ 
 what is specific to our problem compared to regular collaborative filtering:
 %+ subjects are equivalent to users. Not all subjects have the same input data. Anatomical variability, acquisition variability (e.g., 1 subject may have multiple T1s).
 %+ files are produced in a specific order (movies aren't),
