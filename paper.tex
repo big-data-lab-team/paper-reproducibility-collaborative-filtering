@@ -46,6 +46,19 @@
 
 \section{Introduction}
 
+We consider the problem of predicting the values of a variable 
+controlled by a hidden, parametrized, time dependent, deterministic 
+process over time. We assume that the variable values is observed only for 
+a limited number of time points, and we aim at predicting the values in the remaining time points.
+
+We approach the problem from the point of view of collaborative 
+filtering. The process is represented by a matrix where columns 
+represent different parametrizations (we do not assume an order on the 
+parametrizations) and rows represent the time points. The main difference with the traditional 
+collaborative filtering problem 
+
+% This is just a working example
+
 Computational reproducibility, the property through which
 computational results can be recomputed over time and
 space~\cite{stodden}, has become a critical component of scientific
@@ -67,7 +80,10 @@ it produces. Our main intuition is that reproducibility errors are
 caused by a reduced number of factors that originate in the analysis
 pipeline and input data. 
 
- 
+% Other possible examples
+
+Seasonality of MS lesions.
+Thresholded stock values. 
 
 % Computational reproducibility is an issue, for instance among
 % different operating systems (refer to Glatard FINF 2015,
