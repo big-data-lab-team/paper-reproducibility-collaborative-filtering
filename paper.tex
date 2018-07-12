@@ -14,6 +14,7 @@
 \usepackage{stmaryrd} % for llbracket and rrbracket
 \usepackage{subcaption}
 \usepackage{nicefrac}
+\usepackage{amsmath}
 \DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
 \DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
 
@@ -47,8 +48,8 @@
 \section{Introduction}
 
 We consider the problem of predicting the values of a variable 
-controlled by a hidden, parametrized, time dependent, deterministic 
-process over time. We assume that the variable values is observed only for 
+controlled by a hidden, parameterized, time dependent, deterministic 
+process. We assume that the variable values are observed only for 
 a limited number of time points, and we aim at predicting the values in the remaining time points.
 
 We approach the problem from the point of view of collaborative 
@@ -104,6 +105,7 @@ Thresholded stock values.
 
 
 \section{Method}
+
 To evaluate the reproducibility of a pipeline, a retrieved matrix from 
 the subjects and file-ids is built. Subjects and file-ids are equivalent 
 to users and items, respectively, as they are known in Collaborative Filtering (CF) technique.
@@ -134,10 +136,54 @@ what is specific to our problem compared to regular collaborative filtering:
 % which add constraints on the training set (cannot sample late files and not early ones).
 %+ utility matrix is not sparse: we can potentially populate it completely. Which means that we can decide precisely which samples we need (active sampling). Therefore we can take the first row and first column to avoid cold start issues.
 
-\subsection{Collaborative filtering using ALS}
+\subsection{Collaborative filtering}
 
-We consider the collaborative filtering method as implemented in Spark's MLlb.
-% Summarize Koren, Bell and Volinsky: https://dl.acm.org/citation.cfm?id=1608614
+Collaborative filtering is a technique to predict unknown values of a 
+matrix called ``utility matrix" from the known ones. Traditionally, the 
+matrix represents the ratings of items, represented by columns, by 
+users, represented by rows. Ratings might be explicit, when users input 
+ratings through a dedicated system, or implicit, when users' behaviors 
+are analyzed to estimate their preference toward specific items. A 
+complete introduction to collaborative filtering is provided 
+in~\cite{mmdsbook}.
+
+Several methods have been proposed to implement collaborative 
+filtering. Item-item collaborative filtering~\ref{item-item} predicts 
+the rating of item $i$ by user $u$ from the ratings of items similar to 
+$i$ by user $u$. Likewise, user-user collaborative 
+filtering~\ref{user-user} predicts the rating of item $i$ by user $u$ 
+from the ratings of item $i$ by users similar to $u$. Both methods
+have been used extensively for e-commerce applications.
+
+A third class of methods, which we will apply to our problem, is based 
+on the factorization of the utility matrix to estimate latent factors 
+with which users and items are represented. This method is described 
+in~\cite{koren} and became famous as it allowed its authors to win the 
+Netflix prize in 2009. To summarize, the method aims at finding $q_i$ 
+and $p_u$ vectors of $\mathbb{R}^f$, where $f$ is the number of latent factors, such that:
+\begin{equation*}
+r_{ui} = q_i^Tp_u,
+\end{equation*}
+where $r_{ui}$ is the rating of item $i$ by user $u$. In practice, the optimization
+involves a regularization term to avoid overfiting particular users or items. The method
+finds $q_i$ and $p_u$ that minimize the following objective:
+\begin{equation*}
+\sum_{(i,u) \in \mathbb{T}}\left( r_{ui} - q_i^Tp_u\right)^2+\lambda \left( \|{q_i}\|^2 + \|{p_u}\|^2\right)
+,
+\end{equation*}
+where $\lambda$ is the regularization parameter and $\mathbb{T}$ is the training set.
+
+It is also common to include user biases $b_u$ and item biases $b_i$ in 
+the optimization, defined as the average deviation of user $u$ and item 
+$i$ to the global average $\mu$. The goal then becomes to find $q_i$ and $p_u$ that minimize the 
+following objective:
+\begin{equation*}
+\sum_{(i,u) \in \mathbb{T}}\left( r_{ui} - \mu - b_u - b_i - q_i^Tp_u\right)^2+\lambda \left( \|{q_i}\|^2 + \|{p_u}\|^2 + b_u^2 + b_i^2\right)
+\end{equation*}
+
+Two good techniques to perform the optimization are stochastic gradient descent and alternating least squares (ALS). 
+In the remainder of this paper, we use matrix factorization as implemented in 
+Apache Spark's MLLib version 2.~\todo{xxx.}, which uses ALS.
 
 % Explain that you have binary classes (rounding)
 
