@@ -1,0 +1,19 @@
+set terminal postscript color
+
+set datafile separator ';'
+set ylabel "Accuracy"
+set xlabel "Training ratio"
+
+set key above
+
+do for [t in "5v6 5v7 6v7"]{
+    set output sprintf("ALS-Bias-PFS-%s.ps", t)
+    plot [][0:1] sprintf('ALS-Bias-PFS-%s-columns-average.txt', t) using 1:2 with lp  ps 0.8 lw 3 title "Complete Columns",\
+         sprintf('ALS-Bias-PFS-%s-rows-average.txt', t) using 1:2 with lp  ps 0.8 lw 3 title "Complete Rows",\
+         sprintf('ALS-Bias-PFS-%s-RS-average.txt', t) using 1:2 with lp  ps 0.8 lw 3 title "Random Subjects (RS)",\
+         sprintf('ALS-Bias-PFS-%s-RFNU-average.txt', t) using 1:2 with lp  ps 0.8 lw 3 title "RFNU",\
+         sprintf('ALS-Bias-PFS-%s-RFNT-L-average.txt', t) using 1:2 with lp  ps 0.8 lw 3 title "RFNTL",\
+         sprintf('ALS-Bias-PFS-%s-RFNT-S-average.txt', t) using 1:2 with lp  ps 0.8 lw 3 title "RFNTS",\
+         sprintf('ALS-Bias-PFS-%s-RandomUnreal-average.txt', t) using 1:2 with lp ps 0.8 lw 3 title "Random Unreal",\
+         sprintf('ALS-Bias-PFS-%s-RandomUnreal-average.txt', t) using 1:6 with lp ps 0.8 lw 3 title "Dummy"
+}

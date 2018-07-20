@@ -1,0 +1,18 @@
+set terminal postscript color
+
+set datafile separator ';'
+set ylabel "Accuracy"
+set xlabel "Training ratio"
+
+set key above
+
+set output "ALS-FS100files.ps"
+plot [][0:1] 'ALS-FS100files-columns-average.txt' using 1:2 with lp  ps 0.8 lw 3 title "Complete Columns",\
+         'ALS-FS100files-rows-average.txt' using 1:2 with lp  ps 0.8 lw 3 title "Complete Rows",\
+         'ALS-FS100files-RS-average.txt' using 1:2 with lp  ps 0.8 lw 3 title "Random Subjects (RS)",\
+         'ALS-FS100files-RFNU-average.txt' using 1:2 with lp  ps 0.8 lw 3 title "RFNU",\
+         'ALS-FS100files-RFNT-L-average.txt' using 1:2 with lp  ps 0.8 lw 3 title "RFNTL",\
+         'ALS-FS100files-RFNT-S-average.txt' using 1:2 with lp  ps 0.8 lw 3 title "RFNTS",\
+         'ALS-FS100files-RandomUnreal-average.txt' using 1:2 with lp ps 0.8 lw 3 title "Random Unreal",\
+         'ALS-FS100files-RandomUnreal-average.txt' using 1:6 with lp ps 0.8 lw 3 title "Dummy"
+

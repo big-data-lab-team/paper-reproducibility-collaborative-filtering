@@ -1,0 +1,20 @@
+set terminal postscript color
+
+set datafile separator ';'
+set ylabel "Accuracy"
+set xlabel "Training ratio"
+
+set output "test.ps"
+set key above
+
+do for [t in "2 4 8 16 32 64"]{
+    set output sprintf("ALS-%s-types.ps", t)
+    plot [][0.4:1] sprintf('ALS-%stype-syn-columns-average.txt', t) using 1:2 with lp  ps 0.8 lw 3 title "Complete Columns",\
+         sprintf('ALS-%stype-syn-rows-average.txt', t) using 1:2 with lp  ps 0.8 lw 3 title "Complete Rows",\
+         sprintf('ALS-%stype-syn-RS-average.txt', t) using 1:2 with lp  ps 0.8 lw 3 title "Random Subjects (RS)",\
+         sprintf('ALS-%stype-syn-RFNU-average.txt', t) using 1:2 with lp  ps 0.8 lw 3 title "RFNU",\
+         sprintf('ALS-%stype-syn-RFNT-L-average.txt', t) using 1:2 with lp  ps 0.8 lw 3 title "RFNTL",\
+         sprintf('ALS-%stype-syn-RFNT-S-average.txt', t) using 1:2 with lp  ps 0.8 lw 3 title "RFNTS",\
+         sprintf('ALS-%stype-syn-RandomUnreal-average.txt', t) using 1:2 with lp ps 0.8 lw 3 title "Random Unreal",\
+         sprintf('ALS-%stype-syn-RandomUnreal-average.txt', t) using 1:6 with lp ps 0.8 lw 3 title "Dummy"
+}

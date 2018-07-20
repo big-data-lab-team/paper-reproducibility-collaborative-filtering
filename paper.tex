@@ -35,9 +35,7 @@
 
 \author{Soudabeh Barghi, Lalet Scaria, Tristan Glatard\\
   Department of Computer Science and Software Engineering\\ Concordia University, Montreal, Quebec, Canada\\
-  {first.last}@concordia.ca\\
-  $^*$ These authors have contributed equally
-}
+  {first.last}@concordia.ca}
 
 \maketitle
 
@@ -104,6 +102,12 @@ Thresholded stock values.
 
 \todo{Explain that columns represent subjects and rows represent files, and that these terms are used
 indifferently}
+
+\todo{Mention why this is Big Data}
+
+\todo{Cite Cecile's paper}
+
+\todo{Define reproducibility \emph{errors}}
 
 \section{Method}
 
@@ -221,37 +225,37 @@ files.
         \centering
         \begin{subfigure}[b]{0.4\linewidth}
                   \includegraphics[width=\columnwidth]{figures/5vs7_columns_04_training}
-                  \caption{Complete Columns method}
+                  \caption{Complete Columns}
                   \label{fig:Columns-Sample-Training-set}
         \end{subfigure}
         \begin{subfigure}[b]{0.4\linewidth}
                   \includegraphics[width=\columnwidth]{figures/5vs7_rows_04_training}
-                  \caption{Complete Rows method}
+                  \caption{Complete Rows}
                   \label{fig:Rows-Sample-Training-set}
         \end{subfigure}
         \begin{subfigure}[b]{0.4\linewidth}
                  \includegraphics[width=\columnwidth]{figures/5vs7_random-real_04_training}
-                \caption{RS method}
+                \caption{Random Subjects (RS)}
                   \label{fig:Uniform-S-Sample-Training-set}
         \end{subfigure}
         \begin{subfigure}[b]{0.4\linewidth}
                   \includegraphics[width=\columnwidth]{figures/5vs7_diagonal_04_training}
-                  \caption{RFNU  method }
+                  \caption{RFNU}
                   \label{fig:Diagonal-Sample-Training-set}
         \end{subfigure}
         \begin{subfigure}[b]{0.4\linewidth}
                   \includegraphics[width=\columnwidth]{figures/5vs7_random-triangular-largest_04_training}
-                  \caption{RFNT-L method}
+                  \caption{RFNT-L}
                   \label{fig:triangular-L-Sample-Training-set}
         \end{subfigure}
         \begin{subfigure}[b]{0.4\linewidth}
                   \includegraphics[width=\columnwidth]{figures/5vs7_random-triangular-smallest_04_training}
-                  \caption{RFNT-S method}
+                  \caption{RFNT-S}
                   \label{fig:triangular-S-Sample-Training-set}
         \end{subfigure}
         \begin{subfigure}[b]{0.4\linewidth}
         \includegraphics[width=\columnwidth]{figures/5vs7_random-unreal_04_training}
-                  \caption{Random Unreal method}
+                  \caption{Random Unreal}
                   \label{fig:Random-Unreal-Sample-Training-set}
         \end{subfigure}
         \caption{Sample training set for different methods with a training ratio of 0.4.}                
@@ -328,6 +332,8 @@ random subject) to avoid cold start issues.
 
 \section{Dataset}
 
+\todo{Soudabeh, can you remove the caption on all matrices?}
+
 \subsection{Synthetic Data}
 
 We generated synthetic matrices as shown in 
@@ -337,10 +343,10 @@ identically and all types contain the same number of subjects $\pm$ 1
 \todo{Soudabeh: check that}. Such a decomposition by subject type 
 correspond to the case where different subjects may have data of 
 different nature, as it is for instance the case in the neuroimaging 
-dataset of the Human Connectome Project~\cite{hcp} where not all the 
+dataset of the Human Connectome Project~\cite{van2013wu} where not all the 
 subjects have the same amount of images.
 
-For subjects of a given type, matrix elements vary in $log(n)$  blocks, 
+For subjects of a given type, matrix elements vary in $log(n)$  blocks,         
 where $n$ is the number of types, with all the possible variation 
 patterns: some types do not vary at all, while other ones vary in every 
 block. Such variation patterns are meant to mimic the logic of data 
@@ -385,65 +391,56 @@ reproducibility errors depending on the subject type.
 \subsection{Real Data}
 
 We collected data to evaluate the computational reproducibility of analysis
-pipelines of the Human Connectome Project~\cite{general-hcp}. We
+pipelines of the Human Connectome Project~\cite{glasser2013minimal}. We
 processed a set S of 94 subjects randomly selected in the S500 HCP
 release~\todo{URL} in three execution conditions with different
 versions of the CentOS operating system (5.?, 6.? and 7.?), using the
-PreFreesurfer, Freesurfer, PostFreesurfer and fMRIVolume pipelines
-described in~\cite{hcp-pipelines} and available at \todo{URL}. For
+PreFreesurfer and Freesurfer pipelines
+described in~\cite{glasser2013minimal} and available at \todo{URL}. For
 each pipeline, we identified the set F of files produced for all
 subjects in all conditions. For each condition pair and each pipeline,
 we computed a binary difference matrix D of size $|F|\times|S|$, where $D_{i,j}$ is true
 if file $i$ of subject $j$ was different in each condition. Rows of
 $M$ are ordered by ascending file modification time in the pipeline.
 
-Figure~\ref{fig:utility metrices} shows the difference matrices
-obtained for the PreFreesurfer pipeline. The computational
-reproducibility of the PreFreesurfer pipeline varies across subjects,
-which motivates our study. Nevertheless, some files behave
+Figure~\ref{fig:utility-matrices} shows the utility matrices
+obtained for the PreFreesurfer and Freesufer pipeline. The computational
+reproducibility of these pipelines varies across subjects,
+but some files behave
 consistently across all subjects, leading to complete black or white
-lines. The ratio of positive elements in utility matrix of CentOS5 vs CentOS6(C5C6),  CentOS5 vs CentOS7(C5C7) and  CentOS6 vs CentOS7(C6C7) are
-$0.34$, $0.79$ and $0.79$ respectively.
+lines.
+%The ratio of positive elements in utility matrix of CentOS5 vs CentOS6(C5C6),  CentOS5 vs CentOS7(C5C7) and  CentOS6 vs CentOS7(C6C7) are
+%$0.34$, $0.79$ and $0.79$ respectively.
 
 \begin{figure}[h!]
   \centering
-  \begin{subfigure}[b]{0.5\linewidth}
-        \includegraphics[width=\columnwidth]{figures/utility_5vs6_PFS}
-  \caption{Utility matrix of CentOS5 vs CentOS6}
+  \begin{subfigure}[b]{0.45\linewidth}
+        \includegraphics[width=\columnwidth]{data/Utility_Matrix/PreFreeSurfer/PFS_5v6_utility_matrix.png}
+  \caption{PFS, C5 vs C6}
   \end{subfigure}
-  \begin{subfigure}[b]{0.5\linewidth}
-         \includegraphics[width=\columnwidth]{figures/utility_5vs7_PFS}
-  \caption{Utility matrix of CentOS5 vs CentOS7}
+  \begin{subfigure}[b]{0.45\linewidth}
+         \includegraphics[width=\columnwidth]{data/Utility_Matrix/PreFreeSurfer/PFS_5v7_utility_matrix.png}
+  \caption{PFS, C5 vs C7}
   \end{subfigure}
-  \begin{subfigure}[b]{0.5\linewidth}
-        \includegraphics[width=\columnwidth]{figures/utility_6vs7_PFS}
-  \caption{Utility matrix of CentOS6 vs CentOS7}
-  \label{fig:utility metrices}
+  \begin{subfigure}[b]{0.45\linewidth}
+        \includegraphics[width=\columnwidth]{data/Utility_Matrix/PreFreeSurfer/PFS_6v7_utility_matrix.png}
+  \caption{PFS, C6 vs C7}
   \end{subfigure}
+  \begin{subfigure}[b]{0.45\linewidth}
+        \includegraphics[width=\columnwidth]{data/Utility_Matrix/FS-100files/FS-First-bound-100files.png}
+  \caption{FS (first 100 files), C6 vs C7}
+  \end{subfigure}
+  \caption{Utility matrices, PreFreesurfer (PFS) and Freesurfer (FS) pipelines}
+    \label{fig:utility-matrices}
 \end{figure}
 
-as it can be seen, some of the files are consistent cross the subjects 
-which means that there are some cases that a file has an error in whole subjects (complete white)or 
-in another case no checksum difference has been observed for a file among all subjects (complete black).
-These kind of consistent behaviour makes us to discard the prediction of these file-id's elements 
-from the calculated accuracy in some phases of our experiments.      
-
-% Describe your dataset: pipeline(s) used, input data, operating systems (CentOS5, 6, 7), matrix.
-
-% 1. Prefreesurfer (what you have)
-% 2. Freesurfer, with the same subjects as in Prefreesurfer.
-% 3. PostFreesurfer
-% 4. fmriVolume
 
 \section{Results}
 
 
-Four experiments have been conducted to evaluate the performance of our 
+Three experiments have been conducted for each dataset to evaluate the performance of our 
 predictions using (1) ALS without biases, (2) ALS with biases, (3) Biases only. 
-Results will be evaluated on the complete datasets and also specifically on the files that
-do not behave consistently across subjects (\todo{explain this in introduction}).
-\todo{the last sentence (pure accuracy) is just applied for Triangular-L, other results of ALS, ALS-biases are not applied in this case}
-We evaluate prediction methods using accuracy, sensitivity and specificity defined as follows:
+Results will be evaluated using accuracy, sensitivity and specificity defined as follows:
 \[
         Accuracy = \frac{TP+TN}{TP+TN+FP+FN}
 \]
@@ -453,176 +450,149 @@ We evaluate prediction methods using accuracy, sensitivity and specificity defin
 \[
         Specificity = \frac{TN}{TN+FP}
 \]
-Where TP is the number of True Positives (correctly predicted errors), 
+Where TP is the number of True Positives (correctly predicted reproducibility errors), 
 FP is the number of False Positives, TN is the number of true negatives 
-and FN is the number of false negatives.
+and FN is the number of false negatives. \todo{Check if we want to report sensitivity and specificity, otherwise remove.}
 
-We compare our methods to two references, (1) a dummy classifier that always predicts the dominant class.
-as the dominant value of the utility matrix (1 or 0), (2) the Random Unreal method, used as the baseline sampling technique.
+We compare our sampling methods to (1) a dummy classifier that always predicts the value in the majority class
+ and (2) the Random Unreal method, used as the baseline sampling technique.
 
-\subsection{ALS without biases}
-In this phase of the experiment, the Alternating Least Squares 
-technique of Collaborative Filtering is applied for all provided 
-methods. Our four sampling techniques are compared in 
-Figure~\ref{fig:ALS-Failure} and the results are described in the next 
-sub-sections.
+\subsection{Synthetic Data}
 
-\begin{figure}[h!]
-        \centering
-        \begin{subfigure}[b]{0.8\linewidth}
-                \includegraphics[width=\columnwidth]{figures/ALS/AlS-Failure-5vs6}
-        \end{subfigure}
-        \begin{subfigure}[b]{0.8\linewidth}
-                \includegraphics[width=\columnwidth]{figures/ALS/AlS-Failure-5vs7}
-        \end{subfigure}
-        \begin{subfigure}[b]{0.8\linewidth}
-                \includegraphics[width=\columnwidth]{figures/ALS/AlS-Failure-6vs7}
-        \end{subfigure}
-        \caption{Average accuracy of Complete Columns, RS, Complete Rows and Random Unreal methods in three different condition pairs.}
-        \label{fig:ALS-Failure}
-\end{figure}
+\subsubsection{ALS without Bias}
 
-\subsubsection{Random Unreal}
-This method has a great performance with absolute accuracy of more than $0.95$ 
-even by accessing to small training size of 10 percent. As it mentioned earlier 
-this method is not applicable in pipeline due to time-stamp consideration but it 
-is a good criterion to estimate the performance of other methods and try to modify 
-the proposed methods in order to their accuracy be as closed as possible to the 
-Random Unreal method ones.  
+Accuracy results for the different numbers of subject types are 
+reported in Figure~\ref{fig:results-synthetic}. By construction, the 
+accuracy of the dummy classifier is 0.5 for all subject types. Random 
+Unreal performs very well for all subject types, which confirms that 
+ALS is working correctly. Unsurprisingly, all the other methods perform 
+better than the dummy classifier, and their accuracy decreases as the 
+number of subject types increases.
 
+However, only 3 methods are able to provide accuracy values above 0.85 
+for all subject types: Random Subjects (RS), RFNU and RFNTL. This is 
+due to the fact that these methods are the only ones that can sample 
+files produced toward the end of the execution while maintaining a 
+reduced number of empty columns. Surprisingly, RFNTS does not perform 
+well for more than 2 subject types \todo{Check that.}.
 
-\subsubsection{Complete Columns}
-The Complete Columns method has almost a constant accuracy even if the training ratio increased and it
-is almost two times less than dummy classifier in more differentiated
-condition pairs (CentOS5 vs CentOS7 and CentOS6 vs CentOS7). But in the
-best case which it means in similar conditions the Complete Columns
-accuracy is as much accurate as the Dummy classifier is, $0.65$
-percent.
-\\
-\subsubsection{Complete Rows}
-This method has some fluctuation over the gowth of training set size. These falactuations are more 
-frequent in condition pairs which have higher difference positive ratio. 
-Also by enlarging the training ratio specially between $0.3$ to $0.7$, 
-we can see dummy classifier has better results than Complete Rows ones. 
-In other words despite of better performance of Complete Rows than 
-dummy classifier at the last 10 percent of the graph, its accuracy 
-are less than dummy classifiers ones.  
-\\
-\subsubsection{Random Subjects-RS}
-Same to the Complete Row method, RS method has some fluctuation but not as frequent 
-as Complete Rows method. Although there are some up and down trends specially with 
-training ratio range of $0.2$ to $0.6$ but its constant growth trend after 
-training ratio $0.3$ in condition pairs with high difference positive ratio is considerable.
-The method can be $0.99$ percent accurate when it has over 70 percent of the data however 
-this accuracy can be achived with higher training ratio (over 80 percent) for C5C6.  
-\\
-\\
-\noindent Figure~\ref{fig:ALS-Succeed} represents
-the accuracy graph of all Random kind methods with comparison to dummy
-classifier over the increment of the training ratio.\\
-\begin{figure}[h!]
-        \centering
-        \begin{subfigure}[b]{0.8\linewidth}
-                \includegraphics[width=\columnwidth]{figures/ALS/ALS-Succeed-5vs6}
-        \end{subfigure}
-        \begin{subfigure}[b]{0.8\linewidth}
-                \includegraphics[width=\columnwidth]{figures/ALS/ALS-Succeed-5vs7}
-        \end{subfigure}
-        \begin{subfigure}[b]{0.8\linewidth}
-                \includegraphics[width=\columnwidth]{figures/ALS/ALS-Succeed-6vs7}
-        \end{subfigure}
-        \caption{Average performance of RFNU methods in three different condition pairs}
-        \label{fig:ALS-Succeed}
-\end{figure}
-\subsubsection{Random File Numbers(Uniform) - RFNU}
-The continuous rise of RFNU accuracy trend can be observed in Figure~\ref{fig:ALS-Succeed}.
-However a 0.03 drop is recorded in C6C7 between training ratio size of $0.8$ to $0.9$. 
-This method takes over the dummy accuracy after having a training size more than 40 percent 
-in condition pairs of C5vsC7 and C6vsC7 but it always shows better accuracy than 
-dummy classifier ($0.73$ percent with training ratio of $0.1$).\newline
+RS, RFNU and RFNTL achieve a 90\% accuracy for a training ratio of 
+about 0.85. Therefore, 15\% of the computations could potentially be 
+saved in such reproducibility studies.
 
-% ALS-RFNT approaches
-\indent As it mentioned earlier, for $\alpha < \nicefrac{1}{3}$ RFNT approaches are not applicable, 
-therefor for training ratio less than $0.4$ RFNU method is employed. As a result, in terms of 
-evaluating the performance of RFNT-L and RFNT-S approches, only those accuracy results are 
-considered which their training set are equal or greater than 0.4 percent of the whole utility matrix.\newline 
+\begin{figure*}
+\begin{subfigure}[b]{0.4\linewidth}
+        \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-2-types.pdf}
+        \caption{2 subject types}
+\end{subfigure}
+\begin{subfigure}[b]{0.4\linewidth}
+        \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-4-types.pdf}
+        \caption{4 subject types}
+\end{subfigure}
+\begin{subfigure}[b]{0.4\linewidth}
+        \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-8-types.pdf}
+        \caption{8 subject types}
+\end{subfigure}
+\begin{subfigure}[b]{0.4\linewidth}
+        \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-16-types.pdf}
+        \caption{16 subject types}
+\end{subfigure}
+\begin{subfigure}[b]{0.4\linewidth}
+        \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-32-types.pdf}
+        \caption{32 subject types}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.4\linewidth}
+        \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-64-types.pdf}
+        \caption{64 subject types}
+\end{subfigure}
+\caption{Accuracy results on synthetic data, ALS \emph{without} bias.}
+\label{fig:results-synthetic}
+\end{figure*}
 
-\subsubsection{RFNT-L}
+\subsubsection{ALS with Bias}
 
-In Figure~\ref{fig:ALS-Succeed}, the results show that RFNT-L performance is always more accurate than
-dummy classifier even in its lowest accuracy value observed at training ratio of $0.6$ in C5C6 ($0.78$ percent).
-Despite of this sudden, RFNT-L method has slight growing trend throughout the 
-increment of training ratio and its accuracy is always more than $90\%$. 
+Results of ALS with Bias are reported in Figure~\ref{fig:results-synthetic-als-bias}.
+RS, RFNU and RFNTL remain the methods that best compare to Random Unreal, but the achieved
+accuracy is much lower than without Biases. This is due to the fact that biases \ldots \todo{finish that.}
 
-\subsubsection{RFNT-S}
-Figure~\ref{fig:ALS-Succeed} shows the overall performance of RFNT-S methods in three different condition pairs.
-Similar to RFNT-L, this method also has constant accuracy increment with maximum less accuracy of 0.07 than 
-Random Unreal method throughout the experiment of C5C7 and C6C7.
+\begin{figure*}
+\begin{subfigure}[b]{0.4\linewidth}
+        \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS-Bias/Synthetic/synthetic_subject_types/ALS-Bias-2-types.pdf}
+        \caption{2 subject types}
+\end{subfigure}
+\begin{subfigure}[b]{0.4\linewidth}
+        \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS-Bias/Synthetic/synthetic_subject_types/ALS-Bias-4-types.pdf}
+        \caption{4 subject types}
+\end{subfigure}
+\begin{subfigure}[b]{0.4\linewidth}
+        \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS-Bias/Synthetic/synthetic_subject_types/ALS-Bias-8-types.pdf}
+        \caption{8 subject types}
+\end{subfigure}
+\begin{subfigure}[b]{0.4\linewidth}
+        \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS-Bias/Synthetic/synthetic_subject_types/ALS-Bias-16-types.pdf}
+        \caption{16 subject types}
+\end{subfigure}
+\begin{subfigure}[b]{0.4\linewidth}
+        \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS-Bias/Synthetic/synthetic_subject_types/ALS-Bias-32-types.pdf}
+        \caption{32 subject types}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.4\linewidth}
+        \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS-Bias/Synthetic/synthetic_subject_types/ALS-Bias-64-types.pdf}
+        \caption{64 subject types}
+\end{subfigure}
+\caption{Accuracy results on synthetic data, ALS \emph{with} bias.}
+\label{fig:results-synthetic-als-bias}
+\end{figure*}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{ALS with biases}
-In this part of the experiment, the effect of both subject and file 
-biases are considered in the prediction. Our three random sampling 
-techniques (RFNU, RFNT-L and RFNT-S) are compared in 
-Figure~\ref{fig:ALS-Bias-PFS} as a function of the training 
-ratio $\alpha$.
+\subsection{Real Data}
 
-\begin{figure}[h!]
-        \centering
-        \begin{subfigure}[b]{0.8\linewidth}
-                \includegraphics[width=\columnwidth]{figures/ALS-Bias/ALS-Bias-5vs6-PFS}
-        \end{subfigure}
-        \begin{subfigure}[b]{0.8\linewidth}
-                \includegraphics[width=\columnwidth]{figures/ALS-Bias/ALS-Bias-5vs7-PFS}
-        \end{subfigure}
-        \begin{subfigure}[b]{0.8\linewidth}
-                \includegraphics[width=\columnwidth]{figures/ALS-Bias/ALS-Bias-6vs7-PFS}
-        \end{subfigure}
-        \caption{Average performance of random methods for three different condition pairs (ALS with Bias).}
-        \label{fig:ALS-Bias-PFS}
-\end{figure}
-\todo{Add $\alpha$ to the x labels in the Figure}
+\subsubsection{ALS without bias}
 
-All three methods reach the accuracy of the baseline Random Unreal 
-method from $\alpha$=0.5. RFNT methods reach this accuracy earlier than 
-RFNU, from $\alpha$=0.4. For lower training ratios, all methods 
-outperform the dummy classifier for one condition pair (CentOS5 vs 
-CentOS6) but this is not the case for the other conditions. It should 
-be noted that, as explained before, the three methods boil down to the 
-same one (RFNU) for $\alpha<$0.3.{}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Bias without ALS}
-In this part of our experiments we tried to eliminate the ALS prediction 
-impact on the results therefore, the elements of the matrix are going to 
-be predicted according to the biases of both their constitutive subject and file-id.
-Figure~\ref{fig:Bias-PFS} represents
-the accuracy graph of all methods as a function of the training ratio in Biases without ALS technique. 
-\begin{figure}[h!]
-        \centering
-        \begin{subfigure}[b]{0.8\linewidth}
-                \includegraphics[width=\columnwidth]{figures/Bias/Bias-5vs6-PFS}
-        \end{subfigure}        
-        \begin{subfigure}[b]{0.8\linewidth}
-                \includegraphics[width=\columnwidth]{figures/Bias/Bias-5vs7-PFS}
-        \end{subfigure}
-        \begin{subfigure}[b]{0.8\linewidth}
-                \includegraphics[width=\columnwidth]{figures/Bias/Bias-6vs7-PFS}
-        \end{subfigure}
-        \caption{Average performance of all methods for three different condition pairs (Bias without ALS).}
-        \label{fig:Bias-PFS}
-\end{figure}
+\begin{figure*}
+\begin{subfigure}[b]{0.4\linewidth}
+        \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS/PreFreeSurfer/ALS-PFS-5v6.pdf}
+        \caption{PFS, CentOS5 vs CentOS6}
+\end{subfigure}
+\begin{subfigure}[b]{0.4\linewidth}
+        \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS/PreFreeSurfer/ALS-PFS-5v7.pdf}
+        \caption{PFS, CentOS5 vs CentOS7}
+\end{subfigure}
+\begin{subfigure}[b]{0.4\linewidth}
+        \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS/PreFreeSurfer/ALS-PFS-6v7.pdf}
+        \caption{PFS, CentOS6 vs CentOS7}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.4\linewidth}
+        \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS/FS-100files/ALS-FS100files.pdf}
+        \caption{FS, CentOS6 vs CentOS7}
+\end{subfigure}
+\caption{Accuracy results on PreFresurfer (PFS) and Freesurfer (FS) data, ALS \emph{without} bias.}
+\label{fig:results-real-als}
+\end{figure*}
 
-As it can be seen, Complete Columns method is less accurate than dummy classifier
- with less than 25 percent accuracy but this is not the case for the CentOS5 vs CentOS6 
- condition pair which it outperform dummy classifier (with accuracy of 75).
-Despite of inadequate accuracy of RS and Complete Rows sampling methods in ALS without Biases prediction technique,
- they surpass other methods with the same accuracy of the baseline Random Unreal method.
-Triangular Distribution methods(RFNT-L, RFNT-S) reach to the baseline accuracy by $\alpha$=0.4, 
-which is earlier than the same happens for RFNU  by $\alpha$>0.5.{}
-In general, all methods except complete columns have high accuracy almost as accurat as the Random Unreal baseline method
-in this technique of prediction.As usual, three distributional methods perform equally by the only significant 
-difference at $\alpha$=0.4{}.  
+\subsubsection{ALS with bias}
 
+\begin{figure*}
+\begin{subfigure}[b]{0.4\linewidth}
+        \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS-Bias/PreFreeSurfer/ALS-Bias-PFS-5v6.pdf}
+        \caption{PFS, CentOS5 vs CentOS6}
+\end{subfigure}
+\begin{subfigure}[b]{0.4\linewidth}
+        \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS-Bias/PreFreeSurfer/ALS-Bias-PFS-5v7.pdf}
+        \caption{PFS, CentOS5 vs CentOS7}
+\end{subfigure}
+\begin{subfigure}[b]{0.4\linewidth}
+        \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS-Bias/PreFreeSurfer/ALS-Bias-PFS-6v7.pdf}
+        \caption{PFS, CentOS6 vs CentOS7}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.4\linewidth}
+        \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS-Bias/FS-100files/ALS-Bias-FS100files.pdf}
+        \caption{FS, CentOS6 vs CentOS7}
+\end{subfigure}
+\caption{Accuracy results on PreFresurfer (PFS) and Freesurfer (FS) data, ALS \emph{with} bias.}
+\label{fig:results-real-als-bias}
+\end{figure*}
 
  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -701,10 +671,15 @@ this is just a test of compiling
 
 % What are the limitations
 
+% Real values, we expect the best sampling method to remain the same.
+
 \section{Conclusion}
 
 % Summary of the results and discussion. The take-home message.
 %%%%%% why there is a drop in ALS-RFNT-L with 60% ratio?  
+
+\todo{Make sure the code is available and results are reproducible.}
+
 \section*{Acknowledgement}
 
 \bibliographystyle{IEEEtran}
