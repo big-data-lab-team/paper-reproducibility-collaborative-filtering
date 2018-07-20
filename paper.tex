@@ -102,7 +102,8 @@ Thresholded stock values.
 % study to binary classification.
 
 
-
+\todo{Explain that columns represent subjects and rows represent files, and that these terms are used
+indifferently}
 
 \section{Method}
 
@@ -140,25 +141,26 @@ what is specific to our problem compared to regular collaborative filtering:
 
 Collaborative filtering is a technique to predict unknown values of a 
 matrix called ``utility matrix" from the known ones. Traditionally, the 
-matrix represents the ratings of items, represented by columns, by 
-users, represented by rows. Ratings might be explicit, when users input 
-ratings through a dedicated system, or implicit, when users' behaviors 
-are analyzed to estimate their preference toward specific items. A 
-complete introduction to collaborative filtering is provided 
-in~\cite{mmdsbook}.
+matrix represents the ratings of items, represented in columns, by 
+users, represented in rows. Ratings might be explicit, when users 
+provide ratings through a dedicated system, or implicit, when users' 
+behaviors are tracked and analyzed to estimate their preferences. An 
+overview of collaborative filtering is provided 
+in~\cite{leskovec2014mining}.
 
 Several methods have been proposed to implement collaborative 
-filtering. Item-item collaborative filtering~\ref{item-item} predicts 
+filtering. Item-item collaborative filtering~\cite{breese1998empirical, linden2003amazon} predicts 
 the rating of item $i$ by user $u$ from the ratings of items similar to 
 $i$ by user $u$. Likewise, user-user collaborative 
-filtering~\ref{user-user} predicts the rating of item $i$ by user $u$ 
+filtering~\cite{breese1998empirical} predicts the rating of item $i$ by user $u$ 
 from the ratings of item $i$ by users similar to $u$. Both methods
 have been used extensively for e-commerce applications.
 
-A third class of methods, which we will apply to our problem, is based 
-on the factorization of the utility matrix to estimate latent factors 
-with which users and items are represented. This method is described 
-in~\cite{koren} and became famous as it allowed its authors to win the 
+A third class of methods, which is the one we will apply to our 
+problem, is based on the factorization of the utility matrix to 
+estimate latent factors along which users and items are represented. 
+This method is described 
+in~\cite{koren2009matrix} and became famous as it contributed to winning the 
 Netflix prize in 2009. To summarize, the method aims at finding $q_i$ 
 and $p_u$ vectors of $\mathbb{R}^f$, where $f$ is the number of latent factors, such that:
 \begin{equation*}
@@ -185,104 +187,87 @@ Two good techniques to perform the optimization are stochastic gradient descent 
 In the remainder of this paper, we use matrix factorization as implemented in 
 Apache Spark's MLLib version 2.~\todo{xxx.}, which uses ALS.
 
+% Explain our particular context.
+% What our matrix represents
 % Explain that you have binary classes (rounding)
-
-% Biases
-
+% Explain the sampling issue.
 
 \subsection{Sampling the training set}
 
-We investigated the following sampling techniques for the training set. 
-In each method, we included the first row of the matrix (first 
-generated file of each subject) and a random column (all files of a 
-random subject) to avoid cold start issues. 
-
-% 0. random unreal (baseline)
-\paragraph{Random Unreal}
-The training set is sampled randomly with no restriction, that is,
-regardless of the file generation time. This method will be used as a
-baseline for comparison with other methods, although it is not
-realistic. Figure~\ref{fig:Random-Unreal-Sample-Training-set} represents 
-a training set sampled using this method.
-
+As explained before, the training set in our problem cannot be 
+constructed by unconstrained random sampling of the matrix.
+To address this issue, we investigated the following sampling techniques. 
 
 % 2. columns
-\paragraph{Complete Columns}
+\paragraph{Complete Columns (Figure~\ref{fig:Columns-Sample-Training-set})}
 The training set is sampled by randomly selecting complete columns in
 the matrix, that is, complete subject executions. The last selected
 column might be incomplete to meet the exact training ratio. This 
 method is realistic: it corresponds to a situation where the 
 collaborative filtering method will predict the reproducibility in the 
 remaining subjects from the subjects in the training set. 
-Figure~\ref{fig:Columns-Sample-Training-set} represents a training set 
-sampled using this method.
-
 
 % 3. rows
-\paragraph{Complete Rows} The training set is sampled by selecting complete 
+\paragraph{Complete Rows (Figure~\ref{fig:Rows-Sample-Training-set})} The training set is sampled by selecting complete 
 rows in the matrix, that is, the first files produced by
 every execution. The last selected row might be incomplete to meet the
 exact training ratio. This method is realistic: it corresponds to a 
 situation where the processing of all the subjects is launched and 
 interrupted before the execution is complete. The collaborative 
 filtering method will then predict the reproducibility of the remaining 
-files. Figure~\ref{fig:Rows-Sample-Training-set} represents a training 
-set sampled using this method.
+files.
+
 \begin{figure}[h!]
-	\centering
-	\begin{subfigure}[b]{0.4\linewidth}
-		\includegraphics[width=\columnwidth]{figures/5vs7_random-unreal_04_training}
-  		\caption{Random Unreal method}
-  		\label{fig:Random-Unreal-Sample-Training-set}
-	\end{subfigure}
-	\begin{subfigure}[b]{0.4\linewidth}
-  		\includegraphics[width=\columnwidth]{figures/5vs7_columns_04_training}
-  		\caption{Complete Columns method}
-  		\label{fig:Columns-Sample-Training-set}
-	\end{subfigure}
-	\begin{subfigure}[b]{0.4\linewidth}
-  		\includegraphics[width=\columnwidth]{figures/5vs7_rows_04_training}
-  		\caption{Complete Rows method}
-  		\label{fig:Rows-Sample-Training-set}
-	\end{subfigure}
-	\begin{subfigure}[b]{0.4\linewidth}
- 		\includegraphics[width=\columnwidth]{figures/5vs7_random-real_04_training}
-		\caption{RS method}
-  		\label{fig:Uniform-S-Sample-Training-set}
-	\end{subfigure}
-	\begin{subfigure}[b]{0.4\linewidth}
-  		\includegraphics[width=\columnwidth]{figures/5vs7_diagonal_04_training}
-  		\caption{RFNU  method }
-  		\label{fig:Diagonal-Sample-Training-set}
-	\end{subfigure}
-	\begin{subfigure}[b]{0.4\linewidth}
-  		\includegraphics[width=\columnwidth]{figures/5vs7_random-triangular-largest_04_training}
-  		\caption{RFNT-L method}
-  		\label{fig:triangular-L-Sample-Training-set}
-	\end{subfigure}
-	\begin{subfigure}[b]{0.4\linewidth}
-  		\includegraphics[width=\columnwidth]{figures/5vs7_random-triangular-smallest_04_training}
-  		\caption{RFNT-S method}
-  		\label{fig:triangular-S-Sample-Training-set}
-	\end{subfigure}
-	\caption{Sample training set for different methods with a training ratio of 0.4.}		
+        \centering
+        \begin{subfigure}[b]{0.4\linewidth}
+                  \includegraphics[width=\columnwidth]{figures/5vs7_columns_04_training}
+                  \caption{Complete Columns method}
+                  \label{fig:Columns-Sample-Training-set}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.4\linewidth}
+                  \includegraphics[width=\columnwidth]{figures/5vs7_rows_04_training}
+                  \caption{Complete Rows method}
+                  \label{fig:Rows-Sample-Training-set}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.4\linewidth}
+                 \includegraphics[width=\columnwidth]{figures/5vs7_random-real_04_training}
+                \caption{RS method}
+                  \label{fig:Uniform-S-Sample-Training-set}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.4\linewidth}
+                  \includegraphics[width=\columnwidth]{figures/5vs7_diagonal_04_training}
+                  \caption{RFNU  method }
+                  \label{fig:Diagonal-Sample-Training-set}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.4\linewidth}
+                  \includegraphics[width=\columnwidth]{figures/5vs7_random-triangular-largest_04_training}
+                  \caption{RFNT-L method}
+                  \label{fig:triangular-L-Sample-Training-set}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.4\linewidth}
+                  \includegraphics[width=\columnwidth]{figures/5vs7_random-triangular-smallest_04_training}
+                  \caption{RFNT-S method}
+                  \label{fig:triangular-S-Sample-Training-set}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.4\linewidth}
+        \includegraphics[width=\columnwidth]{figures/5vs7_random-unreal_04_training}
+                  \caption{Random Unreal method}
+                  \label{fig:Random-Unreal-Sample-Training-set}
+        \end{subfigure}
+        \caption{Sample training set for different methods with a training ratio of 0.4.}                
 \end{figure}
 
-\paragraph{Random Subjects -- RS} This method builds the 
+\paragraph{Random Subjects -- RS (Figure~\ref{fig:Uniform-S-Sample-Training-set})} This method builds the 
 training set by selecting the files from random subjects 
 until the training ratio is reached. The file selected in a 
 subject is the file with the lowest index in this subject that has not 
 been already selected in the training set. This method is realistic as 
 files are sampled according to their production time-stamps. 
-Figure~\ref{fig:Uniform-S-Sample-Training-set} represents a training 
-set sampled using this method.
 
-\paragraph{Random File Numbers (Uniform) -- RFNU}
-
+\paragraph{Random File Numbers (Uniform) -- RFNU (Figure~\ref{fig:Diagonal-Sample-Training-set})}
 The number of files selected for every subject is randomly selected in
 a uniform distribution $U(\textit{a},\textit{b})$, where \textit{b} is set to the total
 number of files $N_{f}$ and \textit{a} is set according to training ratio $\alpha$ as follows:
-
 \[
   \begin{cases}
           \textit{a} = 0      & \text{if $\alpha \leq 0.5$ }\\
@@ -290,8 +275,6 @@ number of files $N_{f}$ and \textit{a} is set according to training ratio $\alph
           \textit{a} = (2\alpha - 1) N_{f} & \text{if $\alpha > 0.5$}
   \end{cases}
 \]
-
-
 This method is realistic as files are sampled according to their production time-stamps.
 Due to sampling issues, it is possible that the actual training ratio obtained with this method
 does not match the target one. We check that the difference between the target and real training ratios
@@ -300,33 +283,106 @@ was lower than 0.01.\\
 \paragraph{Random File Numbers (Triangular) -- RFNT}
 The number of files selected for every subject is randomly selected in
 a triangular distribution with parameters \textit{a}, \textit{b} and 
-\textit{c} (\todo{see Figure X}). The mean of the distribution is 
-$\frac{a+b+c}{3}$. In our case, we set \textit{c} to $N_{f}$ and we set 
-\textit{a} and \textit{b} with two approaches meant to ensure that the 
+\textit{c} as in Figure~\ref{fig:triangular}. The mean of the distribution is 
+$\frac{a+b+c}{3}$. We set \textit{c} to $N_{f}$ and we set 
+\textit{a} and \textit{b} with two approaches that ensure that the 
 average of the distribution is $\alpha N_{f}$ ($\alpha$ is the training 
 ratio):
 \begin{enumerate}
-        \item Largest a (RFNT-L): a is set to the 
+        \item Largest a (RFNT-L, Figure~\ref{fig:triangular-L-Sample-Training-set}): a is set to the 
         largest possible value, i.e., b. The average of the 
         distribution is $\frac{2a+N_{f}}{3}$, therefore 
         $a=\frac{3\alpha-1}{2}N_{f}$.
-                \item Smallest a (RFNT-S): a is 
+                \item Smallest a (RFNT-S, Figure~\ref{fig:triangular-S-Sample-Training-set}): a is 
         set to the smallest possible value, i.e., 0. The average of the 
         distribution is $\frac{b+N_{f}}{3}$, therefore 
         $b=N_{f}(3\alpha-1)$. To ensure that $b<N_{f}$, we actually set 
-        $b=\min(N_{f}, N_{f}(3\alpha-1))$. 
+        $b$ to $\min(N_{f}, N_{f}(3\alpha-1))$. 
 \end{enumerate}
 It should be noted that $\alpha$ must be larger than $\frac{1}{3}$ for 
 a and b to remain positive. For training ratios lower than $\frac{1}{3}$, we 
 define RFNT methods as the RFNU one presented previously.
-
 As illustrated in Figures~\ref{fig:triangular-L-Sample-Training-set} 
 and~\ref{fig:triangular-S-Sample-Training-set}, the motivation for the 
 RFNT-L method is to guarantee that, for large enough values of 
 $\alpha$, all subjects will have at least a few files in the training 
-set.
+set, which is not the case for RFNU.
+\begin{figure}
+\centering
+\includegraphics[width=0.5\columnwidth]{figures/triangular.pdf}
+\caption{Triangular distribution}
+\label{fig:triangular}
+\end{figure}
+
+% 0. random unreal (baseline)
+\paragraph{Random Unreal (Figure ~\ref{fig:Random-Unreal-Sample-Training-set})}
+The training set is sampled in a random uniform way, 
+regardless of the file generation times. This method will be used as a
+baseline for comparison with other methods, although it is not
+realistic.
+
+In each method, we also included the first row of the matrix (first 
+generated file of each subject) and a random column (all files of a 
+random subject) to avoid cold start issues. 
+
 
 \section{Dataset}
+
+\subsection{Synthetic Data}
+
+We generated synthetic matrices as shown in 
+Figure~\ref{fig:synthetic-data}. Each matrix has 100 files and 100 
+subjects of different \emph{types}. Subjects of the same type behave 
+identically and all types contain the same number of subjects $\pm$ 1 
+\todo{Soudabeh: check that}. Such a decomposition by subject type 
+correspond to the case where different subjects may have data of 
+different nature, as it is for instance the case in the neuroimaging 
+dataset of the Human Connectome Project~\cite{hcp} where not all the 
+subjects have the same amount of images.
+
+For subjects of a given type, matrix elements vary in $log(n)$  blocks, 
+where $n$ is the number of types, with all the possible variation 
+patterns: some types do not vary at all, while other ones vary in every 
+block. Such variation patterns are meant to mimic the logic of data 
+processing pipelines: each block of files represents the files produced 
+at a given stage of the pipeline, which may or may not contain 
+reproducibility errors depending on the subject type.
+
+\begin{figure}
+\centering
+        %\begin{subfigure}[b]{0.4\linewidth}
+                  %\includegraphics[width=\columnwidth]{data/Utility_Matrix/Synthetic/synthetic_subject_types/1_SubjectType_utility_matrix.png}
+                  %\caption{1 type}
+        %\end{subfigure}
+        \begin{subfigure}[b]{0.4\linewidth}
+                  \includegraphics[width=\columnwidth]{data/Utility_Matrix/Synthetic/synthetic_subject_types/2_SubjectType_utility_matrix.png}
+                  \caption{2 types}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.4\linewidth}
+                  \includegraphics[width=\columnwidth]{data/Utility_Matrix/Synthetic/synthetic_subject_types/4_SubjectType_utility_matrix.png}
+                  \caption{4 types}
+        \end{subfigure}
+                \begin{subfigure}[b]{0.4\linewidth}
+                  \includegraphics[width=\columnwidth]{data/Utility_Matrix/Synthetic/synthetic_subject_types/8_SubjectType_utility_matrix.png}
+                  \caption{8 types}
+        \end{subfigure}
+                \begin{subfigure}[b]{0.4\linewidth}
+                  \includegraphics[width=\columnwidth]{data/Utility_Matrix/Synthetic/synthetic_subject_types/16_SubjectType_utility_matrix.png}
+                  \caption{16 types}
+        \end{subfigure}
+                \begin{subfigure}[b]{0.4\linewidth}
+                  \includegraphics[width=\columnwidth]{data/Utility_Matrix/Synthetic/synthetic_subject_types/32_SubjectType_utility_matrix.png}
+                  \caption{32 types}
+        \end{subfigure}
+                \begin{subfigure}[b]{0.4\linewidth}
+                  \includegraphics[width=\columnwidth]{data/Utility_Matrix/Synthetic/synthetic_subject_types/64_SubjectType_utility_matrix.png}
+                  \caption{64 types}
+        \end{subfigure}
+\caption{Synthetic Data}
+\label{fig:synthetic-data}
+\end{figure}
+
+\subsection{Real Data}
 
 We collected data to evaluate the computational reproducibility of analysis
 pipelines of the Human Connectome Project~\cite{general-hcp}. We
@@ -352,15 +408,15 @@ $0.34$, $0.79$ and $0.79$ respectively.
 \begin{figure}[h!]
   \centering
   \begin{subfigure}[b]{0.5\linewidth}
-	\includegraphics[width=\columnwidth]{figures/utility_5vs6_PFS}
+        \includegraphics[width=\columnwidth]{figures/utility_5vs6_PFS}
   \caption{Utility matrix of CentOS5 vs CentOS6}
   \end{subfigure}
   \begin{subfigure}[b]{0.5\linewidth}
-	 \includegraphics[width=\columnwidth]{figures/utility_5vs7_PFS}
+         \includegraphics[width=\columnwidth]{figures/utility_5vs7_PFS}
   \caption{Utility matrix of CentOS5 vs CentOS7}
   \end{subfigure}
   \begin{subfigure}[b]{0.5\linewidth}
-	\includegraphics[width=\columnwidth]{figures/utility_6vs7_PFS}
+        \includegraphics[width=\columnwidth]{figures/utility_6vs7_PFS}
   \caption{Utility matrix of CentOS6 vs CentOS7}
   \label{fig:utility metrices}
   \end{subfigure}
@@ -545,7 +601,7 @@ the accuracy graph of all methods as a function of the training ratio in Biases 
         \centering
         \begin{subfigure}[b]{0.8\linewidth}
                 \includegraphics[width=\columnwidth]{figures/Bias/Bias-5vs6-PFS}
-        \end{subfigure}	
+        \end{subfigure}        
         \begin{subfigure}[b]{0.8\linewidth}
                 \includegraphics[width=\columnwidth]{figures/Bias/Bias-5vs7-PFS}
         \end{subfigure}
@@ -614,13 +670,13 @@ difference at $\alpha$=0.4{}.
                 %~ \includegraphics[width=\columnwidth]{figures/simple-methods-5vs6}
         %~ \end{subfigure}
         %~ \begin{subfigure}[b]{0.4\linewidth}
-		%~ \includegraphics[width=\columnwidth]{figures/simple-methods-5vs7}
+                %~ \includegraphics[width=\columnwidth]{figures/simple-methods-5vs7}
         %~ \end{subfigure}
         %~ \begin{subfigure}[b]{0.4\linewidth}
                 %~ \includegraphics[width=\columnwidth]{figures/simple-methods-6vs7}
         %~ \end{subfigure}
-	%~ \caption{Average performance of all methods in three different condition pairs}
-	%~ \label{fig:simple-methods}
+        %~ \caption{Average performance of all methods in three different condition pairs}
+        %~ \label{fig:simple-methods}
 %~ \end{figure}
 
 
