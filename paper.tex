@@ -31,7 +31,7 @@
 
 \begin{document}
 
-\title{Predicting computational reproducibility of scientific pipelines using collaborative filtering}
+\title{Predicting computational reproducibility of scientific pipelines\\ using collaborative filtering}
 
 \author{Soudabeh Barghi, Lalet Scaria, Tristan Glatard\\
   Department of Computer Science and Software Engineering\\ Concordia University, Montreal, Quebec, Canada\\
@@ -67,7 +67,7 @@ predicting the values for the remaining time points and parameters.
 
 This problem description maps directly to the evaluation of 
 computational reproducibility in scientific pipelines: the process is 
-the pipeline, it is hidden since we consider it as a black box (we 
+the evaluated pipeline, it is hidden since we consider the pipeline as a black box (we 
 don't inspect its source code), it is parametrized as it behaves 
 differently on different input datasets and parameters, it is 
 time-dependent as the value of the variable of interest varies 
@@ -75,31 +75,24 @@ throughout the course of the pipeline execution. The variable of
 interest is whether the pipeline outputs, most likely the files it 
 produces, are identical between execution conditions.
 
- 
 We approach the problem from the point of view of collaborative 
 filtering, inspired by previous examples that applied this method 
-outside of its initial application domain~\cite{feng2013efficient}. The 
-process is represented by a matrix where columns represent different 
-parametrizations and rows represent the files produced by the 
-execution. Parmeterizations may represent different input data sets or 
-parameter values, on which we do not assume an order. On the contrary, 
-an order is defined on the files, from their last modification time in 
-a sequential execution. We assume that files are produced in the same 
-order regardless of the parametrization, which is not always true, in 
-particular when pipelines are multi-threaded, but in general 
-reasonable \todo{explain "local" truth of this assumption}. This order imposes a constraint on the construction of the
-training set since files
+outside of its initial application domain, for instance 
+~\cite{feng2013efficient}. The pipeline is represented by a matrix 
+where columns represent different parametrizations and rows represent 
+the files produced by the execution. Parmeterizations may represent 
+different input data sets or parameter values, on which we do not 
+assume an order. On the contrary, an order is defined on the files, 
+from their last modification time in a sequential execution. We assume 
+that files are produced in the same order regardless of the 
+parametrization, which is not always true, in particular when pipelines 
+are multi-threaded, but in general reasonable \todo{explain "local" 
+truth of this assumption}. This order imposes a constraint on the 
+construction of the training set since files
 
-In this paper we investigate approximate methods to predict the
-reproducibility of a computational analysis from the first files that
-it produces. Our main intuition is that reproducibility errors are
-caused by a reduced number of factors that originate in the analysis
-pipeline and input data. 
 
-% Other possible examples
 
-Seasonality of MS lesions.
-Thresholded stock values. 
+ 
 
 % Scientific data analysis pipeline executions are long (give examples
 % from neuroimaging).
@@ -125,35 +118,34 @@ The paper makes the following contributions:
 
 \section{Method}
 
-To evaluate the reproducibility of a pipeline, a retrieved matrix from 
-the subjects and file-ids is built. Subjects and file-ids are equivalent 
-to users and items, respectively, as they are known in Collaborative Filtering (CF) technique.
-Filling in the missing entries of this matrix encompasses some issues 
-which take some barriers for use of Collaborative filtering technique as it 
-has being used in e-commerce applications.
-For instance, files-ids (items) are produced in a specific order in the 
-pipeline however items are sequentially independent in general use of CF in e-commerce.
-This issue adds constraints on the selection of CF training set. Despite of random 
-selection strategy which does not taking care of item order, we had to come up with those 
-selection strategies that respect the pipeline fundamental fact about file order generation.  
-The aforementioned matrix (utility matrix), con be fully completed by processing all subjects 
-in pipeline however the whole processing can takes loads of time. This possibility of 
-having a potential complete populated matrix means despite of potential sparse matrices 
-in e-commerce case studies here the utility matrix is not sparse and 
-we can decide precisely which samples we need to select as our training set selection. 
-In this regard, to avoid the cold start issue we can take the first file-id of all 
-subjects in order to get sure that for all subjects there is at least one 
-selected element in training ratio and in the same way, all generated files 
-from the process of a random subject which can guarantee that all files 
-are presented in the selection set at least for once. 
- 
-
- 
-what is specific to our problem compared to regular collaborative filtering:
+%~ To evaluate the reproducibility of a pipeline, a retrieved matrix from 
+%~ the subjects and file-ids is built. Subjects and file-ids are equivalent 
+%~ to users and items, respectively, as they are known in Collaborative Filtering (CF) technique.
+%~ Filling in the missing entries of this matrix encompasses some issues 
+%~ which take some barriers for use of Collaborative filtering technique as it 
+%~ has being used in e-commerce applications.
+%~ For instance, files-ids (items) are produced in a specific order in the 
+%~ pipeline however items are sequentially independent in general use of CF in e-commerce.
+%~ This issue adds constraints on the selection of CF training set. Despite of random 
+%~ selection strategy which does not taking care of item order, we had to come up with those 
+%~ selection strategies that respect the pipeline fundamental fact about file order generation.  
+%~ The aforementioned matrix (utility matrix), con be fully completed by processing all subjects 
+%~ in pipeline however the whole processing can takes loads of time. This possibility of 
+%~ having a potential complete populated matrix means despite of potential sparse matrices 
+%~ in e-commerce case studies here the utility matrix is not sparse and 
+%~ we can decide precisely which samples we need to select as our training set selection. 
+%~ In this regard, to avoid the cold start issue we can take the first file-id of all 
+%~ subjects in order to get sure that for all subjects there is at least one 
+%~ selected element in training ratio and in the same way, all generated files 
+%~ from the process of a random subject which can guarantee that all files 
+%~ are presented in the selection set at least for once. 
+%~ what is specific to our problem compared to regular collaborative filtering:
 %+ subjects are equivalent to users. Not all subjects have the same input data. Anatomical variability, acquisition variability (e.g., 1 subject may have multiple T1s).
 %+ files are produced in a specific order (movies aren't),
 % which add constraints on the training set (cannot sample late files and not early ones).
 %+ utility matrix is not sparse: we can potentially populate it completely. Which means that we can decide precisely which samples we need (active sampling). Therefore we can take the first row and first column to avoid cold start issues.
+
+\subsection{Problem formulation}
 
 \todo{Restrict to binary classification}
 
@@ -212,7 +204,7 @@ Apache Spark's MLLib version 2.~\todo{xxx.}, which uses ALS.
 % Explain that you have binary classes (rounding)
 % Explain the sampling issue.
 
-\subsection{Sampling the training set}
+\subsection{Sampling of the training set}
 
 As explained before, the training set in our problem cannot be 
 constructed by unconstrained random sampling of the matrix.
@@ -699,11 +691,28 @@ the inclusion of biases in the model to remain valid.
 We recommend not to include biases in the collaborative filtering optimization
 to solve this problem. Even though biases provide a slight accuracy improvement 
 when datasets are strongly biased (constant lines in the matrix), they can also
-be very detrimental for more complex datasets such as the syntetic one used here.
+be very detrimental for more complex datasets such as the synthetic one used here.
+
+% Other possible examples
+The method described in this paper and applied to reproducibility 
+studies could be used to predict the outcome of other deterministic, 
+hidden, parameterized, time-dependent processes, for instance markers 
+of chronicle disease activity.
+
+\todo{Discussion on points that are not part of constant lines.}
+
+\todo{Show an overlap to see where the error is located.}
+
+RFNTS and RFNTL could be used when the matrix is more  uncertain at the beginning or end of the pipeline.
+
+RS and RFNU tends to become the same for high training ratios.
 
 \todo{Make sure the code is available and results are reproducible.}
 
 \section*{Acknowledgement}
+
+We thank Compute Canada for providing the compute and storage resources
+required for this study.
 
 \bibliographystyle{IEEEtran}
 \bibliography{IEEEabrv,biblio.bib}
