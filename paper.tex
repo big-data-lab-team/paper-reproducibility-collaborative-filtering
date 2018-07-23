@@ -45,33 +45,50 @@
 
 \section{Introduction}
 
-We consider the problem of predicting the values of a variable 
-controlled by a hidden, parameterized, time dependent, deterministic 
-process. We assume that the variable values are observed only for 
-a limited number of time points, and we aim at predicting the values in the remaining time points.
-
-We approach the problem from the point of view of collaborative 
-filtering. The process is represented by a matrix where columns 
-represent different parametrizations (we do not assume an order on the 
-parametrizations) and rows represent the time points. The main difference with the traditional 
-collaborative filtering problem 
-
-% This is just a working example
-
 Computational reproducibility, the property through which
 computational results can be recomputed over time and
-space~\cite{stodden}, has become a critical component of scientific
-methodology with the rise of the reproducibility crisis in several
-domains~\cite{xxx}. Among the factors hampering computational
-reproducibility, infrastructural characteristics such as the operating
-system play an important role. In neurosciences, our primary field of
-interest, several studies have shown the effect of the operating
-system on computational results. However, conducting such
-reproducibility studies at scale is cumbersome due to the execution
-time of data analysis pipelines, which easily exceeds a few hours.
+space~\cite{peng2011reproducible}, has become a critical component of scientific
+methodology with the rise of the reproducibility crisis in several 
+domains~\cite{baker2016there}. Among the factors hampering 
+computational reproducibility, infrastructural characteristics such as 
+the operating system play an important role. In neurosciences, our 
+primary field of interest, several studies have shown the effect of the 
+operating system on computational 
+results~\cite{gronenschild2012effects, glatard2015reproducibility}. 
+However, conducting such reproducibility studies at scale is cumbersome 
+due to the execution time of data analysis pipelines, which easily 
+exceeds a few hours.
 
+We consider the problem of predicting the values of a variable 
+controlled by a hidden, parameterized, time-dependent, deterministic 
+process. We assume that the variable values are observed only for a 
+limited number of time points and process parameters, and we aim at 
+predicting the values for the remaining time points and parameters.
 
+This problem description maps directly to the evaluation of 
+computational reproducibility in scientific pipelines: the process is 
+the pipeline, it is hidden since we consider it as a black box (we 
+don't inspect its source code), it is parametrized as it behaves 
+differently on different input datasets and parameters, it is 
+time-dependent as the value of the variable of interest varies 
+throughout the course of the pipeline execution. The variable of 
+interest is whether the pipeline outputs, most likely the files it 
+produces, are identical between execution conditions.
 
+ 
+We approach the problem from the point of view of collaborative 
+filtering, inspired by previous examples that applied this method 
+outside of its initial application domain~\cite{feng2013efficient}. The 
+process is represented by a matrix where columns represent different 
+parametrizations and rows represent the files produced by the 
+execution. Parmeterizations may represent different input data sets or 
+parameter values, on which we do not assume an order. On the contrary, 
+an order is defined on the files, from their last modification time in 
+a sequential execution. We assume that files are produced in the same 
+order regardless of the parametrization, which is not always true, in 
+particular when pipelines are multi-threaded, but in general 
+reasonable \todo{explain "local" truth of this assumption}. This order imposes a constraint on the construction of the
+training set since files
 
 In this paper we investigate approximate methods to predict the
 reproducibility of a computational analysis from the first files that
@@ -84,30 +101,27 @@ pipeline and input data.
 Seasonality of MS lesions.
 Thresholded stock values. 
 
-% Computational reproducibility is an issue, for instance among
-% different operating systems (refer to Glatard FINF 2015,
-% Gronenschild 2012).
-
 % Scientific data analysis pipeline executions are long (give examples
 % from neuroimaging).
 
-% Refer to Germain et al 2008.
-
 % Define subjects, pipelines.
-
-% Problem: predict the reproducibility of pipeline files from other
-% subjects and the first files produced by a pipeline. Restrict the
-% study to binary classification.
-
 
 \todo{Explain that columns represent subjects and rows represent files, and that these terms are used
 indifferently}
 
 \todo{Mention why this is Big Data}
 
-\todo{Cite Cecile's paper}
-
 \todo{Define reproducibility \emph{errors}}
+
+\todo{talk about time-constrained processes}
+
+The paper makes the following contributions:
+\begin{enumerate}
+\item We model reproducibility evaluations in data processing pipelines as a collaborative filtering problem.
+\item We propose strategies to sample the training set under time constraints.
+\item We evaluate and compare our sampling strategies on synthetic and real datasets.
+\end{enumerate}
+
 
 \section{Method}
 
@@ -140,6 +154,8 @@ what is specific to our problem compared to regular collaborative filtering:
 %+ files are produced in a specific order (movies aren't),
 % which add constraints on the training set (cannot sample late files and not early ones).
 %+ utility matrix is not sparse: we can potentially populate it completely. Which means that we can decide precisely which samples we need (active sampling). Therefore we can take the first row and first column to avoid cold start issues.
+
+\todo{Restrict to binary classification}
 
 \subsection{Collaborative filtering}
 
@@ -279,15 +295,18 @@ number of files $N_{f}$ and \textit{a} is set according to training ratio $\alph
           \textit{a} = (2\alpha - 1) N_{f} & \text{if $\alpha > 0.5$}
   \end{cases}
 \]
-This method is realistic as files are sampled according to their production time-stamps.
+ For $\alpha > 0.5$, this ensures that the average number of files in 
+ the training set is $\alpha N_f$. For $\alpha \leq 0.5$, the number of 
+ files selected in every subject is sampled from $U(0,N_f)$ with 
+ probability $2\alpha$, and set to 0 otherwise.
+RFNU is realistic as files are sampled according to their production time-stamps.
 Due to sampling issues, it is possible that the actual training ratio obtained with this method
 does not match the target one. We check that the difference between the target and real training ratios
 was lower than 0.01.\\ 
 
 \paragraph{Random File Numbers (Triangular) -- RFNT}
 The number of files selected for every subject is randomly selected in
-a triangular distribution with parameters \textit{a}, \textit{b} and 
-\textit{c} as in Figure~\ref{fig:triangular}. The mean of the distribution is 
+a triangular distribution $T(a, b, c)$ as in Figure~\ref{fig:triangular}. The mean of the distribution is 
 $\frac{a+b+c}{3}$. We set \textit{c} to $N_{f}$ and we set 
 \textit{a} and \textit{b} with two approaches that ensure that the 
 average of the distribution is $\alpha N_{f}$ ($\alpha$ is the training 
@@ -296,16 +315,24 @@ ratio):
         \item Largest a (RFNT-L, Figure~\ref{fig:triangular-L-Sample-Training-set}): a is set to the 
         largest possible value, i.e., b. The average of the 
         distribution is $\frac{2a+N_{f}}{3}$, therefore 
-        $a=\frac{3\alpha-1}{2}N_{f}$.
-                \item Smallest a (RFNT-S, Figure~\ref{fig:triangular-S-Sample-Training-set}): a is 
+        $a=\frac{3\alpha-1}{2}N_{f}$. When $\alpha \leq 1/3$, the 
+        number of files in every subject is sampled from $T(0, 0, N_f)$ 
+        with probability $3\alpha$ and set to 0 otherwise, to ensure that the average number of files
+        in the training set is $\alpha N_f$.
+        \item Smallest a (RFNT-S, Figure~\ref{fig:triangular-S-Sample-Training-set}): a is 
         set to the smallest possible value, i.e., 0. The average of the 
         distribution is $\frac{b+N_{f}}{3}$, therefore 
-        $b=N_{f}(3\alpha-1)$. To ensure that $b<N_{f}$, we actually set 
-        $b$ to $\min(N_{f}, N_{f}(3\alpha-1))$. 
+        $b=N_{f}(3\alpha-1)$. This implies that $\alpha \geq 1/3$, so 
+        that $b \geq 0$, and $\alpha \leq 2/3$, so that $b \leq N_f$. 
+        When $\alpha < 1/3$, we set $b=0$ and the number of files 
+        selected in every subject is sampled from $T(0, 0, N_f)$ with 
+        probability $3\alpha$ and set to 0 otherwise, as in RFNT-L. 
+        When $\alpha \geq 2/3$, we set $b=N_f$ and the number of files 
+        selected in every subject is sampled from $T(0, N_f, N_f)$ with 
+        probability $3(1-\alpha)$ and set to $N_f$ otherwise, still to 
+        ensure that the average number of files in the training set is 
+        $\alpha N_f$.
 \end{enumerate}
-It should be noted that $\alpha$ must be larger than $\frac{1}{3}$ for 
-a and b to remain positive. For training ratios lower than $\frac{1}{3}$, we 
-define RFNT methods as the RFNU one presented previously.
 As illustrated in Figures~\ref{fig:triangular-L-Sample-Training-set} 
 and~\ref{fig:triangular-S-Sample-Training-set}, the motivation for the 
 RFNT-L method is to guarantee that, for large enough values of 
@@ -314,7 +341,7 @@ set, which is not the case for RFNU.
 \begin{figure}
 \centering
 \includegraphics[width=0.5\columnwidth]{figures/triangular.pdf}
-\caption{Triangular distribution}
+\caption{Triangular distribution $T(a, b, c)$}
 \label{fig:triangular}
 \end{figure}
 
@@ -437,7 +464,6 @@ lines.
 
 \section{Results}
 
-
 Three experiments have been conducted for each dataset to evaluate the performance of our 
 predictions using (1) ALS without biases, (2) ALS with biases, (3) Biases only. 
 Results will be evaluated using accuracy, sensitivity and specificity defined as follows:
@@ -454,8 +480,10 @@ Where TP is the number of True Positives (correctly predicted reproducibility er
 FP is the number of False Positives, TN is the number of true negatives 
 and FN is the number of false negatives. \todo{Check if we want to report sensitivity and specificity, otherwise remove.}
 
-We compare our sampling methods to (1) a dummy classifier that always predicts the value in the majority class
- and (2) the Random Unreal method, used as the baseline sampling technique.
+We compare our sampling methods to (1) a dummy classifier that always 
+predicts the value in the majority class and (2) the Random Unreal 
+method, used as the baseline sampling technique. All reported values are averages
+over 5 repetitions. \todo{Report model parameters, including number of factors.}
 
 \subsection{Synthetic Data}
 
@@ -512,7 +540,7 @@ saved in such reproducibility studies.
 
 \subsubsection{ALS with Bias}
 
-Results of ALS with Bias are reported in Figure~\ref{fig:results-synthetic-als-bias}.
+Results of ALS with bias are reported in Figure~\ref{fig:results-synthetic-als-bias}.
 RS, RFNU and RFNTL remain the methods that best compare to Random Unreal, but the achieved
 accuracy is much lower than without Biases. This is due to the fact that biases \ldots \todo{finish that.}
 
@@ -550,6 +578,15 @@ accuracy is much lower than without Biases. This is due to the fact that biases 
 
 \subsubsection{ALS without bias}
 
+Results for ALS without bias are reported in 
+Figure~\ref{fig:results-real-als}. Among the methods that performed 
+well in the synthetic dataset, RFNU performs the best, with an accuracy
+higher than 0.95 \todo{check value} for all datasets, when the training ratio is larger than 0.5. RS and RFNTL
+are slightly underperforming compared to RFNU.
+Complete rows and complete columns do not even reach the accuracy of the 
+dummy classifier. The reference method, Random Unreal, has an accuracy close
+to 1, which shows that collaborative filtering works well on this dataset too.
+
 \begin{figure*}
 \begin{subfigure}[b]{0.4\linewidth}
         \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS/PreFreeSurfer/ALS-PFS-5v6.pdf}
@@ -573,6 +610,15 @@ accuracy is much lower than without Biases. This is due to the fact that biases 
 
 \subsubsection{ALS with bias}
 
+Results for ALS with bias are reported in 
+Figure~\ref{fig:results-real-als-bias}. From a training ratio of 0.5, 
+all methods have a very good accuracy for all datasets, except complete 
+columns in Figure~\ref{fig:pfs-c5vsc7-bias}. All methods except RFNU, 
+RFNTL and RFNTS also perform well for a training ratio lower than 0.5. 
+Overall, the accuracy of the methods is much higher than without bias: 
+the file bias is very strong in this dataset, as illustrated by the large number
+of constant lines in the matrices in Figure~\ref{fig:utility-matrices}.
+
 \begin{figure*}
 \begin{subfigure}[b]{0.4\linewidth}
         \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS-Bias/PreFreeSurfer/ALS-Bias-PFS-5v6.pdf}
@@ -581,6 +627,7 @@ accuracy is much lower than without Biases. This is due to the fact that biases 
 \begin{subfigure}[b]{0.4\linewidth}
         \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS-Bias/PreFreeSurfer/ALS-Bias-PFS-5v7.pdf}
         \caption{PFS, CentOS5 vs CentOS7}
+        \label{fig:pfs-c5vsc7-bias}
 \end{subfigure}
 \begin{subfigure}[b]{0.4\linewidth}
         \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS-Bias/PreFreeSurfer/ALS-Bias-PFS-6v7.pdf}
@@ -594,89 +641,65 @@ accuracy is much lower than without Biases. This is due to the fact that biases 
 \label{fig:results-real-als-bias}
 \end{figure*}
 
- 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% General conclution on results of ALS without Bias 
-%~ In general the accuracy pattern of the two Complete Rows and 
-%~ RS methods show similar decline and grow behaviour over the 
-%~ training ratio axis however it can be subject to considerable 
-%~ fluctuations in differentiated condition pairs. Despite of their 
-%~ likely irrational behaviour, they always have better accuracy 
-%~ for the training size with less than $0.3$ in comparison to other 
-%~ methods. This better performance (around 75 percent)is almost three 
-%~ times higher than other methods in condition pairs with more 
-%~ differences but just 20 percent better when the conditions are more 
-%~ similar to each other (CentOS5 vs CentOS6) with accuracy of $90\%$.
-%~ Figure~\ref{fig:RS_Rows} represents
-%~ the accuracy graph of these two methods with comparison to dummy
-%~ classifier over the increment of the training ratio.
-%~ \begin{figure}[h!]
-        %~ \centering
-        %~ \begin{subfigure}[b]{0.4\linewidth}
-                %~ \includegraphics[width=\columnwidth]{figures/RS_Rows_5vs6}
-        %~ \end{subfigure}
-        %~ \begin{subfigure}[b]{0.4\linewidth}
-                %~ \includegraphics[width=\columnwidth]{figures/RS_Rows_5vs7}
-        %~ \end{subfigure}
-        %~ \begin{subfigure}[b]{0.4\linewidth}
-                %~ \includegraphics[width=\columnwidth]{figures/RS_Rows_6vs7}
-        %~ \end{subfigure}
-        %~ \caption{Average performance of RS and Complete Rows methods in three different condition pairs}
-        %~ \label{fig:RS_RowS}
-%~ \end{figure}
-
-%~ All the other random methods, RS and both RFNT approaches 
-%~ are performing a continues growth Figure~\ref{fig:simple-methods} represents
-%~ the accuracy graph of all random methods with comparison to dummy
-%~ classifier over the increment of the training ratio.. Although some considerable variation 
-%~ for both triangular approaches have been observed (CentOS5 vs CentOS6) 
-%~ their constant rise leads us to the next phase of experiments which was 
-%~ adding up bias into the current ALS technique. 
-%~ The training set suffers from lacking the files which are almost generated towards the end of pipeline.
-
-%~ \begin{figure}[h!]
-        %~ \centering
-        %~ \begin{subfigure}[b]{0.4\linewidth}
-                %~ \includegraphics[width=\columnwidth]{figures/simple-methods-5vs6}
-        %~ \end{subfigure}
-        %~ \begin{subfigure}[b]{0.4\linewidth}
-                %~ \includegraphics[width=\columnwidth]{figures/simple-methods-5vs7}
-        %~ \end{subfigure}
-        %~ \begin{subfigure}[b]{0.4\linewidth}
-                %~ \includegraphics[width=\columnwidth]{figures/simple-methods-6vs7}
-        %~ \end{subfigure}
-        %~ \caption{Average performance of all methods in three different condition pairs}
-        %~ \label{fig:simple-methods}
-%~ \end{figure}
-
-
-
-
-
-%-----------------------------------------------------------
-% Present your results: accuracy, ROC curves, transparency matrix, factors. 
-
-% Try with different numbers of factors. 
+\todo{Different number of factors.}
 
 \section{Discussion}
-this is just a test of compiling 
 
-% Not all subjects behave the same, which motivates the Big Data approach. 
+% Which method is the best
+While collaborative filtering, perhaps unsurprisingly, is able to 
+correctly predict the missing values in a matrix modeling the 
+reproducibility problem, the usual random sampling method cannot be 
+used in time-constrained processes. We proposed 6 sampling methods to 
+address this issue, and we found that one of them, RFNU, (\todo{check 
+that}) was consistently able to solve the problem. We explain that by 
+the fact that RFNU leads the training set to contain a balanced mix 
+between nearly complete and nearly empty columns, with a continuum of 
+intermediate configurations in between. On the contrary, other sampling 
+methods, including RFNT-L and RFNT-S, bias the sampling toward complete 
+or empty columns, which is sometimes detrimental to 
+accuracy. 
 
-% Which sampling method is best
-
-% Interpreting the factors? Factors reflect the pipeline definition. 
+% Training ratio
+On datasets that are strongly dependent on row bias, such as the real 
+datasets studied here, RFNU provides accuracy values that are 
+consistently higher than 0.95 for training ratios higher than 0.5, even 
+when biases are not included in the collaborative filtering 
+optimization. On the synthetic dataset, RFNU still performs very well 
+when biases are not included. However, the training ratio required to 
+reach a 0.95 accuracy increases with the number of subject types 
+present in the dataset. \todo{maybe find a relation between the 
+required training ratio and the number of subjects per subject type in 
+the entire dataset}. 
 
 % How can this be used in practice
+From a practical standpoint, our study shows that reproducibility 
+evaluations can be conducted using only 50\% of the files produced by 
+the evaluated pipelines, with an accuracy above 95\%. Potentially, this 
+could reduce the computing time and storage required for such studies 
+by a factor of 2. However, such studies could not be conducted by 
+processing only half of the subjects entirely, which would correspond 
+to the Complete Columns sampling method. Instead, the processing of all 
+the subjects should be initiated, and it should be terminated in a random
+uniform way, assuming that files are uniformly produced throughout the 
+execution.
+
+% Generalizability
 
 % What are the limitations
+Our study could be extended by considering real-valued reproducibility 
+matrices instead of just binary ones. It is indeed common for file 
+differences to be quantified using specific similarity measures or 
+distances, such as Levenshtein distance between strings, or the sum of 
+squared distances between voxels of an image. Our sampling methods 
+could be directly applied to real-valued matrices, and we expect our 
+conclusions regarding the best-performing sampling method (RFNU) and 
+the inclusion of biases in the model to remain valid.
 
 % Real values, we expect the best sampling method to remain the same.
-
-\section{Conclusion}
-
-% Summary of the results and discussion. The take-home message.
-%%%%%% why there is a drop in ALS-RFNT-L with 60% ratio?  
+We recommend not to include biases in the collaborative filtering optimization
+to solve this problem. Even though biases provide a slight accuracy improvement 
+when datasets are strongly biased (constant lines in the matrix), they can also
+be very detrimental for more complex datasets such as the syntetic one used here.
 
 \todo{Make sure the code is available and results are reproducible.}
 
