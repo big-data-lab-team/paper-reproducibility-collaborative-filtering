@@ -1,0 +1,9 @@
+*.ps
+nohup.out
+paper.aux
+paper.bbl
+paper.blg
+paper.log
+paper.pdf
+*.eps
+

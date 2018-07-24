@@ -44,16 +44,14 @@ With the rise of the reproducibility crisis in several scientific
 domains, evaluating the computational reproducibility of data analysis 
 pipelines has become a critical issue. It is, however, a cumbersome 
 process for analyses that involve data from large populations of 
-subjects, due to the computational and storage requirements. 
-Nevertheless, executions of a given analysis pipeline are not 
-independent, as they are obtained from the same program. We leverage 
-this observation to propose a method to predict the computational 
+subjects, due to their computational and storage requirements. 
+We present a method to predict the computational 
 reproducibility of data analysis pipelines in large population studies. 
-We formulate the problem as a collaborative filtering problem with 
+We formulate the problem as collaborative filtering, with 
 constraints on the construction of the training set. We propose 6 
-different strategies to build the training set and evaluate them on 2 
+different strategies to build the training set, and we evaluate them on 2 
 datasets, a synthetic one modeling a population with a growing number 
-of subject types, and a real one obtained on neuroinformatics 
+of subject types, and a real one obtained with neuroinformatics 
 pipelines. Results show that one sampling method, ``Random File Numbers 
 (Uniform)" is able to predict computational reproducibility in 
 pipelines with a good accuracy. We also analyze the relevance of 
@@ -89,42 +87,61 @@ outputs ranging from 1~GB to 500~GB. Such variations impact the
 reproducibility of a given pipeline across subjects. 
 
 Our goal is to predict the outcome of reproducibility evaluations in a 
-large population of subject from a reduced set of pipeline executions. 
-More precisely, we aim at predicting whether a particular file produced 
-by an analysis pipeline will be identical across execution conditions, or if it will contain reproducibility \emph{errors}. 
-We approach the problem from the point of view of collaborative 
-filtering, inspired by previous examples that applied this method 
-outside of its initial application domain, for instance 
-~\cite{feng2013efficient}. 
+large population of subjects, from a reduced set of pipeline 
+executions. More precisely, we aim at predicting whether a particular 
+file produced by an analysis pipeline will be identical across 
+execution conditions, or if it will contain reproducibility 
+\emph{errors}. We approach the problem from the point of view of 
+collaborative filtering, inspired by previous examples that applied 
+this method outside of its initial application domain, for instance 
+~\cite{feng2013efficient}. The main issue, and originality, of our 
+problem lies in the fact that the training set cannot be arbitrarily 
+sampled from the utility matrix. Instead, the training set has to 
+respect the time constraints that stem from the order in which files 
+are produced during pipeline executions.
 
-The paper makes the following contributions:
+This paper makes the following contributions:
 \begin{enumerate}
 \item We model reproducibility evaluations in data processing pipelines as a collaborative filtering problem.
 \item We propose strategies to sample the training set under time constraints.
 \item We evaluate and compare our sampling strategies on synthetic and real datasets.
 \end{enumerate}
+The problem formulation, collaborative filtering technique used, and 
+proposed sampling strategies for the training set are presented in 
+Section~\ref{sec:methods}. The datasets are described in 
+Section~\ref{sec:datasets}, and experimental results are reported in 
+Section~\ref{sec:results}.
 The paper ends with a discussion about \todo{x} and a conclusion.
 
-\section{Method}
+\todo{Complete the introduction and improve the writing}
 
+\newpage
+
+\section{Method}
+\label{sec:methods}
 \subsection{Problem formulation}
 
-The pipeline to be evaluated is represented by a matrix $U$ of size $N_f \times N_s$
-where columns represent data coming from different subjects and rows represent 
-the files produced by the pipeline execution. Subjects are unordered, 
-i.e., columns may be reordered arbitrarily, but files are ordered, for 
-instance from their last modification time in a sequential execution, 
-and we assume that this order is consistent across subjects. $U_{i, j}$ 
-represents the 
-reproducibility of file $i$ produced during the processing of subject 
-$j$ in two conditions, for instance two different operating systems. In our 
-experiments, we restrict $U_{i,j}$ to be boolean, but the same prediction method
-can be applied for real values. 
+The pipeline to be evaluated is represented by a matrix $U$ of size 
+$N_f \times N_s$ where the $N_s$ columns represent data coming from 
+different subjects and the $N_f$ rows represent the files produced by 
+the pipeline execution. While subjects are not ordered, files are, for 
+instance from their last modification time in a sequential execution. 
+We assume that the order on files is consistent across subjects. $U_{i, 
+j}$ measures the reproducibility of file $i$ produced during the 
+processing of subject $j$ in two conditions, for instance two different 
+operating systems. In our experiments, we restrict $U_{i,j}$ to be 
+boolean, but our methods can be applied for real values as well. 
 
 Our goal is to predict the test set $\mathbb{T'}$ of missing values of 
-$U$ from a training subset $\mathbb{T}$ of known ones. In contrast with the traditional collaborative filtering 
-problem, (1) we have control over the construction of the training set, and (2)
-the construction of the training set is constrained by the order on the matrix rows, which is formalized as follows: 
+$U$ from a training set $\mathbb{T}$ of known ones, where $\mathbb{T} 
+\cap \mathbb{T'} = \emptyset$ and $\mathbb{T} \cup \mathbb{T'} = 
+\{U_{i,j}\}$. In contrast with the traditional collaborative filtering 
+problem, (1) we have control over the construction of the training set, 
+for instance we can choose to include only files producde by specific 
+subjects, or the first files produced by the processing of every 
+subject, and (2) the construction of the training set is constrained by 
+the 
+order on the matrix rows, which is formalized as follows: 
 \begin{equation}
 \begin{array}{l}
 \forall (i, j, k) \in \llbracket 1, N_f \rrbracket \times \llbracket 1, N_f \rrbracket \times \llbracket 1, N_s \rrbracket, \\
@@ -152,7 +169,7 @@ provide ratings through a dedicated system, or implicit, when users'
 behaviors are tracked and analyzed to estimate their preferences. An 
 overview of collaborative filtering is provided 
 in~\cite{leskovec2014mining}. In our context, the utility matrix is the
-pipeline matrix described previously.
+pipeline matrix $U$ described previously.
 
 Several methods have been proposed to implement collaborative 
 filtering. Item-item collaborative filtering~\cite{breese1998empirical, linden2003amazon} predicts 
@@ -162,7 +179,7 @@ filtering~\cite{breese1998empirical} predicts the rating of item $i$ by user $u$
 from the ratings of item $i$ by users similar to $u$. Both methods
 have been used extensively for e-commerce applications.
 
-A third class of methods, which is the one we will apply to our 
+A third class of methods, which is the one that we will apply to our 
 problem, is based on the factorization of the utility matrix to 
 estimate latent factors along which users and items are represented. 
 This method is described 
@@ -189,39 +206,40 @@ following objective:
 \sum_{(i,u) \in \mathbb{T}}\left( r_{ui} - \mu - b_u - b_i - q_i^Tp_u\right)^2+\lambda \left( \|{q_i}\|^2 + \|{p_u}\|^2 + b_u^2 + b_i^2\right)
 \end{equation*}
 
-Two good techniques to perform the optimization are stochastic gradient descent and alternating least squares (ALS). 
-In the remainder of this paper, we use matrix factorization as implemented in 
-Apache Spark's MLLib version 2.3.0, which uses ALS.
+Two good techniques to perform the optimization are stochastic gradient 
+descent and alternating least squares (ALS). In the remainder of this 
+paper, we use matrix factorization as implemented in Apache Spark's 
+MLLib version 2.3.0, which uses ALS. We round predictions to the 
+nearest integer to obtain binary values.
 
-% Explain our particular context.
-% What our matrix represents
-% Explain that you have binary classes (rounding)
-% Explain the sampling issue.
 
 \subsection{Sampling of the training set}
+
 \label{sec:training}
+
 As explained before, the training set in our problem cannot be 
-constructed by unconstrained random sampling of the matrix.
-To address this issue, we investigated the following sampling techniques. 
+constructed by unconstrained random sampling of the matrix. Instead, 
+the training and test sets have to comply to Equation~\ref{eq:time}. To 
+address this issue, we investigated the following sampling techniques, illustrated in
+Figure~\ref{fig:sampling}. 
 
-% 2. columns
-\paragraph{Complete Columns (Figure~\ref{fig:Columns-Sample-Training-set})}
-The training set is sampled by randomly selecting complete columns in
-the matrix, that is, complete subject executions. The last selected
-column might be incomplete to meet the exact training ratio. This 
-method is realistic: it corresponds to a situation where the 
-collaborative filtering method will predict the reproducibility in the 
-remaining subjects from the subjects in the training set. 
+\paragraph{Complete Columns 
+(Figure~\ref{fig:Columns-Sample-Training-set})} The training set is 
+sampled by randomly selecting complete columns in the utility matrix, 
+that is, complete subject executions. The last selected column might be 
+incomplete to meet the exact training ratio. This method respects the 
+time constraints. It corresponds to a situation where the collaborative 
+filtering method will predict the reproducibility of the subjects in 
+the test set from the subjects in the training set. 
 
-% 3. rows
-\paragraph{Complete Rows (Figure~\ref{fig:Rows-Sample-Training-set})} The training set is sampled by selecting complete 
-rows in the matrix, that is, the first files produced by
-every execution. The last selected row might be incomplete to meet the
-exact training ratio. This method is realistic: it corresponds to a 
-situation where the processing of all the subjects is launched and 
-interrupted before the execution is complete. The collaborative 
-filtering method will then predict the reproducibility of the remaining 
-files.
+\paragraph{Complete Rows (Figure~\ref{fig:Rows-Sample-Training-set})} 
+The training set is sampled by selecting complete rows in the utility 
+matrix, that is, the first files produced by every execution. The last 
+selected row might be incomplete to meet the exact training ratio. This 
+method respects the time constraints. It corresponds to a situation 
+where the processing of all the subjects is launched and interrupted 
+before the execution is complete. The collaborative filtering method 
+will then predict the reproducibility of the remaining files.
 
 \begin{figure}[h!]
         \centering
@@ -247,12 +265,12 @@ files.
         \end{subfigure}
         \begin{subfigure}[b]{0.4\linewidth}
                   \includegraphics[width=\columnwidth]{figures/5vs7_random-triangular-largest_04_training}
-                  \caption{RFNT-L}
+                  \caption{RFNTL}
                   \label{fig:triangular-L-Sample-Training-set}
         \end{subfigure}
         \begin{subfigure}[b]{0.4\linewidth}
                   \includegraphics[width=\columnwidth]{figures/5vs7_random-triangular-smallest_04_training}
-                  \caption{RFNT-S}
+                  \caption{RFNTS}
                   \label{fig:triangular-S-Sample-Training-set}
         \end{subfigure}
         \begin{subfigure}[b]{0.4\linewidth}
@@ -260,15 +278,17 @@ files.
                   \caption{Random Unreal}
                   \label{fig:Random-Unreal-Sample-Training-set}
         \end{subfigure}
-        \caption{Sample training set for different methods with a training ratio of 0.4.}                
+        \caption{Sample training set for different methods with a training ratio of 0.4.}
+        \label{fig:sampling}
 \end{figure}
 
-\paragraph{Random Subjects -- RS (Figure~\ref{fig:Uniform-S-Sample-Training-set})} This method builds the 
-training set by selecting the files from random subjects 
-until the training ratio is reached. The file selected in a 
-subject is the file with the lowest index in this subject that has not 
-been already selected in the training set. This method is realistic as 
-files are sampled according to their production time-stamps. 
+\paragraph{Random Subjects -- RS 
+(Figure~\ref{fig:Uniform-S-Sample-Training-set})} This method builds 
+the training set by selecting the files from random subjects until the 
+training ratio is reached. The file selected in a subject is the file 
+with the lowest index in this subject that has not been already 
+selected in the training set. This respects the time constraints as files are 
+sampled according to their production time-stamps.
 
 \paragraph{Random File Numbers (Uniform) -- RFNU (Figure~\ref{fig:Diagonal-Sample-Training-set})}
 The number of files selected for every subject is randomly selected in
@@ -281,49 +301,47 @@ number of files $N_{f}$ and \textit{a} is set according to training ratio $\alph
           \textit{a} = (2\alpha - 1) N_{f} & \text{if $\alpha > 0.5$}
   \end{cases}
 \]
- For $\alpha > 0.5$, this ensures that the average number of files in 
- the training set is $\alpha N_f$. For $\alpha \leq 0.5$, the number of 
- files selected in every subject is sampled from $U(0,N_f)$ with 
- probability $2\alpha$, and set to 0 otherwise.
-RFNU is realistic as files are sampled according to their production time-stamps.
-Due to sampling issues, it is possible that the actual training ratio obtained with this method
-does not match the target one. We check that the difference between the target and real training ratios
-was lower than 0.01.\\ 
+ For $\alpha \leq 0.5$, we ensure that the average number of selected 
+ files by subject is $\alpha N_f$ by sampling the number of 
+ files selected in every subject from $U(0,N_f)$ with 
+ probability $2\alpha$, and setting it to 0 otherwise. For $\alpha > 
+ 0.5$, this is ensured by the value used for $a$, which leads the 
+ average of U(a, b) to be $\alpha N_f$.
 
 \paragraph{Random File Numbers (Triangular) -- RFNT}
 The number of files selected for every subject is randomly selected in
 a triangular distribution $T(a, b, c)$ as in Figure~\ref{fig:triangular}. The mean of the distribution is 
 $\frac{a+b+c}{3}$. We set \textit{c} to $N_{f}$ and we set 
 \textit{a} and \textit{b} with two approaches that ensure that the 
-average of the distribution is $\alpha N_{f}$ ($\alpha$ is the training 
-ratio):
+average of the distribution is $\alpha N_{f}$:
 \begin{enumerate}
-        \item Largest a (RFNT-L, Figure~\ref{fig:triangular-L-Sample-Training-set}): a is set to the 
+        \item Largest a (RFNTL, Figure~\ref{fig:triangular-L-Sample-Training-set}): a is set to the 
         largest possible value, i.e., b. The average of the 
         distribution is $\frac{2a+N_{f}}{3}$, therefore 
         $a=\frac{3\alpha-1}{2}N_{f}$. When $\alpha \leq 1/3$, the 
         number of files in every subject is sampled from $T(0, 0, N_f)$ 
-        with probability $3\alpha$ and set to 0 otherwise, to ensure that the average number of files
-        in the training set is $\alpha N_f$.
-        \item Smallest a (RFNT-S, Figure~\ref{fig:triangular-S-Sample-Training-set}): a is 
+        with probability $3\alpha$ and set to 0 otherwise, to ensure 
+        that the average number of files by subject in the training set 
+        is $\alpha N_f$.
+        \item Smallest a (RFNTS, Figure~\ref{fig:triangular-S-Sample-Training-set}): a is 
         set to the smallest possible value, i.e., 0. The average of the 
         distribution is $\frac{b+N_{f}}{3}$, therefore 
         $b=N_{f}(3\alpha-1)$. This implies that $\alpha \geq 1/3$, so 
         that $b \geq 0$, and $\alpha \leq 2/3$, so that $b \leq N_f$. 
         When $\alpha < 1/3$, we set $b=0$ and the number of files 
         selected in every subject is sampled from $T(0, 0, N_f)$ with 
-        probability $3\alpha$ and set to 0 otherwise, as in RFNT-L. 
+        probability $3\alpha$ and set to 0 otherwise, as in RFNTL. 
         When $\alpha \geq 2/3$, we set $b=N_f$ and the number of files 
         selected in every subject is sampled from $T(0, N_f, N_f)$ with 
         probability $3(1-\alpha)$ and set to $N_f$ otherwise, still to 
-        ensure that the average number of files in the training set is 
+        ensure that the average number of files by subject in the training set is 
         $\alpha N_f$.
 \end{enumerate}
 As illustrated in Figures~\ref{fig:triangular-L-Sample-Training-set} 
 and~\ref{fig:triangular-S-Sample-Training-set}, the motivation for the 
-RFNT-L method is to guarantee that, for large enough values of 
+RFNTL method is to guarantee that, for large enough values of 
 $\alpha$, all subjects will have at least a few files in the training 
-set, which is not the case for RFNU.
+set, which is not the case for RFNU or RFNTS.
 \begin{figure}
 \centering
 \includegraphics[width=0.5\columnwidth]{figures/triangular.pdf}
@@ -331,19 +349,21 @@ set, which is not the case for RFNU.
 \label{fig:triangular}
 \end{figure}
 
-% 0. random unreal (baseline)
-\paragraph{Random Unreal (Figure ~\ref{fig:Random-Unreal-Sample-Training-set})}
-The training set is sampled in a random uniform way, 
-regardless of the file generation times. This method will be used as a
-baseline for comparison with other methods, although it is not
-realistic.
+\paragraph{Random Unreal (Figure 
+~\ref{fig:Random-Unreal-Sample-Training-set})} The training set is 
+sampled in a random uniform way, regardless of the file generation 
+times. This method does not respect the time constraints in 
+Equation~\ref{eq:time}, it will be used as a baseline for comparison 
+with other methods.
 
 In each method, we also included the first row of the matrix (first 
 generated file of each subject) and a random column (all files of a 
 random subject) to avoid cold start issues. 
 
 
-\section{Dataset}
+\section{Datasets}
+
+\label{sec:datasets}
 
 \todo{Soudabeh, can you remove the caption on all matrices?}
 
@@ -352,17 +372,18 @@ random subject) to avoid cold start issues.
 We generated synthetic matrices as shown in 
 Figure~\ref{fig:synthetic-data}. Each matrix has 100 files and 100 
 subjects of different \emph{types}. Subjects of the same type behave 
-identically and all types contain the same number of subjects $\pm$ 1 
-\todo{Soudabeh: check that}. Such a decomposition by subject type 
-correspond to the case where different subjects may have data of 
-different nature, as it is for instance the case in the neuroimaging 
+identically and all types contain the same number of subjects $\pm$ 1. 
+Such a decomposition by subject type correspond to the case where 
+different subjects may have data of different nature, as it is for 
+instance the case in the neuroimaging 
 dataset of the Human Connectome Project~\cite{van2013wu} where not all the 
 subjects have the same amount of images.
 
-For subjects of a given type, matrix elements vary in $log(n)$  blocks,         
-where $n$ is the number of types, with all the possible variation 
-patterns: some types do not vary at all, while other ones vary in every 
-block. Such variation patterns are meant to mimic the logic of data 
+ For subjects of a given type, the reproducibility matrix consists of 
+ $log(n)$  blocks, where $n$ is the number of types. Blocks are 
+ arranged with all the possible variation patterns: some types do not 
+ vary at all, while other ones vary in every block. Such variation 
+ patterns are meant to mimic the logic of data 
 processing pipelines: each block of files represents the files produced 
 at a given stage of the pipeline, which may or may not contain 
 reproducibility errors depending on the subject type.
@@ -397,7 +418,7 @@ reproducibility errors depending on the subject type.
                   \includegraphics[width=\columnwidth]{data/Utility_Matrix/Synthetic/synthetic_subject_types/64_SubjectType_utility_matrix.png}
                   \caption{64 types}
         \end{subfigure}
-\caption{Synthetic Data}
+\caption{Synthetic reproducibility matrices. White cells denote reproducibility errors.}
 \label{fig:synthetic-data}
 \end{figure}
 
@@ -406,15 +427,17 @@ reproducibility errors depending on the subject type.
 We collected data to evaluate the computational reproducibility of analysis
 pipelines of the Human Connectome Project~\cite{glasser2013minimal}. We
 processed a set S of 94 subjects randomly selected in the S500 HCP
-release~\todo{URL} in three execution conditions with different
-versions of the CentOS operating system (5.?, 6.? and 7.?), using the
-PreFreesurfer and Freesurfer pipelines
-described in~\cite{glasser2013minimal} and available at \todo{URL}. For
-each pipeline, we identified the set F of files produced for all
-subjects in all conditions. For each condition pair and each pipeline,
-we computed a binary difference matrix D of size $|F|\times|S|$, where $D_{i,j}$ is true
-if file $i$ of subject $j$ was different in each condition. Rows of
-$M$ are ordered by ascending file modification time in the pipeline.
+release\footnote{\url{https://db.humanconnectome.org}} in three execution conditions with different
+versions of the CentOS operating system (5.\todo{?}, 6.8 and 7.2), using the
+PreFreesurfer and Freesurfer pipelines described 
+in~\cite{glasser2013minimal} and available on 
+GitHub\footnote{\url{https://github.com/Washington-University/Pipelines/releases/tag/v3.19.0}}. 
+For each pipeline, we identified the set F of files produced for all
+subjects in all conditions. For each condition pair and each pipeline, 
+we computed a binary reproducibility matrix U of size $|F|\times|S|$, 
+where $U_{i,j}$ is true iif file $i$ of subject $j$ was different in 
+each condition. Rows of $U$ were ordered by ascending file modification 
+time in a random subject in S.
 
 Figure~\ref{fig:utility-matrices} shows the utility matrices
 obtained for the PreFreesurfer and Freesufer pipeline. The computational
@@ -447,29 +470,37 @@ lines.
     \label{fig:utility-matrices}
 \end{figure}
 
-
 \section{Results}
 
-Three experiments have been conducted for each dataset to evaluate the performance of our 
-predictions using (1) ALS without biases, (2) ALS with biases, (3) Biases only. 
-Results will be evaluated using accuracy, sensitivity and specificity defined as follows:
-\[
-        Accuracy = \frac{TP+TN}{TP+TN+FP+FN}
-\]
-\[
-        Sensitivity = \frac{TP}{TP+FN}
-\]
-\[
-        Specificity = \frac{TN}{TN+FP}
-\]
-Where TP is the number of True Positives (correctly predicted reproducibility errors), 
-FP is the number of False Positives, TN is the number of true negatives 
-and FN is the number of false negatives. \todo{Check if we want to report sensitivity and specificity, otherwise remove.}
+\label{sec:results}
 
-We compare our sampling methods to (1) a dummy classifier that always 
+Two experiments have been conducted for each reproducibility matrix, to evaluate the performance of our 
+predictions using (1) ALS without biases, and (2) ALS with biases. 
+Results will be evaluated using classification accuracy and compared to (1) a dummy classifier that always 
 predicts the value in the majority class and (2) the Random Unreal 
 method, used as the baseline sampling technique. All reported values are averages
-over 5 repetitions. \todo{Report model parameters, including number of factors.}
+over 5 repetitions. \todo{Report model parameters, including number of 
+factors.} Due to sampling issues, it is possible that the actual 
+training ratio obtained with some of the sampling methods does not 
+match the target one. We checked that the difference between the target 
+and real training ratios was lower than 0.01. We used Spark's ALS model 
+as available in package \texttt{pyspark.ml}, with 50 factors, a 
+regularization parameter of 0.01, a maximum of 5 iterations and non 
+negative constraints set to true.
+
+%~ , sensitivity and specificity defined as follows:
+%~ \[
+        %~ Accuracy = \frac{TP+TN}{TP+TN+FP+FN}
+%~ \]
+%~ \[
+        %~ Sensitivity = \frac{TP}{TP+FN}
+%~ \]
+%~ \[
+        %~ Specificity = \frac{TN}{TN+FP}
+%~ \]
+%~ Where TP is the number of True Positives (correctly predicted reproducibility errors), 
+%~ FP is the number of False Positives, TN is the number of true negatives 
+%~ and FN is the number of false negatives. \todo{Check if we want to report sensitivity and specificity, otherwise remove.}
 
 \subsection{Synthetic Data}
 
@@ -477,7 +508,7 @@ over 5 repetitions. \todo{Report model parameters, including number of factors.}
 
 Accuracy results for the different numbers of subject types are 
 reported in Figure~\ref{fig:results-synthetic}. By construction, the 
-accuracy of the dummy classifier is 0.5 for all subject types. Random 
+accuracy of the dummy classifier is close to 0.5 for all subject types. Random 
 Unreal performs very well for all subject types, which confirms that 
 ALS is working correctly. Unsurprisingly, all the other methods perform 
 better than the dummy classifier, and their accuracy decreases as the 
@@ -526,9 +557,13 @@ saved in such reproducibility studies.
 
 \subsubsection{ALS with Bias}
 
-Results of ALS with bias are reported in Figure~\ref{fig:results-synthetic-als-bias}.
-RS, RFNU and RFNTL remain the methods that best compare to Random Unreal, but the achieved
-accuracy is much lower than without Biases. This is due to the fact that biases \ldots \todo{finish that.}
+Results of ALS with bias are reported in 
+Figure~\ref{fig:results-synthetic-als-bias}. RS, RFNU and RFNTL remain 
+the methods that best compare to Random Unreal, but the achieved 
+accuracy is much lower than without Biases. This is presumably due to 
+the fact that file biases are all close to 0.5 in the synthetic data. 
+In such a situation, biases are detrimental to the accuracy of the 
+collaborative filtering process and shouldn't be included.
 
 \begin{figure*}
 \begin{subfigure}[b]{0.4\linewidth}
@@ -601,9 +636,10 @@ Figure~\ref{fig:results-real-als-bias}. From a training ratio of 0.5,
 all methods have a very good accuracy for all datasets, except complete 
 columns in Figure~\ref{fig:pfs-c5vsc7-bias}. All methods except RFNU, 
 RFNTL and RFNTS also perform well for a training ratio lower than 0.5. 
-Overall, the accuracy of the methods is much higher than without bias: 
-the file bias is very strong in this dataset, as illustrated by the large number
-of constant lines in the matrices in Figure~\ref{fig:utility-matrices}.
+Overall, the accuracy of the methods is much higher than without bias. 
+This is because the file bias is very strong in this dataset, as 
+illustrated by the large number of constant lines in the matrices in 
+Figure~\ref{fig:utility-matrices}.
 
 \begin{figure*}
 \begin{subfigure}[b]{0.4\linewidth}
@@ -636,12 +672,12 @@ While collaborative filtering, perhaps unsurprisingly, is able to
 correctly predict the missing values in a matrix modeling the 
 reproducibility problem, the usual random sampling method cannot be 
 used in time-constrained processes. We proposed 6 sampling methods to 
-address this issue, and we found that one of them, RFNU, (\todo{check 
-that}) was consistently able to solve the problem. We explain that by 
+address this issue, and we found that one of them, RFNU, \todo{check 
+that} is consistently able to solve the problem. We explain that by 
 the fact that RFNU leads the training set to contain a balanced mix 
 between nearly complete and nearly empty columns, with a continuum of 
 intermediate configurations in between. On the contrary, other sampling 
-methods, including RFNT-L and RFNT-S, bias the sampling toward complete 
+methods, including RFNTL and RFNTS, bias the sampling toward complete 
 or empty columns, which is sometimes detrimental to 
 accuracy. 
 
@@ -655,7 +691,7 @@ when biases are not included. However, the training ratio required to
 reach a 0.95 accuracy increases with the number of subject types 
 present in the dataset. \todo{maybe find a relation between the 
 required training ratio and the number of subjects per subject type in 
-the entire dataset}. 
+the entire dataset}
 
 % How can this be used in practice
 From a practical standpoint, our study shows that reproducibility 
