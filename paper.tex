@@ -479,8 +479,7 @@ predictions using (1) ALS without biases, and (2) ALS with biases.
 Results will be evaluated using classification accuracy and compared to (1) a dummy classifier that always 
 predicts the value in the majority class and (2) the Random Unreal 
 method, used as the baseline sampling technique. All reported values are averages
-over 5 repetitions. \todo{Report model parameters, including number of 
-factors.} Due to sampling issues, it is possible that the actual 
+over 5 repetitions. Due to sampling issues, it is possible that the actual 
 training ratio obtained with some of the sampling methods does not 
 match the target one. We checked that the difference between the target 
 and real training ratios was lower than 0.01. We used Spark's ALS model 
