@@ -31,7 +31,7 @@
 
 \begin{document}
 
-\title{Predicting computational reproducibility of scientific pipelines\\ using collaborative filtering}
+\title{Predicting computational reproducibility of data analysis pipelines \\in large population studies using collaborative filtering}
 
 \author{Soudabeh Barghi, Lalet Scaria, Tristan Glatard\\
   Department of Computer Science and Software Engineering\\ Concordia University, Montreal, Quebec, Canada\\
@@ -40,8 +40,27 @@
 \maketitle
 
 \begin{abstract}
+With the rise of the reproducibility crisis in several scientific 
+domains, evaluating the computational reproducibility of data analysis 
+pipelines has become a critical issue. It is, however, a cumbersome 
+process for analyses that involve data from large populations of 
+subjects, due to the computational and storage requirements. 
+Nevertheless, executions of a given analysis pipeline are not 
+independent, as they are obtained from the same program. We leverage 
+this observation to propose a method to predict the computational 
+reproducibility of data analysis pipelines in large population studies. 
+We formulate the problem as a collaborative filtering problem with 
+constraints on the construction of the training set. We propose 6 
+different strategies to build the training set and evaluate them on 2 
+datasets, a synthetic one modeling a population with a growing number 
+of subject types, and a real one obtained on neuroinformatics 
+pipelines. Results show that one sampling method, ``Random File Numbers 
+(Uniform)" is able to predict computational reproducibility in 
+pipelines with a good accuracy. We also analyze the relevance of 
+including file and subject biases in the collaborative filtering model. 
+We conclude that the proposed method is able to speed-up reproducibility 
+evaluations substantially, with a reduced accuracy loss.
 \end{abstract}
-
 
 \section{Introduction}
 
@@ -51,62 +70,32 @@ space~\cite{peng2011reproducible}, has become a critical component of scientific
 methodology with the rise of the reproducibility crisis in several 
 domains~\cite{baker2016there}. Among the factors hampering 
 computational reproducibility, infrastructural characteristics such as 
-the operating system play an important role. In neurosciences, our 
+the operating system or multithreading play an important role. In neuroinformatics, our 
 primary field of interest, several studies have shown the effect of the 
 operating system on computational 
 results~\cite{gronenschild2012effects, glatard2015reproducibility}. 
 However, conducting such reproducibility studies at scale is cumbersome 
-due to the execution time of data analysis pipelines, which easily 
-exceeds a few hours.
+due to the computational and storage requirements of data analysis pipelines.
 
-We consider the problem of predicting the values of a variable 
-controlled by a hidden, parameterized, time-dependent, deterministic 
-process. We assume that the variable values are observed only for a 
-limited number of time points and process parameters, and we aim at 
-predicting the values for the remaining time points and parameters.
+Neuroinformatics pipelines are generally iterated on data coming from 10 to 
+1,000 subjects, possibly with subtle input parameter variations to 
+adjust specific data acquisition conditions. Subject data often capture 
+anatomical and functional characteristics of their brain, for instance through
+Magnetic Resonance Imaging (MRI) and Electroencephalography (EEG). The number of files 
+associated with a subject may vary, and these files may also be of 
+different sizes. Typical data processing times range from 15 minutes to 
+15 hours, with input ranging from 100~MB to 15~GB per subject, and 
+outputs ranging from 1~GB to 500~GB. Such variations impact the 
+reproducibility of a given pipeline across subjects. 
 
-This problem description maps directly to the evaluation of 
-computational reproducibility in scientific pipelines: the process is 
-the evaluated pipeline, it is hidden since we consider the pipeline as a black box (we 
-don't inspect its source code), it is parametrized as it behaves 
-differently on different input datasets and parameters, it is 
-time-dependent as the value of the variable of interest varies 
-throughout the course of the pipeline execution. The variable of 
-interest is whether the pipeline outputs, most likely the files it 
-produces, are identical between execution conditions.
-
+Our goal is to predict the outcome of reproducibility evaluations in a 
+large population of subject from a reduced set of pipeline executions. 
+More precisely, we aim at predicting whether a particular file produced 
+by an analysis pipeline will be identical across execution conditions, or if it will contain reproducibility \emph{errors}. 
 We approach the problem from the point of view of collaborative 
 filtering, inspired by previous examples that applied this method 
 outside of its initial application domain, for instance 
-~\cite{feng2013efficient}. The pipeline is represented by a matrix 
-where columns represent different parametrizations and rows represent 
-the files produced by the execution. Parmeterizations may represent 
-different input data sets or parameter values, on which we do not 
-assume an order. On the contrary, an order is defined on the files, 
-from their last modification time in a sequential execution. We assume 
-that files are produced in the same order regardless of the 
-parametrization, which is not always true, in particular when pipelines 
-are multi-threaded, but in general reasonable \todo{explain "local" 
-truth of this assumption}. This order imposes a constraint on the 
-construction of the training set since files
-
-
-
- 
-
-% Scientific data analysis pipeline executions are long (give examples
-% from neuroimaging).
-
-% Define subjects, pipelines.
-
-\todo{Explain that columns represent subjects and rows represent files, and that these terms are used
-indifferently}
-
-\todo{Mention why this is Big Data}
-
-\todo{Define reproducibility \emph{errors}}
-
-\todo{talk about time-constrained processes}
+~\cite{feng2013efficient}. 
 
 The paper makes the following contributions:
 \begin{enumerate}
@@ -114,51 +103,56 @@ The paper makes the following contributions:
 \item We propose strategies to sample the training set under time constraints.
 \item We evaluate and compare our sampling strategies on synthetic and real datasets.
 \end{enumerate}
-
+The paper ends with a discussion about \todo{x} and a conclusion.
 
 \section{Method}
 
-%~ To evaluate the reproducibility of a pipeline, a retrieved matrix from 
-%~ the subjects and file-ids is built. Subjects and file-ids are equivalent 
-%~ to users and items, respectively, as they are known in Collaborative Filtering (CF) technique.
-%~ Filling in the missing entries of this matrix encompasses some issues 
-%~ which take some barriers for use of Collaborative filtering technique as it 
-%~ has being used in e-commerce applications.
-%~ For instance, files-ids (items) are produced in a specific order in the 
-%~ pipeline however items are sequentially independent in general use of CF in e-commerce.
-%~ This issue adds constraints on the selection of CF training set. Despite of random 
-%~ selection strategy which does not taking care of item order, we had to come up with those 
-%~ selection strategies that respect the pipeline fundamental fact about file order generation.  
-%~ The aforementioned matrix (utility matrix), con be fully completed by processing all subjects 
-%~ in pipeline however the whole processing can takes loads of time. This possibility of 
-%~ having a potential complete populated matrix means despite of potential sparse matrices 
-%~ in e-commerce case studies here the utility matrix is not sparse and 
-%~ we can decide precisely which samples we need to select as our training set selection. 
-%~ In this regard, to avoid the cold start issue we can take the first file-id of all 
-%~ subjects in order to get sure that for all subjects there is at least one 
-%~ selected element in training ratio and in the same way, all generated files 
-%~ from the process of a random subject which can guarantee that all files 
-%~ are presented in the selection set at least for once. 
-%~ what is specific to our problem compared to regular collaborative filtering:
-%+ subjects are equivalent to users. Not all subjects have the same input data. Anatomical variability, acquisition variability (e.g., 1 subject may have multiple T1s).
-%+ files are produced in a specific order (movies aren't),
-% which add constraints on the training set (cannot sample late files and not early ones).
-%+ utility matrix is not sparse: we can potentially populate it completely. Which means that we can decide precisely which samples we need (active sampling). Therefore we can take the first row and first column to avoid cold start issues.
-
 \subsection{Problem formulation}
 
-\todo{Restrict to binary classification}
+The pipeline to be evaluated is represented by a matrix $U$ of size $N_f \times N_s$
+where columns represent data coming from different subjects and rows represent 
+the files produced by the pipeline execution. Subjects are unordered, 
+i.e., columns may be reordered arbitrarily, but files are ordered, for 
+instance from their last modification time in a sequential execution, 
+and we assume that this order is consistent across subjects. $U_{i, j}$ 
+represents the 
+reproducibility of file $i$ produced during the processing of subject 
+$j$ in two conditions, for instance two different operating systems. In our 
+experiments, we restrict $U_{i,j}$ to be boolean, but the same prediction method
+can be applied for real values. 
+
+Our goal is to predict the test set $\mathbb{T'}$ of missing values of 
+$U$ from a training subset $\mathbb{T}$ of known ones. In contrast with the traditional collaborative filtering 
+problem, (1) we have control over the construction of the training set, and (2)
+the construction of the training set is constrained by the order on the matrix rows, which is formalized as follows: 
+\begin{equation}
+\begin{array}{l}
+\forall (i, j, k) \in \llbracket 1, N_f \rrbracket \times \llbracket 1, N_f \rrbracket \times \llbracket 1, N_s \rrbracket, \\
+ \left( U_{i,k} \in \mathbb{T} \quad \mathrm{and} \quad U_{j,k} \in \mathbb{T'} \right) \Rightarrow i < j. \label{eq:time}
+ \end{array}
+\end{equation}
+
+Our problem is the following:
+\begin{quote}
+Given a training ratio $\alpha$, find a subset $\mathbb{T}$ of 
+$\{U_{i,j}\}$ of size $\alpha N_f N_s$ such that (1) $\mathbb{T}$ and 
+$\mathbb{T'}$ respect Equation~\ref{eq:time}, and (2) $\mathbb{T'}$ can 
+be predicted from $\mathbb{T}$ with high accuracy.
+\end{quote}
+The sampling of the training set will be described in Section~\ref{sec:training}.
+The collaborative filtering techniques used for the predictions are reported hereafter.
 
 \subsection{Collaborative filtering}
 
 Collaborative filtering is a technique to predict unknown values of a 
-matrix called ``utility matrix" from the known ones. Traditionally, the 
+matrix called "utility matrix" from the known ones. Traditionally, the 
 matrix represents the ratings of items, represented in columns, by 
 users, represented in rows. Ratings might be explicit, when users 
 provide ratings through a dedicated system, or implicit, when users' 
 behaviors are tracked and analyzed to estimate their preferences. An 
 overview of collaborative filtering is provided 
-in~\cite{leskovec2014mining}.
+in~\cite{leskovec2014mining}. In our context, the utility matrix is the
+pipeline matrix described previously.
 
 Several methods have been proposed to implement collaborative 
 filtering. Item-item collaborative filtering~\cite{breese1998empirical, linden2003amazon} predicts 
@@ -197,7 +191,7 @@ following objective:
 
 Two good techniques to perform the optimization are stochastic gradient descent and alternating least squares (ALS). 
 In the remainder of this paper, we use matrix factorization as implemented in 
-Apache Spark's MLLib version 2.~\todo{xxx.}, which uses ALS.
+Apache Spark's MLLib version 2.3.0, which uses ALS.
 
 % Explain our particular context.
 % What our matrix represents
@@ -205,7 +199,7 @@ Apache Spark's MLLib version 2.~\todo{xxx.}, which uses ALS.
 % Explain the sampling issue.
 
 \subsection{Sampling of the training set}
-
+\label{sec:training}
 As explained before, the training set in our problem cannot be 
 constructed by unconstrained random sampling of the matrix.
 To address this issue, we investigated the following sampling techniques. 
@@ -698,6 +692,22 @@ The method described in this paper and applied to reproducibility
 studies could be used to predict the outcome of other deterministic, 
 hidden, parameterized, time-dependent processes, for instance markers 
 of chronicle disease activity.
+
+We consider the problem of predicting the values of a variable 
+controlled by a hidden, parameterized, time-dependent, deterministic 
+process. We assume that the variable values are observed only for a 
+limited number of time points and process parameters, and we aim at 
+predicting the values for the remaining time points and parameters.
+
+This problem description maps directly to the evaluation of 
+computational reproducibility in scientific pipelines: the process is 
+the evaluated pipeline, it is hidden since we consider the pipeline as a black box (we 
+don't inspect its source code), it is parametrized as it behaves 
+differently on different input datasets and parameters, it is 
+time-dependent as the value of the variable of interest varies 
+throughout the course of the pipeline execution. The variable of 
+interest is whether the pipeline outputs, most likely the files it 
+produces, are identical between execution conditions.
 
 \todo{Discussion on points that are not part of constant lines.}
 
