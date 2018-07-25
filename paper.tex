@@ -40,51 +40,66 @@
 \maketitle
 
 \begin{abstract}
-With the rise of the reproducibility crisis in several scientific 
-domains, evaluating the computational reproducibility of data analysis 
-pipelines has become a critical issue. It is, however, a cumbersome 
+With the rise of the reproducibility crisis, evaluating the 
+computational reproducibility of data analysis pipelines has become a 
+critical issue. It is, however, a cumbersome 
 process for analyses that involve data from large populations of 
 subjects, due to their computational and storage requirements. 
 We present a method to predict the computational 
 reproducibility of data analysis pipelines in large population studies. 
-We formulate the problem as collaborative filtering, with 
+We formulate the problem as a collaborative filtering process, with 
 constraints on the construction of the training set. We propose 6 
-different strategies to build the training set, and we evaluate them on 2 
+different strategies to build the training set, which we evaluate on 2 
 datasets, a synthetic one modeling a population with a growing number 
 of subject types, and a real one obtained with neuroinformatics 
 pipelines. Results show that one sampling method, ``Random File Numbers 
-(Uniform)" is able to predict computational reproducibility in 
-pipelines with a good accuracy. We also analyze the relevance of 
-including file and subject biases in the collaborative filtering model. 
-We conclude that the proposed method is able to speed-up reproducibility 
+(Uniform)" is able to predict computational reproducibility with a good 
+accuracy. We also analyze the relevance of including file and subject 
+biases in the collaborative filtering model. We conclude that the 
+proposed method is able to speed-up reproducibility 
 evaluations substantially, with a reduced accuracy loss.
 \end{abstract}
 
 \section{Introduction}
 
-Computational reproducibility, the property through which
-computational results can be recomputed over time and
-space~\cite{peng2011reproducible}, has become a critical component of scientific
-methodology with the rise of the reproducibility crisis in several 
-domains~\cite{baker2016there}. Among the factors hampering 
-computational reproducibility, infrastructural characteristics such as 
-the operating system or multithreading play an important role. In neuroinformatics, our 
-primary field of interest, several studies have shown the effect of the 
+Computational reproducibility, the ability to recompute data analyses 
+over time and 
+space~\cite{peng2011reproducible}, has become a critical component of 
+scientific methodology as many researchers acknowledge the existence of 
+a reproducibility crisis~\cite{baker2016there}. Among other factors, 
+such as data and code sharing, infrastructural characteristics 
+play an important role in making experiments reproducible. For instance, in 
+neuroinformatics, our primary field of interest, several studies have 
+shown the effect of the 
 operating system on computational 
-results~\cite{gronenschild2012effects, glatard2015reproducibility}. 
+results~\cite{gronenschild2012effects, glatard2015reproducibility}.
 However, conducting such reproducibility studies at scale is cumbersome 
-due to the computational and storage requirements of data analysis pipelines.
+due to the computational and storage requirements of data analysis 
+pipelines.
 
 Neuroinformatics pipelines are generally iterated on data coming from 10 to 
 1,000 subjects, possibly with subtle input parameter variations to 
 adjust specific data acquisition conditions. Subject data often capture 
 anatomical and functional characteristics of their brain, for instance through
-Magnetic Resonance Imaging (MRI) and Electroencephalography (EEG). The number of files 
+Magnetic Resonance Imaging (MRI) or Electroencephalography (EEG). The number of files 
 associated with a subject may vary, and these files may also be of 
 different sizes. Typical data processing times range from 15 minutes to 
-15 hours, with input ranging from 100~MB to 15~GB per subject, and 
-outputs ranging from 1~GB to 500~GB. Such variations impact the 
-reproducibility of a given pipeline across subjects. 
+15 hours per subject, with input ranging from 100~MB to 15~GB per subject, and 
+outputs ranging from 1~GB to 500~GB.
+
+The reproducibility of a given pipeline may vary across subjects, for 
+instance due to different pipeline branches being executed depending on 
+the nature, cardinality or content of the input data. For instance, in 
+the public database released by the Human Connectome 
+Project~\cite{van2013wu}, subjects may have one or two anatomical images of 
+each modality; when two images are 
+present, they are aligned together and averaged. The presence of 
+artifacts, for instance due to high motion during the acquisition, may 
+also trigger corrections that are not otherwise required. Some branches 
+of the pipeline may also be executed only for specific acquisition 
+parameters, for instance the intensity of the magnetic field. To 
+capture all these variations, reproducibility evaluations need to be 
+conducted on many subjects, which is unwieldy. 
 
 Our goal is to predict the outcome of reproducibility evaluations in a 
 large population of subjects, from a reduced set of pipeline 
@@ -97,7 +112,7 @@ this method outside of its initial application domain, for instance
 ~\cite{feng2013efficient}. The main issue, and originality, of our 
 problem lies in the fact that the training set cannot be arbitrarily 
 sampled from the utility matrix. Instead, the training set has to 
-respect the time constraints that stem from the order in which files 
+respect the time constraints imposed by the order in which files 
 are produced during pipeline executions.
 
 This paper makes the following contributions:
@@ -111,24 +126,21 @@ proposed sampling strategies for the training set are presented in
 Section~\ref{sec:methods}. The datasets are described in 
 Section~\ref{sec:datasets}, and experimental results are reported in 
 Section~\ref{sec:results}.
-The paper ends with a discussion about \todo{x} and a conclusion.
-
-\todo{Complete the introduction and improve the writing}
-
-\newpage
+The paper ends with a discussion about the impact, limitations and 
+generalizability of our results.
 
 \section{Method}
 \label{sec:methods}
 \subsection{Problem formulation}
 
 The pipeline to be evaluated is represented by a matrix $U$ of size 
-$N_f \times N_s$ where the $N_s$ columns represent data coming from 
-different subjects and the $N_f$ rows represent the files produced by 
+$N_f \times N_s$, where the $N_s$ columns represent data coming from 
+different subjects, and the $N_f$ rows represent the files produced by 
 the pipeline execution. While subjects are not ordered, files are, for 
-instance from their last modification time in a sequential execution. 
-We assume that the order on files is consistent across subjects. $U_{i, 
-j}$ measures the reproducibility of file $i$ produced during the 
-processing of subject $j$ in two conditions, for instance two different 
+instance from their last modification time in a sequential execution, 
+and we assume that this order is consistent across subjects. $U_{i, j}$ 
+measures the reproducibility of file $i$ produced during the processing 
+of subject $j$ in two conditions, for instance two different 
 operating systems. In our experiments, we restrict $U_{i,j}$ to be 
 boolean, but our methods can be applied for real values as well. 
 
@@ -162,7 +174,7 @@ The collaborative filtering techniques used for the predictions are reported her
 \subsection{Collaborative filtering}
 
 Collaborative filtering is a technique to predict unknown values of a 
-matrix called "utility matrix" from the known ones. Traditionally, the 
+matrix called ``utility matrix" from the known ones. Traditionally, the 
 matrix represents the ratings of items, represented in columns, by 
 users, represented in rows. Ratings might be explicit, when users 
 provide ratings through a dedicated system, or implicit, when users' 
@@ -692,6 +704,12 @@ present in the dataset. \todo{maybe find a relation between the
 required training ratio and the number of subjects per subject type in 
 the entire dataset}
 
+In any case, we recommend not to include biases in the collaborative filtering 
+optimization to solve this problem. Even though biases provide a slight 
+accuracy improvement when datasets are strongly biased (constant lines 
+in the matrix), they can also be very detrimental for more complex 
+datasets such as the synthetic one used here.
+
 % How can this be used in practice
 From a practical standpoint, our study shows that reproducibility 
 evaluations can be conducted using only 50\% of the files produced by 
@@ -704,8 +722,6 @@ the subjects should be initiated, and it should be terminated in a random
 uniform way, assuming that files are uniformly produced throughout the 
 execution.
 
-% Generalizability
-
 % What are the limitations
 Our study could be extended by considering real-valued reproducibility 
 matrices instead of just binary ones. It is indeed common for file 
@@ -716,41 +732,23 @@ could be directly applied to real-valued matrices, and we expect our
 conclusions regarding the best-performing sampling method (RFNU) and 
 the inclusion of biases in the model to remain valid.
 
-% Real values, we expect the best sampling method to remain the same.
-We recommend not to include biases in the collaborative filtering optimization
-to solve this problem. Even though biases provide a slight accuracy improvement 
-when datasets are strongly biased (constant lines in the matrix), they can also
-be very detrimental for more complex datasets such as the synthetic one used here.
-
 % Other possible examples
 The method described in this paper and applied to reproducibility 
-studies could be used to predict the outcome of other deterministic, 
-hidden, parameterized, time-dependent processes, for instance markers 
-of chronicle disease activity.
-
-We consider the problem of predicting the values of a variable 
-controlled by a hidden, parameterized, time-dependent, deterministic 
-process. We assume that the variable values are observed only for a 
-limited number of time points and process parameters, and we aim at 
-predicting the values for the remaining time points and parameters.
-
-This problem description maps directly to the evaluation of 
-computational reproducibility in scientific pipelines: the process is 
-the evaluated pipeline, it is hidden since we consider the pipeline as a black box (we 
-don't inspect its source code), it is parametrized as it behaves 
-differently on different input datasets and parameters, it is 
-time-dependent as the value of the variable of interest varies 
-throughout the course of the pipeline execution. The variable of 
-interest is whether the pipeline outputs, most likely the files it 
-produces, are identical between execution conditions.
+studies could be used to predict the other variables controlled by 
+hidden, deterministic, hidden, parameterized, time-dependent processes, 
+for instance markers of chronicle disease activity. In the 
+reproducibility example studied in this paper, the variable of interest 
+is the reproducibility of files produced by the processing of a given 
+subjects, the process is the evaluated pipeline, it is hidden since we 
+consider the pipeline as a black box (we don't inspect its source 
+code), it is parametrized as it behaves differently on different input 
+datasets and parameters, it is time-dependent as the value of the 
+variable of interest varies throughout the course of the pipeline 
+execution. 
 
 \todo{Discussion on points that are not part of constant lines.}
 
 \todo{Show an overlap to see where the error is located.}
-
-RFNTS and RFNTL could be used when the matrix is more  uncertain at the beginning or end of the pipeline.
-
-RS and RFNU tends to become the same for high training ratios.
 
 \todo{Make sure the code is available and results are reproducible.}
 
