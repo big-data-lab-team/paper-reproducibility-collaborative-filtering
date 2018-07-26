@@ -326,7 +326,7 @@ The number of files selected for every subject is randomly selected in
 a triangular distribution $T(a, b, c)$ as in Figure~\ref{fig:triangular}. The mean of the distribution is 
 $\frac{a+b+c}{3}$. We set \textit{c} to $N_{f}$ and we set 
 \textit{a} and \textit{b} with two approaches that ensure that the 
-average of the distribution is $\alpha N_{f}$:
+average of the distribution is $\alpha N_{f}$: \todo{clarify this part}
 \begin{enumerate}
         \item Largest a (RFNTL, Figure~\ref{fig:triangular-L-Sample-Training-set}): a is set to the 
         largest possible value, i.e., b. The average of the 
@@ -498,7 +498,7 @@ match the target one. We checked that the difference between the target
 and real training ratios was lower than 0.01. We used Spark's ALS model 
 as available in package \texttt{pyspark.ml}, with 50 factors, a 
 regularization parameter of 0.01, a maximum of 5 iterations and non 
-negative constraints set to true.
+negative constraints set to true. \todo{Tristan: Add one plot with sensitivity and specificity for 0.9 training}
 
 %~ , sensitivity and specificity defined as follows:
 %~ \[
@@ -520,7 +520,7 @@ negative constraints set to true.
 
 Accuracy results for the different numbers of subject types are 
 reported in Figure~\ref{fig:results-synthetic}. By construction, the 
-accuracy of the dummy classifier is close to 0.5 for all subject types \todo{Why such variations?}. Random 
+accuracy of the dummy classifier is close to 0.5 for all subject types \todo{Soudabeh: why such variations?}. Random 
 Unreal performs very well for all subject types, which confirms that 
 ALS is working correctly. Unsurprisingly, all the other methods perform 
 better than the dummy classifier, and their accuracy decreases as the 
@@ -534,7 +534,7 @@ reduced number of empty columns. Surprisingly, RFNTS does not perform
 well for more than 2 subject types, even for a training ratio of 0.9. \todo{Check that.}
 
 RS, RFNU and RFNTL achieve a 90\% accuracy for a training ratio of 
-about 0.85. Therefore, 15\% of the computations could potentially be 
+about 0.85 \todo{precise that}. Therefore, 15\% of the computations could potentially be 
 saved in such reproducibility studies.
 
 \begin{figure*}
@@ -677,7 +677,7 @@ Figure~\ref{fig:utility-matrices}.
 \label{fig:results-real-als-bias}
 \end{figure*}
 
-\todo{Different number of factors.}
+\todo{Soudabeh: Different number of factors: type 8, RFNU, 50, 100, 200, 400.}
 
 \section{Discussion}
 
@@ -692,8 +692,46 @@ the fact that RFNU leads the training set to contain a balanced mix
 between nearly complete and nearly empty columns, with a continuum of 
 intermediate configurations in between. On the contrary, other sampling 
 methods, including RFNTL and RFNTS, bias the sampling toward complete 
-or empty columns, which is sometimes detrimental to 
-accuracy. 
+or empty columns, which is sometimes detrimental to accuracy.
+
+Figure~\ref{fig:overlap} illustrates the comparison between RFNU, RFNTL 
+and RFNTS. The matrices in this Figure represent the union between the 
+training and the test set, where the training set is represented in 
+black (negatives) and white (positives), and the test set is 
+represented in green (true positives), yellow (false negatives), gray 
+(true negatives) and red (false positives). This representation 
+provides insights regarding where, and perhaps why, prediction errors 
+occur. At this training ratio, RFNU (Figure~\ref{fig:overlap-rfntu}) 
+uniformly samples the number of files per subject between 0.8$N_f$ and 
+$N_f$. It provides an opportunity for ALS to be trained on the last 
+files of the pipelines, while maintaining a low number of columns with 
+a low training ratio. On the contrary, RFNTL 
+(Figure~\ref{fig:overlap-rfntl}) samples the number of files per 
+subject from 0.85$N_f$, but the probability to have a complete column 
+is 0 (the one complete column in Figure~\ref{fig:overlap-rfntl} is the one included
+to prevent cold start issues).
+
+\begin{figure*}
+\begin{subfigure}[b]{0.6\columnwidth}
+        \includegraphics[width=\columnwidth]{figures/RFNU_Syn_8_ALS_09_test_data_matrix_run1.png}
+        \caption{RFNU: $U(0.8N_f, N_f)$}
+        \label{fig:overlap-rfnu}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.6\columnwidth}
+        \includegraphics[width=\columnwidth]{figures/RFNT-L_Syn_8_ALS_09_test_data_matrix_run2.png}
+        \caption{RFNTL: $T(0.85N_f, 0.85N_f, N_f)$}
+        \label{fig:overlap-rfntl}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.6\columnwidth}
+        \includegraphics[width=\columnwidth]{figures/RFNT-S_Syn_8_ALS_09_test_data_matrix_run1.png}
+        \caption{RFNTS: 0.3$T(0, N_f, N_f)$+0.7$N_f$}
+        \label{fig:overlap-rfnts}
+\end{subfigure}
+\caption{Comparison between RFNU, RFNTL and RFNTS on synthetic dataset with 8 types, $\alpha=0.9$.}
+\label{fig:overlap}
+\end{figure*}
 
 % Training ratio
 On datasets that are strongly dependent on row bias, such as the real 
@@ -749,11 +787,9 @@ datasets and parameters, it is time-dependent as the value of the
 variable of interest varies throughout the course of the pipeline 
 execution. 
 
-\todo{Discussion on points that are not part of constant lines.}
+\todo{Discussion on points that are not part of constant lines. Soudabeh: add an overlap matrix for FS, RFNU, ALS, at 0.5 or 0.6.}
 
-\todo{Show an overlap to see where the error is located.}
-
-\todo{Make sure the code is available and results are reproducible.}
+\todo{Make sure the code is available and results are reproducible. Soudabeh: push your code to reprotools. Tristan: release and check.}
 
 \section*{Acknowledgement}
 
