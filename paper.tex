@@ -708,8 +708,14 @@ files of the pipelines, while maintaining a low number of columns with
 a low training ratio. On the contrary, RFNTL 
 (Figure~\ref{fig:overlap-rfntl}) samples the number of files per 
 subject from 0.85$N_f$, but the probability to have a complete column 
-is 0 (the one complete column in Figure~\ref{fig:overlap-rfntl} is the one included
-to prevent cold start issues).
+is 0 (the one complete column in Figure~\ref{fig:overlap-rfntl} is the 
+one included to prevent cold start issues), which leads to a "stripe" 
+of errors at the bottom of the matrix. RFNTS 
+(Figure~\ref{fig:overlap-rfnts}) doesn't have this issue, as it 
+includes many complete columns in the training set, but this comes at 
+the cost of several columns with a very low number of files, lower than 
+60\%. For such columns, the prediction may go somewhat wrong, which explains
+the reduced accuracy compared to RFNU.
 
 \begin{figure*}
 \begin{subfigure}[b]{0.6\columnwidth}
