@@ -20,16 +20,7 @@ authors should be amended.
 
 # How to generate the pdf
 
-0. Install ```pdflatex```, ```inkscape```, ```gnuplot``` and ```bibtex```
-1. Generate the figures: ```./generate_figures.sh``` (requires ```inkscape``` and ```gnuplot```)
+0. Install ```pdflatex```, ```gnuplot``` and ```bibtex```
+1. Generate the figures: ```./plot_figures.sh``` (```gnuplot```)
 2. Compile the document: ```pdflatex paper ; pdflatex ``` (yes, twice).
 3. Generate the bibliography: ```bibtex paper ; pdflatex paper``` (yes, once again).
-
-# Figure sources
-
-* Add any external link here.
-
-# Latex installation
-
-* On Linux Fedora 24: ```dnf install texlive-bin texlive-bibtex-bin texlive-minted texlive-pdfcomment texlive-collection-fontsrecommended texlive-algorithmicx texlive-framed```. 
-

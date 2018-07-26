@@ -255,38 +255,39 @@ will then predict the reproducibility of the remaining files.
 
 \begin{figure}[h!]
         \centering
-        \begin{subfigure}[b]{0.4\linewidth}
+        \begin{subfigure}[b]{0.45\columnwidth}
                   \includegraphics[width=\columnwidth]{figures/5vs7_columns_04_training}
                   \caption{Complete Columns}
                   \label{fig:Columns-Sample-Training-set}
         \end{subfigure}
-        \begin{subfigure}[b]{0.4\linewidth}
+        \begin{subfigure}[b]{0.45\columnwidth}
                   \includegraphics[width=\columnwidth]{figures/5vs7_rows_04_training}
                   \caption{Complete Rows}
                   \label{fig:Rows-Sample-Training-set}
         \end{subfigure}
-        \begin{subfigure}[b]{0.4\linewidth}
+        \begin{subfigure}[b]{0.45\columnwidth}
                  \includegraphics[width=\columnwidth]{figures/5vs7_random-real_04_training}
                 \caption{Random Subjects (RS)}
                   \label{fig:Uniform-S-Sample-Training-set}
         \end{subfigure}
-        \begin{subfigure}[b]{0.4\linewidth}
+        \begin{subfigure}[b]{0.45\columnwidth}
                   \includegraphics[width=\columnwidth]{figures/5vs7_diagonal_04_training}
                   \caption{RFNU}
                   \label{fig:Diagonal-Sample-Training-set}
         \end{subfigure}
-        \begin{subfigure}[b]{0.4\linewidth}
+        \begin{subfigure}[b]{0.45\columnwidth}
                   \includegraphics[width=\columnwidth]{figures/5vs7_random-triangular-largest_04_training}
                   \caption{RFNTL}
                   \label{fig:triangular-L-Sample-Training-set}
         \end{subfigure}
-        \begin{subfigure}[b]{0.4\linewidth}
+        \begin{subfigure}[b]{0.45\columnwidth}
                   \includegraphics[width=\columnwidth]{figures/5vs7_random-triangular-smallest_04_training}
                   \caption{RFNTS}
                   \label{fig:triangular-S-Sample-Training-set}
         \end{subfigure}
-        \begin{subfigure}[b]{0.4\linewidth}
-        \includegraphics[width=\columnwidth]{figures/5vs7_random-unreal_04_training}
+        \begin{subfigure}[b]{\columnwidth}
+        \centering
+        \includegraphics[width=0.45\columnwidth]{figures/5vs7_random-unreal_04_training}
                   \caption{Random Unreal}
                   \label{fig:Random-Unreal-Sample-Training-set}
         \end{subfigure}
@@ -402,31 +403,31 @@ reproducibility errors depending on the subject type.
 
 \begin{figure}
 \centering
-        %\begin{subfigure}[b]{0.4\linewidth}
+        %\begin{subfigure}[b]{\columnwidth}
                   %\includegraphics[width=\columnwidth]{data/Utility_Matrix/Synthetic/synthetic_subject_types/1_SubjectType_utility_matrix.png}
                   %\caption{1 type}
         %\end{subfigure}
-        \begin{subfigure}[b]{0.4\linewidth}
+        \begin{subfigure}[b]{0.45\columnwidth}
                   \includegraphics[width=\columnwidth]{data/Utility_Matrix/Synthetic/synthetic_subject_types/2_SubjectType_utility_matrix.png}
                   \caption{2 types}
         \end{subfigure}
-        \begin{subfigure}[b]{0.4\linewidth}
+        \begin{subfigure}[b]{0.45\columnwidth}
                   \includegraphics[width=\columnwidth]{data/Utility_Matrix/Synthetic/synthetic_subject_types/4_SubjectType_utility_matrix.png}
                   \caption{4 types}
         \end{subfigure}
-                \begin{subfigure}[b]{0.4\linewidth}
+                \begin{subfigure}[b]{0.45\columnwidth}
                   \includegraphics[width=\columnwidth]{data/Utility_Matrix/Synthetic/synthetic_subject_types/8_SubjectType_utility_matrix.png}
                   \caption{8 types}
         \end{subfigure}
-                \begin{subfigure}[b]{0.4\linewidth}
+                \begin{subfigure}[b]{0.45\columnwidth}
                   \includegraphics[width=\columnwidth]{data/Utility_Matrix/Synthetic/synthetic_subject_types/16_SubjectType_utility_matrix.png}
                   \caption{16 types}
         \end{subfigure}
-                \begin{subfigure}[b]{0.4\linewidth}
+                \begin{subfigure}[b]{0.45\columnwidth}
                   \includegraphics[width=\columnwidth]{data/Utility_Matrix/Synthetic/synthetic_subject_types/32_SubjectType_utility_matrix.png}
                   \caption{32 types}
         \end{subfigure}
-                \begin{subfigure}[b]{0.4\linewidth}
+                \begin{subfigure}[b]{0.45\columnwidth}
                   \includegraphics[width=\columnwidth]{data/Utility_Matrix/Synthetic/synthetic_subject_types/64_SubjectType_utility_matrix.png}
                   \caption{64 types}
         \end{subfigure}
@@ -440,7 +441,7 @@ We collected data to evaluate the computational reproducibility of analysis
 pipelines of the Human Connectome Project~\cite{glasser2013minimal}. We
 processed a set S of 94 subjects randomly selected in the S500 HCP
 release\footnote{\url{https://db.humanconnectome.org}} in three execution conditions with different
-versions of the CentOS operating system (5.\todo{?}, 6.8 and 7.2), using the
+versions of the CentOS operating system (5.11, 6.8 and 7.2), using the
 PreFreesurfer and Freesurfer pipelines described 
 in~\cite{glasser2013minimal} and available on 
 GitHub\footnote{\url{https://github.com/Washington-University/Pipelines/releases/tag/v3.19.0}}. 
@@ -462,21 +463,21 @@ lines.
 
 \begin{figure}[h!]
   \centering
-  \begin{subfigure}[b]{0.45\linewidth}
+  \begin{subfigure}[b]{0.45\columnwidth}
         \includegraphics[width=\columnwidth]{data/Utility_Matrix/PreFreeSurfer/PFS_5v6_utility_matrix.png}
   \caption{PFS, C5 vs C6}
   \end{subfigure}
-  \begin{subfigure}[b]{0.45\linewidth}
+  \begin{subfigure}[b]{0.45\columnwidth}
          \includegraphics[width=\columnwidth]{data/Utility_Matrix/PreFreeSurfer/PFS_5v7_utility_matrix.png}
   \caption{PFS, C5 vs C7}
   \end{subfigure}
-  \begin{subfigure}[b]{0.45\linewidth}
+  \begin{subfigure}[b]{0.45\columnwidth}
         \includegraphics[width=\columnwidth]{data/Utility_Matrix/PreFreeSurfer/PFS_6v7_utility_matrix.png}
   \caption{PFS, C6 vs C7}
   \end{subfigure}
-  \begin{subfigure}[b]{0.45\linewidth}
+  \begin{subfigure}[b]{0.45\columnwidth}
         \includegraphics[width=\columnwidth]{data/Utility_Matrix/FS-100files/FS-First-bound-100files.png}
-  \caption{FS (first 100 files), C6 vs C7}
+  \caption{FS (100 files), C6 vs C7}
   \end{subfigure}
   \caption{Utility matrices, PreFreesurfer (PFS) and Freesurfer (FS) pipelines}
     \label{fig:utility-matrices}
@@ -519,7 +520,7 @@ negative constraints set to true.
 
 Accuracy results for the different numbers of subject types are 
 reported in Figure~\ref{fig:results-synthetic}. By construction, the 
-accuracy of the dummy classifier is close to 0.5 for all subject types. Random 
+accuracy of the dummy classifier is close to 0.5 for all subject types \todo{Why such variations?}. Random 
 Unreal performs very well for all subject types, which confirms that 
 ALS is working correctly. Unsurprisingly, all the other methods perform 
 better than the dummy classifier, and their accuracy decreases as the 
@@ -530,36 +531,36 @@ for all subject types: Random Subjects (RS), RFNU and RFNTL. This is
 due to the fact that these methods are the only ones that can sample 
 files produced toward the end of the execution while maintaining a 
 reduced number of empty columns. Surprisingly, RFNTS does not perform 
-well for more than 2 subject types \todo{Check that.}.
+well for more than 2 subject types, even for a training ratio of 0.9. \todo{Check that.}
 
 RS, RFNU and RFNTL achieve a 90\% accuracy for a training ratio of 
 about 0.85. Therefore, 15\% of the computations could potentially be 
 saved in such reproducibility studies.
 
 \begin{figure*}
-\begin{subfigure}[b]{0.4\linewidth}
-        \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-2-types.pdf}
+\begin{subfigure}[b]{\columnwidth}
+        \includegraphics[width=0.8\columnwidth]{data/results/means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-2-types.pdf}
         \caption{2 subject types}
 \end{subfigure}
-\begin{subfigure}[b]{0.4\linewidth}
-        \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-4-types.pdf}
+\begin{subfigure}[b]{\columnwidth}
+        \includegraphics[width=0.8\columnwidth]{data/results/means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-4-types.pdf}
         \caption{4 subject types}
 \end{subfigure}
-\begin{subfigure}[b]{0.4\linewidth}
-        \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-8-types.pdf}
+\begin{subfigure}[b]{\columnwidth}
+        \includegraphics[width=0.8\columnwidth]{data/results/means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-8-types.pdf}
         \caption{8 subject types}
 \end{subfigure}
-\begin{subfigure}[b]{0.4\linewidth}
-        \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-16-types.pdf}
+\begin{subfigure}[b]{\columnwidth}
+        \includegraphics[width=0.8\columnwidth]{data/results/means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-16-types.pdf}
         \caption{16 subject types}
 \end{subfigure}
-\begin{subfigure}[b]{0.4\linewidth}
-        \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-32-types.pdf}
+\begin{subfigure}[b]{\columnwidth}
+        \includegraphics[width=0.8\columnwidth]{data/results/means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-32-types.pdf}
         \caption{32 subject types}
 \end{subfigure}
 \hfill
-\begin{subfigure}[b]{0.4\linewidth}
-        \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-64-types.pdf}
+\begin{subfigure}[b]{\columnwidth}
+        \includegraphics[width=0.8\columnwidth]{data/results/means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-64-types.pdf}
         \caption{64 subject types}
 \end{subfigure}
 \caption{Accuracy results on synthetic data, ALS \emph{without} bias.}
@@ -577,29 +578,29 @@ In such a situation, biases are detrimental to the accuracy of the
 collaborative filtering process and shouldn't be included.
 
 \begin{figure*}
-\begin{subfigure}[b]{0.4\linewidth}
-        \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS-Bias/Synthetic/synthetic_subject_types/ALS-Bias-2-types.pdf}
+\begin{subfigure}[b]{\columnwidth}
+        \includegraphics[width=0.8\columnwidth]{data/results/means_of_results/ALS-Bias/Synthetic/synthetic_subject_types/ALS-Bias-2-types.pdf}
         \caption{2 subject types}
 \end{subfigure}
-\begin{subfigure}[b]{0.4\linewidth}
-        \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS-Bias/Synthetic/synthetic_subject_types/ALS-Bias-4-types.pdf}
+\begin{subfigure}[b]{\columnwidth}
+        \includegraphics[width=0.8\columnwidth]{data/results/means_of_results/ALS-Bias/Synthetic/synthetic_subject_types/ALS-Bias-4-types.pdf}
         \caption{4 subject types}
 \end{subfigure}
-\begin{subfigure}[b]{0.4\linewidth}
-        \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS-Bias/Synthetic/synthetic_subject_types/ALS-Bias-8-types.pdf}
+\begin{subfigure}[b]{\columnwidth}
+        \includegraphics[width=0.8\columnwidth]{data/results/means_of_results/ALS-Bias/Synthetic/synthetic_subject_types/ALS-Bias-8-types.pdf}
         \caption{8 subject types}
 \end{subfigure}
-\begin{subfigure}[b]{0.4\linewidth}
-        \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS-Bias/Synthetic/synthetic_subject_types/ALS-Bias-16-types.pdf}
+\begin{subfigure}[b]{\columnwidth}
+        \includegraphics[width=0.8\columnwidth]{data/results/means_of_results/ALS-Bias/Synthetic/synthetic_subject_types/ALS-Bias-16-types.pdf}
         \caption{16 subject types}
 \end{subfigure}
-\begin{subfigure}[b]{0.4\linewidth}
-        \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS-Bias/Synthetic/synthetic_subject_types/ALS-Bias-32-types.pdf}
+\begin{subfigure}[b]{\columnwidth}
+        \includegraphics[width=0.8\columnwidth]{data/results/means_of_results/ALS-Bias/Synthetic/synthetic_subject_types/ALS-Bias-32-types.pdf}
         \caption{32 subject types}
 \end{subfigure}
 \hfill
-\begin{subfigure}[b]{0.4\linewidth}
-        \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS-Bias/Synthetic/synthetic_subject_types/ALS-Bias-64-types.pdf}
+\begin{subfigure}[b]{\columnwidth}
+        \includegraphics[width=0.8\columnwidth]{data/results/means_of_results/ALS-Bias/Synthetic/synthetic_subject_types/ALS-Bias-64-types.pdf}
         \caption{64 subject types}
 \end{subfigure}
 \caption{Accuracy results on synthetic data, ALS \emph{with} bias.}
@@ -612,28 +613,30 @@ collaborative filtering process and shouldn't be included.
 
 Results for ALS without bias are reported in 
 Figure~\ref{fig:results-real-als}. Among the methods that performed 
-well in the synthetic dataset, RFNU performs the best, with an accuracy
-higher than 0.95 \todo{check value} for all datasets, when the training ratio is larger than 0.5. RS and RFNTL
-are slightly underperforming compared to RFNU.
-Complete rows and complete columns do not even reach the accuracy of the 
-dummy classifier. The reference method, Random Unreal, has an accuracy close
-to 1, which shows that collaborative filtering works well on this dataset too.
+well in the synthetic dataset, RFNU performs the best, with an accuracy 
+higher than 0.95 for all datasets, when the training ratio is larger 
+than 0.5. RS and RFNTL are slightly underperforming compared to RFNU. 
+Complete rows and complete columns do not even reach the accuracy of 
+the dummy classifier. The reference method, Random Unreal, has an 
+accuracy close to 1, which shows that collaborative filtering works 
+well on this dataset too.
+\todo{why is the performance of columns so variable?}
 
 \begin{figure*}
-\begin{subfigure}[b]{0.4\linewidth}
-        \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS/PreFreeSurfer/ALS-PFS-5v6.pdf}
+\begin{subfigure}[b]{\columnwidth}
+        \includegraphics[width=0.8\columnwidth]{data/results/means_of_results/ALS/PreFreeSurfer/ALS-PFS-5v6.pdf}
         \caption{PFS, CentOS5 vs CentOS6}
 \end{subfigure}
-\begin{subfigure}[b]{0.4\linewidth}
-        \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS/PreFreeSurfer/ALS-PFS-5v7.pdf}
+\begin{subfigure}[b]{\columnwidth}
+        \includegraphics[width=0.8\columnwidth]{data/results/means_of_results/ALS/PreFreeSurfer/ALS-PFS-5v7.pdf}
         \caption{PFS, CentOS5 vs CentOS7}
 \end{subfigure}
-\begin{subfigure}[b]{0.4\linewidth}
-        \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS/PreFreeSurfer/ALS-PFS-6v7.pdf}
+\begin{subfigure}[b]{\columnwidth}
+        \includegraphics[width=0.8\columnwidth]{data/results/means_of_results/ALS/PreFreeSurfer/ALS-PFS-6v7.pdf}
         \caption{PFS, CentOS6 vs CentOS7}
 \end{subfigure}\hfill
-\begin{subfigure}[b]{0.4\linewidth}
-        \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS/FS-100files/ALS-FS100files.pdf}
+\begin{subfigure}[b]{\columnwidth}
+        \includegraphics[width=0.8\columnwidth]{data/results/means_of_results/ALS/FS-100files/ALS-FS100files.pdf}
         \caption{FS, CentOS6 vs CentOS7}
 \end{subfigure}
 \caption{Accuracy results on PreFresurfer (PFS) and Freesurfer (FS) data, ALS \emph{without} bias.}
@@ -653,21 +656,21 @@ illustrated by the large number of constant lines in the matrices in
 Figure~\ref{fig:utility-matrices}.
 
 \begin{figure*}
-\begin{subfigure}[b]{0.4\linewidth}
-        \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS-Bias/PreFreeSurfer/ALS-Bias-PFS-5v6.pdf}
+\begin{subfigure}[b]{\columnwidth}
+        \includegraphics[width=0.8\columnwidth]{data/results/means_of_results/ALS-Bias/PreFreeSurfer/ALS-Bias-PFS-5v6.pdf}
         \caption{PFS, CentOS5 vs CentOS6}
 \end{subfigure}
-\begin{subfigure}[b]{0.4\linewidth}
-        \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS-Bias/PreFreeSurfer/ALS-Bias-PFS-5v7.pdf}
+\begin{subfigure}[b]{\columnwidth}
+        \includegraphics[width=0.8\columnwidth]{data/results/means_of_results/ALS-Bias/PreFreeSurfer/ALS-Bias-PFS-5v7.pdf}
         \caption{PFS, CentOS5 vs CentOS7}
         \label{fig:pfs-c5vsc7-bias}
 \end{subfigure}
-\begin{subfigure}[b]{0.4\linewidth}
-        \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS-Bias/PreFreeSurfer/ALS-Bias-PFS-6v7.pdf}
+\begin{subfigure}[b]{\columnwidth}
+        \includegraphics[width=0.8\columnwidth]{data/results/means_of_results/ALS-Bias/PreFreeSurfer/ALS-Bias-PFS-6v7.pdf}
         \caption{PFS, CentOS6 vs CentOS7}
 \end{subfigure}\hfill
-\begin{subfigure}[b]{0.4\linewidth}
-        \includegraphics[width=0.8\columnwidth, angle=-90]{data/results/means_of_results/ALS-Bias/FS-100files/ALS-Bias-FS100files.pdf}
+\begin{subfigure}[b]{\columnwidth}
+        \includegraphics[width=0.8\columnwidth]{data/results/means_of_results/ALS-Bias/FS-100files/ALS-Bias-FS100files.pdf}
         \caption{FS, CentOS6 vs CentOS7}
 \end{subfigure}
 \caption{Accuracy results on PreFresurfer (PFS) and Freesurfer (FS) data, ALS \emph{with} bias.}

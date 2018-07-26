@@ -1,4 +1,4 @@
-set terminal postscript color
+set terminal pdf
 
 set datafile separator ';'
 set ylabel "Accuracy"
@@ -7,7 +7,7 @@ set xlabel "Training ratio"
 set key above
 
 do for [t in "5v6 5v7 6v7"]{
-    set output sprintf("ALS-Bias-PFS-%s.ps", t)
+    set output sprintf("ALS-Bias-PFS-%s.pdf", t)
     plot [][0:1] sprintf('ALS-Bias-PFS-%s-columns-average.txt', t) using 1:2 with lp  ps 0.8 lw 3 title "Complete Columns",\
          sprintf('ALS-Bias-PFS-%s-rows-average.txt', t) using 1:2 with lp  ps 0.8 lw 3 title "Complete Rows",\
          sprintf('ALS-Bias-PFS-%s-RS-average.txt', t) using 1:2 with lp  ps 0.8 lw 3 title "Random Subjects (RS)",\

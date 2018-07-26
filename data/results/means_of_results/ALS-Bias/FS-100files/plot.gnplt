@@ -1,4 +1,4 @@
-set terminal postscript color
+set terminal pdf
 
 set datafile separator ';'
 set ylabel "Accuracy"
@@ -6,7 +6,7 @@ set xlabel "Training ratio"
 
 set key above
 
-set output "ALS-Bias-FS100files.ps"
+set output "ALS-Bias-FS100files.pdf"
 plot [][0:1] 'ALS-Bias-FS100files-columns-average.txt' using 1:2 with lp  ps 0.8 lw 3 title "Complete Columns",\
          'ALS-Bias-FS100files-rows-average.txt' using 1:2 with lp  ps 0.8 lw 3 title "Complete Rows",\
          'ALS-Bias-FS100files-RS-average.txt' using 1:2 with lp  ps 0.8 lw 3 title "Random Subjects (RS)",\
