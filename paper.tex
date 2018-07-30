@@ -793,6 +793,19 @@ present in the dataset. \todo{maybe find a relation between the
 required training ratio and the number of subjects per subject type in 
 the entire dataset}
 
+Figure~\ref{fig:error-locality} shows the results obtained by RFNU on 
+the Freesurfer dataset for a training ratio of 0.6. The prediction 
+error is localized (1) at the bottom of the matrix, which corresponds 
+to the end of the execution, and (2) in the regions where file 
+reproducibility varies across subjects, i.e., lines are not entirely 
+black or entirely white.
+\begin{figure}
+\includegraphics[width=0.6\columnwidth]{figures/RFNU_FS100F_ALS_06_test_data_matrix_run1.png}
+\caption{Prediction results for RFNU on the Freesurfer dataset, $\alpha=0.6$.}
+\label{fig:error-locality}
+\end{figure}
+
+
 In any case, we recommend not to include biases in the collaborative filtering 
 optimization to solve this problem. Even though biases provide a slight 
 accuracy improvement when datasets are strongly biased (constant lines 
@@ -835,9 +848,10 @@ datasets and parameters, it is time-dependent as the value of the
 variable of interest varies throughout the course of the pipeline 
 execution. 
 
-\todo{Discussion on points that are not part of constant lines. Soudabeh: add an overlap matrix for FS, RFNU, ALS, at 0.5 or 0.6.}
+The code and data used in this paper are available at 
+\url{https://github.com/big-data-lab-team/paper-reproducibility-collaborative-filtering}.
 
-\todo{Make sure the code is available and results are reproducible. Soudabeh: push your code to reprotools. Tristan: release and check.}
+\todo{Soudabeh: push your code to reprotools. Tristan: release and check.}
 
 \section*{Acknowledgement}
 
