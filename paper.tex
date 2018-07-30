@@ -123,8 +123,9 @@ proposed sampling strategies for the training set are presented in
 Section~\ref{sec:methods}. The datasets are described in 
 Section~\ref{sec:datasets}, and experimental results are reported in 
 Section~\ref{sec:results}.
-The paper ends with a discussion about the impact, limitations and 
-generalizability of our results.
+We finally conclude on the best sampling method to use, and the 
+potential impacts of the results, and on their limitations and 
+generalizability.
 
 \section{Method}
 \label{sec:methods}
@@ -526,11 +527,11 @@ for all subject types: Random Subjects (RS), RFNU and RFNTL. This is
 due to the fact that these methods are the only ones that can sample 
 files produced toward the end of the execution while maintaining a 
 reduced number of empty columns. Surprisingly, RFNTS does not perform 
-well for more than 2 subject types, even for a training ratio of 0.9. \todo{Check that.}
+well for more than 2 subject types, even for a training ratio of 0.9.
 
-RS, RFNU and RFNTL achieve a 90\% accuracy for a training ratio of 
-about 0.85 \todo{precise that}. Therefore, 15\% of the computations could potentially be 
-saved in such reproducibility studies.
+Up to 32 subject types, RFNU achieves a 90\% accuracy for a training 
+ratio of about 0.85. Therefore, 15\% of the computations could 
+potentially be saved in such reproducibility studies.
 
 \begin{figure*}
 \begin{subfigure}[b]{\columnwidth}
@@ -711,28 +712,13 @@ Random Unreal & 1 & 1
 Figure~\ref{fig:factors} shows the effect of the number of factors used 
 in ALS, for the RFNU method and the synthetic dataset. We do not find a 
 clear effect of the number of factors on the accuracy.
-
-\begin{figure}
+\begin{figure}[h]
 \includegraphics[width=\columnwidth]{data/results/means_of_results/ALS/Synthetic/8type-RFNU-Differ-Num-Factors/ALS-8-types-ranks.pdf}
 \caption{Effect of the number of factors used in ALS, RFNU method, synthetic dataset.}
 \label{fig:factors}
 \end{figure}
 
-\section{Discussion}
-
-% Which method is the best
-While collaborative filtering, perhaps unsurprisingly, is able to 
-correctly predict the missing values in a matrix modeling the 
-reproducibility problem, the usual random sampling method cannot be 
-used in time-constrained processes. We proposed 6 sampling methods to 
-address this issue, and we found that one of them, RFNU, \todo{check 
-that} is consistently able to solve the problem. We explain that by 
-the fact that RFNU leads the training set to contain a balanced mix 
-between nearly complete and nearly empty columns, with a continuum of 
-intermediate configurations in between. On the contrary, other sampling 
-methods, including RFNTL and RFNTS, bias the sampling toward complete 
-or empty columns, which is sometimes detrimental to accuracy.
-
+\subsection{Error localization}
 Figure~\ref{fig:overlap} illustrates the comparison between RFNU, RFNTL 
 and RFNTS. The matrices in this Figure represent the union between the 
 training and the test set, where the training set is represented in 
@@ -742,18 +728,18 @@ represented in green (true positives), yellow (false negatives), gray
 provides insights regarding where, and perhaps why, prediction errors 
 occur. At this training ratio, RFNU (Figure~\ref{fig:overlap-rfnu}) 
 uniformly samples the number of files per subject between 0.8$N_f$ and 
-$N_f$. It provides an opportunity for ALS to be trained on the last 
-files of the pipelines, while maintaining a low number of columns with 
+$N_f$, which enables the training on the last 
+files of the pipeline, while maintaining a low number of columns with 
 a low training ratio. On the contrary, RFNTL 
 (Figure~\ref{fig:overlap-rfntl}) samples the number of files per 
 subject from 0.85$N_f$, but the probability to have a complete column 
 is 0 (the one complete column in Figure~\ref{fig:overlap-rfntl} is the 
-one included to prevent cold start issues), which leads to a "stripe" 
+one included to prevent cold start issues), which leads to a ``stripe" 
 of errors at the bottom of the matrix. RFNTS 
 (Figure~\ref{fig:overlap-rfnts}) doesn't have this issue, as it 
-includes many complete columns in the training set, but this comes at 
-the cost of several columns with a very low number of files, lower than 
-60\%. For such columns, the prediction may go somewhat wrong, which explains
+includes many complete columns in the training set. However, it comes at 
+the cost of several columns with a number of files lower than 
+60\%: in such columns, the prediction is often entirely wrong, which explains
 the reduced accuracy compared to RFNU.
 
 \begin{figure*}
@@ -778,18 +764,6 @@ the reduced accuracy compared to RFNU.
 \label{fig:overlap}
 \end{figure*}
 
-% Training ratio
-On datasets that are strongly dependent on row bias, such as the real 
-datasets studied here, RFNU provides accuracy values that are 
-consistently higher than 0.95 for training ratios higher than 0.5, even 
-when biases are not included in the collaborative filtering 
-optimization. On the synthetic dataset, RFNU still performs very well 
-when biases are not included. However, the training ratio required to 
-reach a 0.95 accuracy increases with the number of subject types 
-present in the dataset. \todo{maybe find a relation between the 
-required training ratio and the number of subjects per subject type in 
-the entire dataset}
-
 Figure~\ref{fig:error-locality} shows the results obtained by RFNU on 
 the Freesurfer dataset for a training ratio of 0.6. The prediction 
 error is localized (1) at the bottom of the matrix, which corresponds 
@@ -802,24 +776,50 @@ black or entirely white.
 \label{fig:error-locality}
 \end{figure}
 
+\section{Conclusion}
 
-In any case, we recommend not to include biases in the collaborative filtering 
+% Which method is the best
+While collaborative filtering, perhaps unsurprisingly, is able to 
+correctly predict the missing values in a matrix modeling the 
+reproducibility problem, the usual random sampling method cannot be 
+used in time-constrained processes. We proposed 6 sampling methods to 
+address this issue, and we found that one of them, RFNU, performs 
+better than the other ones on average. We 
+explain that by the fact that RFNU builds the training set using a 
+balanced mix of nearly complete and nearly empty columns, with a 
+continuum of 
+intermediate configurations. On the contrary, other sampling 
+methods, including RFNTL and RFNTS, bias the sampling toward complete 
+or empty columns, which is sometimes detrimental to accuracy.
+
+For datasets that are strongly dependent on row bias, such as the 
+PreFreesurfer and Freesurfer datasets studied here, RFNU provides 
+accuracy values that are consistently higher than 0.95 for training 
+ratios higher than 0.5, even 
+when biases are not included in the collaborative filtering 
+optimization. For the synthetic dataset, RFNU still performs very well 
+when biases are not included, but it does very poorly when biases are included.
+For this reason, we recommend not to include biases in the collaborative filtering 
 optimization to solve this problem. Even though biases provide a slight 
 accuracy improvement when datasets are strongly biased (constant lines 
 in the matrix), they can also be very detrimental for more complex 
 datasets such as the synthetic one used here.
 
-% How can this be used in practice
 From a practical standpoint, our study shows that reproducibility 
-evaluations can be conducted using only 50\% of the files produced by 
-the evaluated pipelines, with an accuracy above 95\%. Potentially, this 
-could reduce the computing time and storage required for such studies 
-by a factor of 2. However, such studies could not be conducted by 
-processing only half of the subjects entirely, which would correspond 
-to the Complete Columns sampling method. Instead, the processing of all 
-the subjects should be initiated, and it should be terminated in a random
-uniform way, assuming that files are uniformly produced throughout the 
-execution.
+evaluations of the PreFreesurfer and Freesurfer pipelines can be 
+conducted using only 50\% of the files produced by the evaluated 
+pipelines, with an accuracy above 95\%. Potentially, this could reduce 
+the computing time and storage required for such studies by a factor of 
+2. However, such studies could not be conducted by processing only half 
+of the subjects entirely, which would correspond to the Complete 
+Columns sampling method. Instead, the processing of all the subjects 
+should be initiated, and it should be terminated in a random uniform 
+way, assuming that files are uniformly produced throughout the 
+execution. On more complex matrices, such as the synthetic dataset 
+studied here, the training ratio required to get a 95\% accuracy 
+increases to 0.85 to 0.9.
+
+
 
 % What are the limitations
 Our study could be extended by considering real-valued reproducibility 
@@ -832,18 +832,18 @@ conclusions regarding the best-performing sampling method (RFNU) and
 the inclusion of biases in the model to remain valid.
 
 % Other possible examples
-The method described in this paper and applied to reproducibility 
-studies could be used to predict the other variables controlled by 
-hidden, deterministic, hidden, parameterized, time-dependent processes, 
-for instance markers of chronicle disease activity. In the 
-reproducibility example studied in this paper, the variable of interest 
-is the reproducibility of files produced by the processing of a given 
-subjects, the process is the evaluated pipeline, it is hidden since we 
-consider the pipeline as a black box (we don't inspect its source 
-code), it is parametrized as it behaves differently on different input 
-datasets and parameters, it is time-dependent as the value of the 
-variable of interest varies throughout the course of the pipeline 
-execution. 
+The variable of interest in our study was the reproducibility of files 
+produced by the processing of a given subject, and it was controlled by 
+a process, the evaluated pipeline. This process was hidden, since we 
+considered the pipeline as a black box (we did not inspect its source 
+code), it was deterministic, since it was implemented as a program, it 
+was parametrized, as it behaved differently on different input datasets 
+and parameters, and it was time-dependent, as the value of the 
+variable of interest varied throughout the course of the pipeline 
+execution. The method described in this paper could possibly be used to 
+predict other variables controlled by such hidden, deterministic, 
+parametrized, and time-dependent processes, for instance markers of 
+chronic disease activity.
 
 The code and data used in this paper are available at 
 \url{https://github.com/big-data-lab-team/paper-reproducibility-collaborative-filtering}.
