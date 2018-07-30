@@ -123,8 +123,9 @@ proposed sampling strategies for the training set are presented in
 Section~\ref{sec:methods}. The datasets are described in 
 Section~\ref{sec:datasets}, and experimental results are reported in 
 Section~\ref{sec:results}.
-The paper ends with a discussion about the impact, limitations and 
-generalizability of our results.
+We finally conclude on the best sampling method to use, and the 
+potential impacts of the results, and on their limitations and 
+generalizability.
 
 \section{Method}
 \label{sec:methods}
@@ -232,7 +233,7 @@ the training and test sets have to comply to Equation~\ref{eq:time}. To
 address this issue, we investigated the following sampling techniques, illustrated in
 Figure~\ref{fig:sampling}. 
 
-\paragraph{Complete Columns 
+\subsubsection{Complete Columns 
 (Figure~\ref{fig:Columns-Sample-Training-set})} The training set is 
 sampled by randomly selecting complete columns in the utility matrix, 
 that is, complete subject executions. The last selected column might be 
@@ -241,7 +242,7 @@ time constraints. It corresponds to a situation where the collaborative
 filtering method will predict the reproducibility of the subjects in 
 the test set from the subjects in the training set. 
 
-\paragraph{Complete Rows (Figure~\ref{fig:Rows-Sample-Training-set})} 
+\subsubsection{Complete Rows (Figure~\ref{fig:Rows-Sample-Training-set})} 
 The training set is sampled by selecting complete rows in the utility 
 matrix, that is, the first files produced by every execution. The last 
 selected row might be incomplete to meet the exact training ratio. This 
@@ -292,7 +293,7 @@ will then predict the reproducibility of the remaining files.
         \label{fig:sampling}
 \end{figure}
 
-\paragraph{Random Subjects -- RS 
+\subsubsection{Random Subjects -- RS 
 (Figure~\ref{fig:Uniform-S-Sample-Training-set})} This method builds 
 the training set by selecting the files from random subjects until the 
 training ratio is reached. The file selected in a subject is the file 
@@ -300,7 +301,7 @@ with the lowest index in this subject that has not been already
 selected in the training set. This respects the time constraints as files are 
 sampled according to their production time-stamps.
 
-\paragraph{Random File Numbers (Uniform) -- RFNU (Figure~\ref{fig:Diagonal-Sample-Training-set})}
+\subsubsection{Random File Numbers (Uniform) -- RFNU (Figure~\ref{fig:Diagonal-Sample-Training-set})}
 The number of files selected for every subject is randomly selected in
 a uniform distribution $U(\textit{a},\textit{b})$, where \textit{b} is set to the total
 number of files $N_{f}$ and \textit{a} is set according to training ratio $\alpha$ as follows:
@@ -318,40 +319,49 @@ number of files $N_{f}$ and \textit{a} is set according to training ratio $\alph
  0.5$, this is ensured by the value used for $a$, which leads the 
  average of U(a, b) to be $\alpha N_f$.
 
-\paragraph{Random File Numbers (Triangular) -- RFNT}
+\subsubsection{Random File Numbers (Triangular) -- RFNT}
 The number of files selected for every subject is randomly selected in
 a triangular distribution $T(a, b, c)$ as in Figure~\ref{fig:triangular}. The mean of the distribution is 
 $\frac{a+b+c}{3}$. We set \textit{c} to $N_{f}$ and we set 
-\textit{a} and \textit{b} with two approaches that ensure that the 
-average of the distribution is $\alpha N_{f}$: \todo{clarify this part}
-\begin{enumerate}
-        \item Largest a (RFNTL, Figure~\ref{fig:triangular-L-Sample-Training-set}): a is set to the 
-        largest possible value, i.e., b. The average of the 
-        distribution is $\frac{2a+N_{f}}{3}$, therefore 
-        $a=\frac{3\alpha-1}{2}N_{f}$. When $\alpha \leq 1/3$, the 
-        number of files in every subject is sampled from $T(0, 0, N_f)$ 
-        with probability $3\alpha$ and set to 0 otherwise, to ensure 
-        that the average number of files by subject in the training set 
-        is $\alpha N_f$.
-        \item Smallest a (RFNTS, Figure~\ref{fig:triangular-S-Sample-Training-set}): a is 
-        set to the smallest possible value, i.e., 0. The average of the 
-        distribution is $\frac{b+N_{f}}{3}$, therefore 
-        $b=N_{f}(3\alpha-1)$. This implies that $\alpha \geq 1/3$, so 
-        that $b \geq 0$, and $\alpha \leq 2/3$, so that $b \leq N_f$. 
-        When $\alpha < 1/3$, we set $b=0$ and the number of files 
-        selected in every subject is sampled from $T(0, 0, N_f)$ with 
-        probability $3\alpha$ and set to 0 otherwise, as in RFNTL. 
-        When $\alpha \geq 2/3$, we set $b=N_f$ and the number of files 
-        selected in every subject is sampled from $T(0, N_f, N_f)$ with 
-        probability $3(1-\alpha)$ and set to $N_f$ otherwise, still to 
-        ensure that the average number of files by subject in the training set is 
-        $\alpha N_f$.
-\end{enumerate}
+\textit{a} and \textit{b} with the following two approaches.
+
+\paragraph{Largest a (RFNTL, 
+Figure~\ref{fig:triangular-L-Sample-Training-set})} a is set to the 
+largest possible value, i.e., b, and b is set accordingly to ensure 
+that the average of the distribution is $\alpha N_{f}$. Two cases occur:
+\begin{itemize}
+\item When $\alpha > 1/3$:
+\[ \textit{a}=\textit{b}=\frac{3\alpha-1}{2}N_{f}
+\]
+\item When $\alpha \leq 1/3$: $a=b=0$, the number of files selected 
+in every subject is sampled from $T(0, 0, N_f)$ with probability 
+$3\alpha$ and set to 0 otherwise.
+\end{itemize}
+
+\paragraph{Smallest a (RFNTS, 
+Figure~\ref{fig:triangular-S-Sample-Training-set})} a is set to the 
+smallest possible value, i.e., 0, and b is set accordingly to ensure that the average of the
+distribution is $\alpha N_{f}$. Three cases occur:
+\begin{itemize}
+\item When $\alpha < 1/3$: $a=b=0$, the number of files 
+selected in every subject is sampled from $T(0, 0, N_f)$ with 
+probability $3\alpha$ and set to 0 otherwise.
+\item When $1/3 \leq \alpha \leq 2/3$:
+\[
+          \textit{a} = 0   \quad ; \quad
+          \textit{b}=N_{f}(3\alpha-1)
+\]
+\item When $\alpha \geq 2/3$: $b=N_f$, the number of files selected in 
+every subject is sampled from $T(0, N_f, N_f)$ with probability 
+$3(1-\alpha)$ 
+and set to $N_f$ otherwise.
+\end{itemize}
+
 As illustrated in Figures~\ref{fig:triangular-L-Sample-Training-set} 
 and~\ref{fig:triangular-S-Sample-Training-set}, the motivation for the 
 RFNTL method is to guarantee that, for large enough values of 
 $\alpha$, all subjects will have at least a few files in the training 
-set, which is not the case for RFNU or RFNTS.
+set (no empty column), which is not the case for RFNU or RFNTS.
 \begin{figure}
 \centering
 \includegraphics[width=0.5\columnwidth]{figures/triangular.pdf}
@@ -359,7 +369,7 @@ set, which is not the case for RFNU or RFNTS.
 \label{fig:triangular}
 \end{figure}
 
-\paragraph{Random Unreal (Figure 
+\subsubsection{Random Unreal (Figure 
 ~\ref{fig:Random-Unreal-Sample-Training-set})} The training set is 
 sampled in a random uniform way, regardless of the file generation 
 times. This method does not respect the time constraints in 
@@ -482,13 +492,14 @@ lines.
 
 \label{sec:results}
 
-Two experiments have been conducted for each reproducibility matrix, to evaluate the performance of our 
-predictions using (1) ALS without biases, and (2) ALS with biases. 
-Results will be evaluated using classification accuracy and compared to (1) a dummy classifier that always 
-predicts the value in the majority class and (2) the Random Unreal 
-method, used as the baseline sampling technique. All reported values are averages
-over 5 repetitions. Due to sampling issues, it is possible that the actual 
-training ratio obtained with some of the sampling methods does not 
+We conducted two experiments for each reproducibility matrix, to evaluate the performance of our 
+predictions using (1) ALS without biases, and (2) ALS with biases. We 
+compare the performance of our sampling methods to (1) a dummy 
+classifier that always predicts the value in the majority class and (2) 
+the Random Unreal method, used as the baseline sampling technique. All 
+reported values are averages over 5 repetitions. Due to sampling 
+issues, it is possible that the actual training ratio obtained with 
+some of the sampling methods does not 
 match the target one. We checked that the difference between the target 
 and real training ratios was lower than 0.01. We used Spark's ALS model 
 as available in package \texttt{pyspark.ml}, with 50 factors, a 
@@ -512,12 +523,11 @@ negative constraints set to true.
 \subsection{Synthetic Data}
 
 \subsubsection{ALS without Bias}
-
-Accuracy results for the different numbers of subject types are 
-reported in Figure~\ref{fig:results-synthetic}. By construction, the 
-accuracy of the dummy classifier is close to 0.5 for all subject types. 
-Random Unreal performs very well for all subject types, which confirms 
-that ALS is working correctly. Unsurprisingly, all the other methods 
+ Figure~\ref{fig:results-synthetic} shows accuracy results for ALS 
+ without bias. By construction, the accuracy of the dummy classifier is 
+ close to 0.5 for all subject types. Random Unreal performs very well 
+ for all subject types, which confirms that ALS is working correctly. 
+ Unsurprisingly, all the other methods 
 perform better than the dummy classifier, and their accuracy decreases 
 as the number of subject types increases.
 
@@ -526,11 +536,7 @@ for all subject types: Random Subjects (RS), RFNU and RFNTL. This is
 due to the fact that these methods are the only ones that can sample 
 files produced toward the end of the execution while maintaining a 
 reduced number of empty columns. Surprisingly, RFNTS does not perform 
-well for more than 2 subject types, even for a training ratio of 0.9. \todo{Check that.}
-
-RS, RFNU and RFNTL achieve a 90\% accuracy for a training ratio of 
-about 0.85 \todo{precise that}. Therefore, 15\% of the computations could potentially be 
-saved in such reproducibility studies.
+well for more than 2 subject types, even for a training ratio of 0.9.
 
 \begin{figure*}
 \begin{subfigure}[b]{\columnwidth}
@@ -564,10 +570,10 @@ saved in such reproducibility studies.
 
 \subsubsection{ALS with Bias}
 
-Results of ALS with bias are reported in 
-Figure~\ref{fig:results-synthetic-als-bias}. RS, RFNU and RFNTL remain 
-the methods that best compare to Random Unreal, but the achieved 
-accuracy is much lower than without Biases. This is presumably due to 
+Figure~\ref{fig:results-synthetic-als-bias} shows accuracy results for 
+ALS with bias. RS, RFNU and RFNTL remain the methods that best compare 
+to Random Unreal, but the achieved accuracy is much lower than without 
+biases. This is presumably due to 
 the fact that file biases are all close to 0.5 in the synthetic data. 
 In such a situation, biases are detrimental to the accuracy of the 
 collaborative filtering process and shouldn't be included.
@@ -606,8 +612,7 @@ collaborative filtering process and shouldn't be included.
 
 \subsubsection{ALS without bias}
 
-Results for ALS without bias are reported in 
-Figure~\ref{fig:results-real-als}. Among the methods that performed 
+Figure~\ref{fig:results-real-als} shows the accuracy results for ALS without bias. Among the methods that performed 
 well in the synthetic dataset, RFNU performs the best, with an accuracy 
 higher than 0.95 for all datasets, when the training ratio is larger 
 than 0.5. RS and RFNTL are slightly underperforming compared to RFNU. 
@@ -615,7 +620,6 @@ Complete rows and complete columns do not even reach the accuracy of
 the dummy classifier. The reference method, Random Unreal, has an 
 accuracy close to 1, which shows that collaborative filtering works 
 well on this dataset too.
-\todo{why is the performance of columns so variable?}
 
 \begin{figure*}
 \begin{subfigure}[b]{\columnwidth}
@@ -640,15 +644,14 @@ well on this dataset too.
 
 \subsubsection{ALS with bias}
 
-Results for ALS with bias are reported in 
-Figure~\ref{fig:results-real-als-bias}. From a training ratio of 0.5, 
-all methods have a very good accuracy for all datasets, except complete 
-columns in Figure~\ref{fig:pfs-c5vsc7-bias}. All methods except RFNU, 
-RFNTL and RFNTS also perform well for a training ratio lower than 0.5. 
-Overall, the accuracy of the methods is much higher than without bias. 
-This is because the file bias is very strong in this dataset, as 
-illustrated by the large number of constant lines in the matrices in 
-Figure~\ref{fig:utility-matrices}.
+Figure~\ref{fig:results-real-als-bias} shows the accuracy results for 
+ALS with bias. From a training ratio of 0.5, all methods have a very 
+good accuracy for all datasets, except complete columns in 
+Figure~\ref{fig:pfs-c5vsc7-bias}. All methods except RFNU, RFNTL and 
+RFNTS also perform well for a training ratio lower than 0.5. Overall, 
+the accuracy of the methods is much higher than without bias, due to 
+the fact that the file bias is very strong in this dataset, as 
+it can be seen in Figure~\ref{fig:utility-matrices}.
 
 \begin{figure*}
 \begin{subfigure}[b]{\columnwidth}
@@ -678,10 +681,9 @@ Figure~\ref{fig:roc} compares the sampling methods in the ROC space,
 for a training ratio of 0.9, on the synthetic and Freesurfer dataset. 
 The PreFreesurfer dataset is not included since specificity of RFNTL, 
 RFNU, RS and complete rows is undefined at this training ratio (the 
-test set only contains positive elements \todo{check matrix with 
-Soudabeh to confirm}). The average sensitivity and specificity values 
-are reported in Table~\ref{table:roc}. On average, RFNU is the best 
-performing method.
+test set only contains positive elements \todo{Soudabeh: check matrix to confirm}). The average sensitivity and specificity values 
+are reported in Table~\ref{table:roc}, which confirms that RFNU is the best 
+performing method on average.
 
 \begin{figure*}
 \includegraphics[width=\columnwidth]{data/results/roc/roc.pdf}
@@ -709,51 +711,36 @@ Random Unreal & 1 & 1
 
 \subsection{Varying the number of factors}
 Figure~\ref{fig:factors} shows the effect of the number of factors used 
-in ALS, for the RFNU method and the synthetic dataset. We do not find a 
-clear effect of the number of factors on the accuracy.
-
-\begin{figure}
+in the ALS optimization for the RFNU method and the synthetic dataset. We do not find a 
+clear effect of the number of factors on the accuracy. \todo{Soudabeh, add results for 50 and 800 factors}
+\begin{figure}[h]
 \includegraphics[width=\columnwidth]{data/results/means_of_results/ALS/Synthetic/8type-RFNU-Differ-Num-Factors/ALS-8-types-ranks.pdf}
 \caption{Effect of the number of factors used in ALS, RFNU method, synthetic dataset.}
 \label{fig:factors}
 \end{figure}
 
-\section{Discussion}
+\subsection{Error localization}
 
-% Which method is the best
-While collaborative filtering, perhaps unsurprisingly, is able to 
-correctly predict the missing values in a matrix modeling the 
-reproducibility problem, the usual random sampling method cannot be 
-used in time-constrained processes. We proposed 6 sampling methods to 
-address this issue, and we found that one of them, RFNU, \todo{check 
-that} is consistently able to solve the problem. We explain that by 
-the fact that RFNU leads the training set to contain a balanced mix 
-between nearly complete and nearly empty columns, with a continuum of 
-intermediate configurations in between. On the contrary, other sampling 
-methods, including RFNTL and RFNTS, bias the sampling toward complete 
-or empty columns, which is sometimes detrimental to accuracy.
-
-Figure~\ref{fig:overlap} illustrates the comparison between RFNU, RFNTL 
-and RFNTS. The matrices in this Figure represent the union between the 
-training and the test set, where the training set is represented in 
-black (negatives) and white (positives), and the test set is 
-represented in green (true positives), yellow (false negatives), gray 
-(true negatives) and red (false positives). This representation 
-provides insights regarding where, and perhaps why, prediction errors 
+Figure~\ref{fig:overlap} compares the prediction errors made by RFNU, 
+RFNTL and RFNTS. The matrices in this Figure represent the training set 
+in black (negatives) and white (positives), and the test set in green 
+(true positives), yellow (false negatives), gray (true negatives) and 
+red (false positives). This representation provides insights regarding 
+where, and perhaps why, prediction errors 
 occur. At this training ratio, RFNU (Figure~\ref{fig:overlap-rfnu}) 
 uniformly samples the number of files per subject between 0.8$N_f$ and 
-$N_f$. It provides an opportunity for ALS to be trained on the last 
-files of the pipelines, while maintaining a low number of columns with 
+$N_f$, which enables the training on the last 
+files of the pipeline, while maintaining a low number of columns with 
 a low training ratio. On the contrary, RFNTL 
 (Figure~\ref{fig:overlap-rfntl}) samples the number of files per 
 subject from 0.85$N_f$, but the probability to have a complete column 
 is 0 (the one complete column in Figure~\ref{fig:overlap-rfntl} is the 
-one included to prevent cold start issues), which leads to a "stripe" 
+one included to prevent cold start issues), which leads to a ``stripe" 
 of errors at the bottom of the matrix. RFNTS 
 (Figure~\ref{fig:overlap-rfnts}) doesn't have this issue, as it 
-includes many complete columns in the training set, but this comes at 
-the cost of several columns with a very low number of files, lower than 
-60\%. For such columns, the prediction may go somewhat wrong, which explains
+includes many complete columns in the training set. However, it comes at 
+the cost of several columns with a number of files lower than 
+60\%: in such columns, the prediction is often entirely wrong, which explains
 the reduced accuracy compared to RFNU.
 
 \begin{figure*}
@@ -778,18 +765,6 @@ the reduced accuracy compared to RFNU.
 \label{fig:overlap}
 \end{figure*}
 
-% Training ratio
-On datasets that are strongly dependent on row bias, such as the real 
-datasets studied here, RFNU provides accuracy values that are 
-consistently higher than 0.95 for training ratios higher than 0.5, even 
-when biases are not included in the collaborative filtering 
-optimization. On the synthetic dataset, RFNU still performs very well 
-when biases are not included. However, the training ratio required to 
-reach a 0.95 accuracy increases with the number of subject types 
-present in the dataset. \todo{maybe find a relation between the 
-required training ratio and the number of subjects per subject type in 
-the entire dataset}
-
 Figure~\ref{fig:error-locality} shows the results obtained by RFNU on 
 the Freesurfer dataset for a training ratio of 0.6. The prediction 
 error is localized (1) at the bottom of the matrix, which corresponds 
@@ -802,24 +777,50 @@ black or entirely white.
 \label{fig:error-locality}
 \end{figure}
 
+\section{Conclusion}
 
-In any case, we recommend not to include biases in the collaborative filtering 
+% Which method is the best
+While collaborative filtering, perhaps unsurprisingly, is able to 
+correctly predict the missing values in a matrix modeling the 
+reproducibility problem, the usual random sampling method cannot be 
+used in time-constrained processes. We proposed 6 sampling methods to 
+address this issue, and we found that one of them, RFNU, performs 
+better than the other ones on average. We 
+explain that by the fact that RFNU builds the training set using a 
+balanced mix of nearly complete and nearly empty columns, with a 
+continuum of 
+intermediate configurations. On the contrary, other sampling 
+methods, including RFNTL and RFNTS, bias the sampling toward complete 
+or empty columns, which is sometimes detrimental to accuracy.
+
+For datasets that are strongly dependent on row bias, such as the 
+PreFreesurfer and Freesurfer datasets studied here, RFNU provides 
+accuracy values that are consistently higher than 0.95 for training 
+ratios higher than 0.5, even 
+when biases are not included in the collaborative filtering 
+optimization. For the synthetic dataset, RFNU still performs very well 
+when biases are not included, but it does very poorly when biases are included.
+For this reason, we recommend not to include biases in the collaborative filtering 
 optimization to solve this problem. Even though biases provide a slight 
 accuracy improvement when datasets are strongly biased (constant lines 
 in the matrix), they can also be very detrimental for more complex 
 datasets such as the synthetic one used here.
 
-% How can this be used in practice
 From a practical standpoint, our study shows that reproducibility 
-evaluations can be conducted using only 50\% of the files produced by 
-the evaluated pipelines, with an accuracy above 95\%. Potentially, this 
-could reduce the computing time and storage required for such studies 
-by a factor of 2. However, such studies could not be conducted by 
-processing only half of the subjects entirely, which would correspond 
-to the Complete Columns sampling method. Instead, the processing of all 
-the subjects should be initiated, and it should be terminated in a random
-uniform way, assuming that files are uniformly produced throughout the 
-execution.
+evaluations of the PreFreesurfer and Freesurfer pipelines can be 
+conducted using only 50\% of the files produced by the evaluated 
+pipelines, with an accuracy above 95\%. Potentially, this could reduce 
+the computing time and storage required for such studies by a factor of 
+2. However, such studies could not be conducted by processing only half 
+of the subjects entirely, which would correspond to the Complete 
+Columns sampling method. Instead, the processing of all the subjects 
+should be initiated, and it should be terminated in a random uniform 
+way, assuming that files are uniformly produced throughout the 
+execution. On more complex matrices, such as the synthetic dataset 
+studied here, the training ratio required to get a 95\% accuracy 
+increases to 0.85 to 0.9.
+
+
 
 % What are the limitations
 Our study could be extended by considering real-valued reproducibility 
@@ -832,18 +833,18 @@ conclusions regarding the best-performing sampling method (RFNU) and
 the inclusion of biases in the model to remain valid.
 
 % Other possible examples
-The method described in this paper and applied to reproducibility 
-studies could be used to predict the other variables controlled by 
-hidden, deterministic, hidden, parameterized, time-dependent processes, 
-for instance markers of chronicle disease activity. In the 
-reproducibility example studied in this paper, the variable of interest 
-is the reproducibility of files produced by the processing of a given 
-subjects, the process is the evaluated pipeline, it is hidden since we 
-consider the pipeline as a black box (we don't inspect its source 
-code), it is parametrized as it behaves differently on different input 
-datasets and parameters, it is time-dependent as the value of the 
-variable of interest varies throughout the course of the pipeline 
-execution. 
+The variable of interest in our study was the reproducibility of files 
+produced by the processing of a given subject, and it was controlled by 
+a process, the evaluated pipeline. This process was hidden, since we 
+considered the pipeline as a black box (we did not inspect its source 
+code), it was deterministic, since it was implemented as a program, it 
+was parametrized, as it behaved differently on different input datasets 
+and parameters, and it was time-dependent, as the value of the 
+variable of interest varied throughout the course of the pipeline 
+execution. The method described in this paper could possibly be used to 
+predict other variables controlled by such hidden, deterministic, 
+parametrized, and time-dependent processes, for instance markers of 
+chronic disease activity.
 
 The code and data used in this paper are available at 
 \url{https://github.com/big-data-lab-team/paper-reproducibility-collaborative-filtering}.
