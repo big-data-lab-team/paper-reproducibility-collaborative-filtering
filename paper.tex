@@ -378,8 +378,6 @@ random subject) to avoid cold start issues.
 
 \label{sec:datasets}
 
-\todo{Soudabeh, can you remove the caption on all matrices?}
-
 \subsection{Synthetic Data}
 
 We generated synthetic matrices as shown in 
@@ -498,7 +496,7 @@ match the target one. We checked that the difference between the target
 and real training ratios was lower than 0.01. We used Spark's ALS model 
 as available in package \texttt{pyspark.ml}, with 50 factors, a 
 regularization parameter of 0.01, a maximum of 5 iterations and non 
-negative constraints set to true. \todo{Tristan: Add one plot with sensitivity and specificity for 0.9 training}
+negative constraints set to true.
 
 %~ , sensitivity and specificity defined as follows:
 %~ \[
@@ -520,11 +518,11 @@ negative constraints set to true. \todo{Tristan: Add one plot with sensitivity a
 
 Accuracy results for the different numbers of subject types are 
 reported in Figure~\ref{fig:results-synthetic}. By construction, the 
-accuracy of the dummy classifier is close to 0.5 for all subject types \todo{Soudabeh: why such variations?}. Random 
-Unreal performs very well for all subject types, which confirms that 
-ALS is working correctly. Unsurprisingly, all the other methods perform 
-better than the dummy classifier, and their accuracy decreases as the 
-number of subject types increases.
+accuracy of the dummy classifier is close to 0.5 for all subject types. 
+Random Unreal performs very well for all subject types, which confirms 
+that ALS is working correctly. Unsurprisingly, all the other methods 
+perform better than the dummy classifier, and their accuracy decreases 
+as the number of subject types increases.
 
 However, only 3 methods are able to provide accuracy values above 0.85 
 for all subject types: Random Subjects (RS), RFNU and RFNTL. This is 
@@ -677,7 +675,7 @@ Figure~\ref{fig:utility-matrices}.
 \label{fig:results-real-als-bias}
 \end{figure*}
 
-\subsubsection{ROC analysis}
+\subsection{ROC analysis}
 
 Figure~\ref{fig:roc} compares the sampling methods in the ROC space, 
 for a training ratio of 0.9, on the synthetic and Freesurfer dataset. 
@@ -712,8 +710,16 @@ Random Unreal & 1 & 1
 \label{table:roc}
 \end{table}
 
-\subsection{Effect of the number of factors}
-\todo{Soudabeh: Different number of factors: type 8, RFNU, 50, 100, 200, 400.}
+\subsection{Varying the number of factors}
+Figure~\ref{fig:factors} shows the effect of the number of factors used 
+in ALS, for the RFNU method and the synthetic dataset. We do not find a 
+clear effect of the number of factors on the accuracy.
+
+\begin{figure}
+\includegraphics[width=\columnwidth]{data/results/means_of_results/ALS/Synthetic/8type-RFNU-Differ-Num-Factors/ALS-8-types-ranks.pdf}
+\caption{Effect of the number of factors used in ALS, RFNU method, synthetic dataset.}
+\label{fig:factors}
+\end{figure}
 
 \section{Discussion}
 
@@ -737,7 +743,7 @@ black (negatives) and white (positives), and the test set is
 represented in green (true positives), yellow (false negatives), gray 
 (true negatives) and red (false positives). This representation 
 provides insights regarding where, and perhaps why, prediction errors 
-occur. At this training ratio, RFNU (Figure~\ref{fig:overlap-rfntu}) 
+occur. At this training ratio, RFNU (Figure~\ref{fig:overlap-rfnu}) 
 uniformly samples the number of files per subject between 0.8$N_f$ and 
 $N_f$. It provides an opportunity for ALS to be trained on the last 
 files of the pipelines, while maintaining a low number of columns with 

@@ -1,0 +1,18 @@
+#!/usr/bin/env gnuplot
+
+set terminal pdf
+
+set datafile separator ';'
+set ylabel "Accuracy"
+set xlabel "Training ratio"
+
+set key above
+
+set style data histograms
+set style fill transparent solid 0.5
+
+set output sprintf("ALS-8-types-ranks.pdf", t)
+plot [][0:1]'ALS-8type-syn-rank50-RFNU-average.txt' using 2:xticlabels(1) lc 4 fs solid 0.1 title "50 factors",\
+     'ALS-8type-syn-rank100-RFNU-average.txt' using 2:xticlabels(1) lc 4 fs solid 0.3 title "100 factors",\
+     'ALS-8type-syn-rank200-RFNU-average.txt' using 2:xticlabels(1) lc 4 fs solid 0.5 title "200 factors",\
+     'ALS-8type-syn-rank400-RFNU-average.txt' using 2:xticlabels(1) lc 4 fs solid 0.7 title "400 factors"
