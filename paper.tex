@@ -620,7 +620,6 @@ Complete rows and complete columns do not even reach the accuracy of
 the dummy classifier. The reference method, Random Unreal, has an 
 accuracy close to 1, which shows that collaborative filtering works 
 well on this dataset too.
-\todo{why is the performance of columns so variable?}
 
 \begin{figure*}
 \begin{subfigure}[b]{\columnwidth}
@@ -682,8 +681,7 @@ Figure~\ref{fig:roc} compares the sampling methods in the ROC space,
 for a training ratio of 0.9, on the synthetic and Freesurfer dataset. 
 The PreFreesurfer dataset is not included since specificity of RFNTL, 
 RFNU, RS and complete rows is undefined at this training ratio (the 
-test set only contains positive elements \todo{check matrix with 
-Soudabeh to confirm}). The average sensitivity and specificity values 
+test set only contains positive elements \todo{Soudabeh: check matrix to confirm}). The average sensitivity and specificity values 
 are reported in Table~\ref{table:roc}, which confirms that RFNU is the best 
 performing method on average.
 
@@ -714,7 +712,7 @@ Random Unreal & 1 & 1
 \subsection{Varying the number of factors}
 Figure~\ref{fig:factors} shows the effect of the number of factors used 
 in the ALS optimization for the RFNU method and the synthetic dataset. We do not find a 
-clear effect of the number of factors on the accuracy.
+clear effect of the number of factors on the accuracy. \todo{Soudabeh, add results for 50 and 800 factors}
 \begin{figure}[h]
 \includegraphics[width=\columnwidth]{data/results/means_of_results/ALS/Synthetic/8type-RFNU-Differ-Num-Factors/ALS-8-types-ranks.pdf}
 \caption{Effect of the number of factors used in ALS, RFNU method, synthetic dataset.}
