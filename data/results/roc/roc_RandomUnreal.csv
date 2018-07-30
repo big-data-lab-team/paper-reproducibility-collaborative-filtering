@@ -1,0 +1,7 @@
+RandomUnreal ../means_of_results/ALS/FS-100files/ALS-FS100files-RandomUnreal-average.txt 0.9917808219177999 0.9982008411900001 0.9708365245930001
+RandomUnreal ../means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-16type-syn-RandomUnreal-average.txt 1.0 1.0 1.0
+RandomUnreal ../means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-2type-syn-RandomUnreal-average.txt 1.0 1.0 1.0
+RandomUnreal ../means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-32type-syn-RandomUnreal-average.txt 1.0 1.0 1.0
+RandomUnreal ../means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-4type-syn-RandomUnreal-average.txt 1.0 1.0 1.0
+RandomUnreal ../means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-64type-syn-RandomUnreal-average.txt 1.0 1.0 1.0
+RandomUnreal ../means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-8type-syn-RandomUnreal-average.txt 1.0 1.0 1.0

@@ -1,0 +1,7 @@
+RS ../means_of_results/ALS/FS-100files/ALS-FS100files-RS-average.txt 0.953698630137 0.9475445583398001 0.9702505601196
+RS ../means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-16type-syn-RS-average.txt 0.95 0.8978252257868 1.0
+RS ../means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-2type-syn-RS-average.txt 1.0 1.0 1.0
+RS ../means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-32type-syn-RS-average.txt 0.8443999999999999 0.6999009929264 0.9932584269661999
+RS ../means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-4type-syn-RS-average.txt 1.0 1.0 1.0
+RS ../means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-64type-syn-RS-average.txt 0.783 0.6069890904046 0.9675996837114
+RS ../means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-8type-syn-RS-average.txt 1.0 1.0 1.0

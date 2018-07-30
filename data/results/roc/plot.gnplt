@@ -1,0 +1,27 @@
+#!/usr/bin/env gnuplot
+
+set terminal pdf
+
+set output "roc.pdf"
+
+set key above
+
+set xlabel "False Positive Rate (1-specificity)"
+set ylabel "True Positive Rate (sensitivity)"
+
+plot "roc_columns.csv" using (1-$5):4 title "Complete Columns" lw 3, \
+     "roc_rows.csv" using (1-$5):4 title "Complete Rows" lw 3, \
+     "roc_RS.csv" using (1-$5):4 title "Random Subjects (RS)" lw 3, \
+     "roc_RFNU.csv" using (1-$5):4 title "RFNU" lw 3, \
+     "roc_RFNT-L.csv" using (1-$5):4 title "RFNTL" lw 3, \
+     "roc_RFNT-S.csv" using (1-$5):4 title "RFNTS" lw 3, \
+     "roc_RandomUnreal.csv" using (1-$5):4 title "Random Unreal" lw 3
+
+set output "roc-closeup.pdf"
+plot [0:0.1][0.7:1]"roc_columns.csv" using (1-$5):4 title "Complete Columns" lw 3, \
+     "roc_rows.csv" using (1-$5):4 title "Complete Rows" lw 3, \
+     "roc_RS.csv" using (1-$5):4 title "Random Subjects (RS)" lw 3, \
+     "roc_RFNU.csv" using (1-$5):4 title "RFNU" lw 3, \
+     "roc_RFNT-L.csv" using (1-$5):4 title "RFNTL" lw 3, \
+     "roc_RFNT-S.csv" using (1-$5):4 title "RFNTS" lw 3, \
+     "roc_RandomUnreal.csv" using (1-$5):4 title "Random Unreal" lw 3
