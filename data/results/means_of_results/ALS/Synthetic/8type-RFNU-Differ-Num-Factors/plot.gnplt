@@ -13,11 +13,13 @@ set style fill transparent solid 0.5
 
 set output sprintf("ALS-8-types-ranks.pdf", t)
 plot [][0:1] 'ALS-8type-syn-rank2-RFNU-average.txt' using 2:xticlabels(1) lc 4 fs solid 0 title "2 factors",\
-     'ALS-8type-syn-rank5-RFNU-average.txt' using 2:xticlabels(1) lc 4 fs solid 0 title "5 factors",\
-     'ALS-8type-syn-rank10-RFNU-average.txt' using 2:xticlabels(1) lc 4 fs solid 0 title "10 factors",\
-     'ALS-8type-syn-rank25-RFNU-average.txt' using 2:xticlabels(1) lc 4 fs solid 0 title "25 factors",\
-     'ALS-8type-syn-rank50-RFNU-average.txt' using 2:xticlabels(1) lc 4 fs solid 0.2 title "50 factors",\
-     'ALS-8type-syn-rank100-RFNU-average.txt' using 2:xticlabels(1) lc 4 fs solid 0.4 title "100 factors",\
-     'ALS-8type-syn-rank200-RFNU-average.txt' using 2:xticlabels(1) lc 4 fs solid 0.6 title "200 factors",\
-     'ALS-8type-syn-rank400-RFNU-average.txt' using 2:xticlabels(1) lc 4 fs solid 0.8 title "400 factors",\
+     'ALS-8type-syn-rank3-RFNU-average.txt' using 2:xticlabels(1) lc 4 fs solid 0.1 title "3 factors",\
+     'ALS-8type-syn-rank4-RFNU-average.txt' using 2:xticlabels(1) lc 4 fs solid 0.2 title "4 factors",\
+     'ALS-8type-syn-rank5-RFNU-average.txt' using 2:xticlabels(1) lc 4 fs solid 0.3 title "5 factors",\
+     'ALS-8type-syn-rank10-RFNU-average.txt' using 2:xticlabels(1) lc 4 fs solid 0.4 title "10 factors",\
+     'ALS-8type-syn-rank25-RFNU-average.txt' using 2:xticlabels(1) lc 4 fs solid 0.5 title "25 factors",\
+     'ALS-8type-syn-rank50-RFNU-average.txt' using 2:xticlabels(1) lc 4 fs solid 0.6 title "50 factors",\
+     'ALS-8type-syn-rank100-RFNU-average.txt' using 2:xticlabels(1) lc 4 fs solid 0.7 title "100 factors",\
+     'ALS-8type-syn-rank200-RFNU-average.txt' using 2:xticlabels(1) lc 4 fs solid 0.8 title "200 factors",\
+     'ALS-8type-syn-rank400-RFNU-average.txt' using 2:xticlabels(1) lc 4 fs solid 0.9 title "400 factors",\
      'ALS-8type-syn-rank800-RFNU-average.txt' using 2:xticlabels(1) lc 4 fs solid 1 title "800 factors"
