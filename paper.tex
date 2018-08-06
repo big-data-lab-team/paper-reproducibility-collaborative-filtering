@@ -711,20 +711,31 @@ Random Unreal & 1 & 1
 
 \subsection{Varying the number of factors}
 Figure~\ref{fig:factors} shows the effect of the number of factors used 
-in the ALS optimization for the RFNU method and the synthetic dataset. We do not find a 
-clear effect of the number of factors on the accuracy.
-As it shown, number of factors does not have effect on accuracy specially for the training ratios less than 50\% .However, for the training ratios  over than that having less than 3 factors can dramatically effect the accuracy. Notably at training ratio of 90\% the major accuracy gap is observed between the compute accuracy with 2 factors and the 3 factors; 2 factors accuracy is about 40\% lower than 3 factors accuracy. 
+in the ALS optimization for the RFNU method, and the synthetic dataset with 8 types. 
+For training ratios greater or equal than 0.5, the accuracy obtained 
+with 3 factors is substantially higher than with 2 factors. Beyond 
+3, the number of factors does not have an effect on the accuracy. 
+This shows that the data is best explained by 3 factors. For training 
+ratios lower than 0.5, the number of factors does not have any effect 
+on the accuracy, presumably due to the low accuracy of the method.\todo{Soudabeh, check if the factors can be interpreted.}
 
 \begin{figure}[h]
-\includegraphics[width=\columnwidth]{data/results/means_of_results/ALS/Synthetic/8type-RFNU-Differ-Num-Factors/ALS-8-types-ranks.pdf}
+\includegraphics[width=0.9\columnwidth]{data/results/means_of_results/ALS/Synthetic/8type-RFNU-Differ-Num-Factors/ALS-8-types-ranks.pdf}
 \caption{Effect of the number of factors used in ALS, RFNU method, synthetic dataset.}
 \label{fig:factors}
 \end{figure}
 
 \subsection{Varying the number of iterations}
-Figure~\ref{fig:iterations} illustrates the impact of the number of iterations used to minimizing the error of matrix factorization for the RFNU method and synthetic dataset with 50 factors. As it shown, the increase in the number of iterations have slight effect on the accuracy except in the low training ratio of 10\% where maximum 20 iterations deteriorates the accuracy by 20\% . Also in the high training ratio such as 80\% and 90\% where 2 iterations leads to lower accuracy.   
+Figure~\ref{fig:iterations} illustrates the effect of the number of 
+iterations used in the ALS optimization, for the 
+RFNU method, the synthetic dataset with 8 types, and 50 factors. 
+
+From a training ratio of 0.7, the number of iterations has a moderate 
+effect on the accuracy. Our previous experiments used 5 iterations, 
+which only degrades the accuracy slightly compared to 15 or 20 iterations.
+
 \begin{figure}[h]
-\includegraphics[width=\columnwidth]{data/results/means_of_results/ALS/Synthetic/8type-RFNU-Differ-Num-Iterations-rank50/ALS-8-types-iteration.pdf}
+\includegraphics[width=0.9\columnwidth]{data/results/means_of_results/ALS/Synthetic/8type-RFNU-Differ-Num-Iterations-rank50/ALS-8-types-iteration.pdf}
 \caption{Effect of the number of iterations used in ALS, RFNU method, 50 factors, synthetic dataset.}
 \label{fig:iterations}
 \end{figure}
@@ -782,7 +793,8 @@ to the end of the execution, and (2) in the regions where file
 reproducibility varies across subjects, i.e., lines are not entirely 
 black or entirely white.
 \begin{figure}
-\includegraphics[width=0.6\columnwidth]{figures/RFNU_FS100F_ALS_06_test_data_matrix_run1.png}
+\centering
+\includegraphics[width=0.55\columnwidth]{figures/RFNU_FS100F_ALS_06_test_data_matrix_run1.png}
 \caption{Prediction results for RFNU on the Freesurfer dataset, $\alpha=0.6$.}
 \label{fig:error-locality}
 \end{figure}
@@ -821,7 +833,7 @@ evaluations of the PreFreesurfer and Freesurfer pipelines can be
 conducted using only 50\% of the files produced by the evaluated 
 pipelines, with an accuracy above 95\%. Potentially, this could reduce 
 the computing time and storage required for such studies by a factor of 
-3 and iteration of 4. However, such studies could not be conducted by processing only half 
+2. However, such studies could not be conducted by processing only half 
 of the subjects entirely, which would correspond to the Complete 
 Columns sampling method. Instead, the processing of all the subjects 
 should be initiated, and it should be terminated in a random uniform 
