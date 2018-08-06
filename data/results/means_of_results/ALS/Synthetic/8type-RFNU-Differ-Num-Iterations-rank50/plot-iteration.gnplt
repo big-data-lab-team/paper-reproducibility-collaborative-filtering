@@ -12,7 +12,11 @@ set style data histograms
 set style fill transparent solid 0.5
 
 set output sprintf("ALS-8-types-iteration.pdf", t)
-plot [][0:1] 'ALS-8type-syn-maxItr5-rank50-RFNU-average.txt' using 2:xticlabels(1) lc 4 fs solid 0 title "5 iterations",\
-     'ALS-8type-syn-maxItr10-rank50-RFNU-average.txt' using 2:xticlabels(1) lc 4 fs solid 0.25 title "10 iterations",\
-     'ALS-8type-syn-maxItr15-rank50-RFNU-average.txt' using 2:xticlabels(1) lc 4 fs solid 0.50 title "15 factors",\
-     'ALS-8type-syn-maxItr20-rank50-RFNU-average.txt' using 2:xticlabels(1) lc 4 fs solid 1 title "20 factors",\
+plot [][0:1] 'ALS-8type-syn-maxItr1-rank50-RFNU-average.txt' using 2:xticlabels(1) lc 4 fs solid 0 title "1 iteration",\
+     'ALS-8type-syn-maxItr2-rank50-RFNU-average.txt' using 2:xticlabels(1) lc 4 fs solid 0.1 title "2 iterations",\
+     'ALS-8type-syn-maxItr3-rank50-RFNU-average.txt' using 2:xticlabels(1) lc 4 fs solid 0.2 title "3 iterations",\
+     'ALS-8type-syn-maxItr4-rank50-RFNU-average.txt' using 2:xticlabels(1) lc 4 fs solid 0.3 title "4 iterations",\
+     'ALS-8type-syn-maxItr5-rank50-RFNU-average.txt' using 2:xticlabels(1) lc 4 fs solid 0.4 title "5 iterations",\
+     'ALS-8type-syn-maxItr10-rank50-RFNU-average.txt' using 2:xticlabels(1) lc 4 fs solid 0.5 title "10 iterations",\
+     'ALS-8type-syn-maxItr15-rank50-RFNU-average.txt' using 2:xticlabels(1) lc 4 fs solid 0.6 title "15 iterations",\
+     'ALS-8type-syn-maxItr20-rank50-RFNU-average.txt' using 2:xticlabels(1) lc 4 fs solid 1 title "20 iterations"

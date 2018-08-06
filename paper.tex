@@ -712,11 +712,21 @@ Random Unreal & 1 & 1
 \subsection{Varying the number of factors}
 Figure~\ref{fig:factors} shows the effect of the number of factors used 
 in the ALS optimization for the RFNU method and the synthetic dataset. We do not find a 
-clear effect of the number of factors on the accuracy. \todo{Soudabeh, add results for 50 and 800 factors}
+clear effect of the number of factors on the accuracy.
+As it shown, number of factors does not have effect on accuracy specially for the training ratios less than 50\% .However, for the training ratios  over than that having less than 3 factors can dramatically effect the accuracy. Notably at training ratio of 90\% the major accuracy gap is observed between the compute accuracy with 2 factors and the 3 factors; 2 factors accuracy is about 40\% lower than 3 factors accuracy. 
+
 \begin{figure}[h]
 \includegraphics[width=\columnwidth]{data/results/means_of_results/ALS/Synthetic/8type-RFNU-Differ-Num-Factors/ALS-8-types-ranks.pdf}
 \caption{Effect of the number of factors used in ALS, RFNU method, synthetic dataset.}
 \label{fig:factors}
+\end{figure}
+
+\subsection{Varying the number of iterations}
+Figure~\ref{fig:iterations} illustrates the impact of the number of iterations used to minimizing the error of matrix factorization for the RFNU method and synthetic dataset with 50 factors. As it shown, the increase in the number of iterations have slight effect on the accuracy except in the low training ratio of 10\% where maximum 20 iterations deteriorates the accuracy by 20\% . Also in the high training ratio such as 80\% and 90\% where 2 iterations leads to lower accuracy.   
+\begin{figure}[h]
+\includegraphics[width=\columnwidth]{data/results/means_of_results/ALS/Synthetic/8type-RFNU-Differ-Num-Iterations-rank50/ALS-8-types-iteration.pdf}
+\caption{Effect of the number of iterations used in ALS, RFNU method, 50 factors, synthetic dataset.}
+\label{fig:iterations}
 \end{figure}
 
 \subsection{Error localization}
@@ -811,7 +821,7 @@ evaluations of the PreFreesurfer and Freesurfer pipelines can be
 conducted using only 50\% of the files produced by the evaluated 
 pipelines, with an accuracy above 95\%. Potentially, this could reduce 
 the computing time and storage required for such studies by a factor of 
-2. However, such studies could not be conducted by processing only half 
+3 and iteration of 4. However, such studies could not be conducted by processing only half 
 of the subjects entirely, which would correspond to the Complete 
 Columns sampling method. Instead, the processing of all the subjects 
 should be initiated, and it should be terminated in a random uniform 
