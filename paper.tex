@@ -32,7 +32,7 @@
 
 \author{Soudabeh Barghi, Lalet Scaria, Tristan Glatard\\
   Department of Computer Science and Software Engineering\\ Concordia University, Montreal, Quebec, Canada\\
-  {first.last}@concordia.ca}
+  {first.last}@concordia.ca \vspace*{-0.5cm}}
 
 \maketitle
 
@@ -681,7 +681,7 @@ Figure~\ref{fig:roc} compares the sampling methods in the ROC space,
 for a training ratio of 0.9, on the synthetic and Freesurfer dataset. 
 The PreFreesurfer dataset is not included since specificity of RFNTL, 
 RFNU, RS and complete rows is undefined at this training ratio (the 
-test set only contains positive elements \todo{Soudabeh: check matrix to confirm}). The average sensitivity and specificity values 
+test set only contains positive elements). The average sensitivity and specificity values 
 are reported in Table~\ref{table:roc}, which confirms that RFNU is the best 
 performing method on average.
 
@@ -724,6 +724,10 @@ on the accuracy, presumably due to the low accuracy of the method.\todo{Soudabeh
 \caption{Effect of the number of factors used in ALS, RFNU method, synthetic dataset.}
 \label{fig:factors}
 \end{figure}
+
+ \note{Soudabeh, add figure with two 3D plots showing the 3 factors of 
+ every item and subject. Comment: the method indeed separates files in 
+ 3 blocks (for 8 types) and subjects in 8 types.}
 
 \subsection{Varying the number of iterations}
 Figure~\ref{fig:iterations} illustrates the effect of the number of 
@@ -872,6 +876,8 @@ The code and data used in this paper are available at
 \url{https://github.com/big-data-lab-team/paper-reproducibility-collaborative-filtering}.
 
 \todo{Soudabeh: push your code to reprotools. Tristan: release and check.}
+
+\todo{publish code on zenodo}
 
 \section*{Acknowledgement}
 
