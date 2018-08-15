@@ -725,9 +725,19 @@ on the accuracy, presumably due to the low accuracy of the method.\todo{Soudabeh
 \label{fig:factors}
 \end{figure}
 
- \note{Soudabeh, add figure with two 3D plots showing the 3 factors of 
- every item and subject. Comment: the method indeed separates files in 
- 3 blocks (for 8 types) and subjects in 8 types.}
+\begin{figure}[h]
+\includegraphics[width=0.9\columnwidth]{data/results/latent-factors/5i-3f-ALS-r1-08-userFactors.pdf}
+\caption{The three subject latent factor vectors from a matrix decomposition of the synthetic matrix of 8 subject types}
+\label{fig:userfactors}
+\end{figure}
+
+As in figures ~\ref{fig:userfactors} and  ~\ref{fig:itemfactors} shown by use of three latent factors the RFNU method indeed separates the files of synthetic matrix of 8 subject type into three blocks and also its subjects into eight types.
+
+\begin{figure}[h]
+\includegraphics[width=0.9\columnwidth]{data/results/latent-factors/5i-3f-ALS-r1-08-itemFactors.pdf}
+\caption{The three file latent factor vectors from a matrix decomposition of the synthetic matrix of 8 subject types}
+\label{fig:itemfactors}
+\end{figure}
 
 \subsection{Varying the number of iterations}
 Figure~\ref{fig:iterations} illustrates the effect of the number of 
