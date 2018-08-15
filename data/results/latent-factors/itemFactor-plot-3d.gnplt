@@ -1,0 +1,18 @@
+#!/usr/bin/env gnuplot
+
+set terminal pdf
+#set offset 1,1,1,1
+set datafile separator ','
+set ylabel "Factor 2"
+set xlabel "Factor 1"
+set style fill noborder
+set key outside 
+
+set style data histograms
+set style fill transparent solid 0.5
+
+set output sprintf("5i-3f-ALS-r1-0.8-itemFactors.pdf", t)
+file_name='/home/binrepro/project/binrepro/repro-tools/results/after_training_ratio_discrepancies/syn-8-RFNU-multiple-factors/ALS/5iter-3fact/TrainingTest-RUN1/5i-3f-ALS-r1-0.8-itemFactors.txt'
+splot sprintf("< awk -F ',' '$1 <= 32 {print}' %s", file_name) using 4:3:2 with points pt 7 ps 0.5 lc rgb "blue" title "File block 1",\
+       sprintf("< awk -F ',' '$1 > 32 && $1 <= 65 {print}' %s", file_name) using 4:3:2 with points pt 7 ps 0.5 lc rgb 'red' title "File block 2" ,\
+       sprintf("< awk -F ',' '$1 > 65 && $1 <= 99 {print}' %s", file_name) using 4:3:2 with points pt 7 ps 0.5 lc rgb 'green' title "File block 3"
