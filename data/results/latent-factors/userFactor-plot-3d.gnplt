@@ -1,0 +1,23 @@
+#!/usr/bin/env gnuplot
+
+set terminal pdf
+#set offset 1,1,1,1
+set datafile separator ','
+set ylabel "Factor 2"
+set xlabel "Factor 1"
+set style fill noborder
+set key outside 
+
+set style data histograms
+set style fill transparent solid 0.5
+
+set output sprintf("5i-3f-ALS-r1-08-userFactors.pdf", t)
+file_name='5i-3f-ALS-r1-0.8-userFactors.txt'
+splot sprintf("< awk -F ','  '$1 <= 12 {print}' %s", file_name) using 4:3:2 with points pt 7 ps 0.5 lc rgb "blue" title "Subject Type 1",\
+       sprintf("< awk -F ',' '$1 >= 13 && $1 <= 25 {print}' %s", file_name) using 4:3:2 with points pt 7 ps 0.5 lc rgb '#ff0000' title "Subject Type 2",\
+       sprintf("< awk -F ',' '$1 >= 26 && $1 <= 38 {print}' %s", file_name) using 4:3:2 with points pt 7 ps 0.5 lc rgb '#21908d' title "Subject Type 3",\
+       sprintf("< awk -F ',' '$1 >= 39 && $1 <= 51 {print}' %s", file_name) using 4:3:2 with points pt 7 ps 0.5 lc rgb '#fde725' title "Subject Type 4",\
+       sprintf("< awk -F ',' '$1 >= 52 && $1 <= 63 {print}' %s", file_name) using 4:3:2 with points  pt 7 ps 0.5 lc rgb '#00ffff' title "Subject Type 5",\
+       sprintf("< awk -F ',' '$1 >= 64 && $1 <= 75 {print}' %s", file_name) using 4:3:2 with points  pt 7 ps 0.5 lc rgb '#a52a2a' title "Subject Type 6",\
+       sprintf("< awk -F ',' '$1 >= 76 && $1 <= 87 {print}' %s", file_name) using 4:3:2 with points  pt 7 ps 0.5 lc rgb '#BA55D3' title "Subject Type 7",\
+       sprintf("< awk -F ',' '$1 >= 88 && $1 < 100 {print}' %s", file_name) using 4:3:2 with points  pt 7 ps 0.5 lc rgb "#ff1493" title "Subject Type 8",
