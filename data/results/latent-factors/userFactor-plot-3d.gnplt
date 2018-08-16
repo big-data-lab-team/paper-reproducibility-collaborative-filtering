@@ -5,6 +5,7 @@ set terminal pdf
 set datafile separator ','
 set ylabel "Factor 2"
 set xlabel "Factor 1"
+set zlabel "Factor 3" rotate
 set style fill noborder
 set key outside 
 

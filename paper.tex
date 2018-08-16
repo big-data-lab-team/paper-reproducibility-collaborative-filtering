@@ -86,7 +86,7 @@ outputs ranging from 1~GB to 500~GB.
 
 The reproducibility of a given pipeline may vary across subjects, for 
 instance due to different pipeline branches being executed depending on 
-the nature, cardinality or content of the input data. For instance, in 
+the nature, cardinality or content of the input data. As an example, in 
 the public database released by the Human Connectome 
 Project~\cite{van2013wu}, subjects may have one or two anatomical images of 
 each modality; when two images are 
@@ -104,13 +104,13 @@ executions. More precisely, we aim at predicting whether a particular
 file produced by an analysis pipeline will be identical across 
 execution conditions, or if it will contain reproducibility 
 \emph{errors}. We approach the problem from the point of view of 
-collaborative filtering, inspired by previous examples that applied 
+collaborative filtering, inspired by works that applied 
 this method outside of its initial application domain, for instance 
 ~\cite{feng2013efficient}. The main issue, and originality, of our 
 problem lies in the fact that the training set cannot be arbitrarily 
 sampled from the utility matrix. Instead, the training set has to 
-respect the time constraints imposed by the order in which files 
-are produced during pipeline executions.
+respect the time constraints imposed by the file creation order during 
+pipeline executions.
 
 This paper makes the following contributions:
 \begin{enumerate}
@@ -123,9 +123,8 @@ proposed sampling strategies for the training set are presented in
 Section~\ref{sec:methods}. The datasets are described in 
 Section~\ref{sec:datasets}, and experimental results are reported in 
 Section~\ref{sec:results}.
-We finally conclude on the best sampling method to use, and the 
-potential impacts of the results, and on their limitations and 
-generalizability.
+Finally, we conclude on the best sampling method to use, and on the 
+impact, limitations and generalizability of the results.
 
 \section{Method}
 \label{sec:methods}
@@ -176,10 +175,10 @@ matrix called ``utility matrix" from the known ones. Traditionally, the
 matrix represents the ratings of items, represented in columns, by 
 users, represented in rows. Ratings might be explicit, when users 
 provide ratings through a dedicated system, or implicit, when users' 
-behaviors are tracked and analyzed to estimate their preferences. An 
+behaviors are analyzed to estimate their preferences. An 
 overview of collaborative filtering is provided 
 in~\cite{leskovec2014mining}. In our context, the utility matrix is the
-pipeline matrix $U$ described previously.
+matrix $U$ described previously.
 
 Several methods have been proposed to implement collaborative 
 filtering. Item-item collaborative filtering~\cite{breese1998empirical, linden2003amazon} predicts 
@@ -289,7 +288,7 @@ will then predict the reproducibility of the remaining files.
                   \caption{Random Unreal}
                   \label{fig:Random-Unreal-Sample-Training-set}
         \end{subfigure}
-        \caption{Sample training set for different methods with a training ratio of 0.4.}
+        \caption{Sample training set for different methods with a training ratio of 0.4 (dark elements are in the training set).}
         \label{fig:sampling}
 \end{figure}
 
@@ -299,7 +298,7 @@ the training set by selecting the files from random subjects until the
 training ratio is reached. The file selected in a subject is the file 
 with the lowest index in this subject that has not been already 
 selected in the training set. This respects the time constraints as files are 
-sampled according to their production time-stamps.
+sampled according to their modification time-stamps.
 
 \subsubsection{Random File Numbers (Uniform) -- RFNU (Figure~\ref{fig:Diagonal-Sample-Training-set})}
 The number of files selected for every subject is randomly selected in
@@ -377,7 +376,7 @@ Equation~\ref{eq:time}, it will be used as a baseline for comparison
 with other methods.
 
 In each method, we also included the first row of the matrix (first 
-generated file of each subject) and a random column (all files of a 
+ file of each subject) and a random column (all files of a 
 random subject) to avoid cold start issues. 
 
 
@@ -385,7 +384,7 @@ random subject) to avoid cold start issues.
 
 \label{sec:datasets}
 
-\subsection{Synthetic Data}
+\subsection{Synthetic Dataset}
 
 We generated synthetic matrices as shown in 
 Figure~\ref{fig:synthetic-data}. Each matrix has 100 files and 100 
@@ -440,20 +439,21 @@ reproducibility errors depending on the subject type.
 \label{fig:synthetic-data}
 \end{figure}
 
-\subsection{Real Data}
+\subsection{Real Dataset}
 
 We collected data to evaluate the computational reproducibility of analysis
 pipelines of the Human Connectome Project~\cite{glasser2013minimal}. We
-processed a set S of 94 subjects randomly selected in the S500 HCP
-release\footnote{\url{https://db.humanconnectome.org}} in three execution conditions with different
-versions of the CentOS operating system (5.11, 6.8 and 7.2), using the
+processed a set S of 94 subjects randomly selected in the S500 HCP 
+release\footnote{\url{https://db.humanconnectome.org}} in three 
+execution conditions with different versions of the CentOS operating 
+system (5.11, 6.8 and 7.2 -- referred as C5, C6 and C7), using the 
 PreFreesurfer and Freesurfer pipelines described 
 in~\cite{glasser2013minimal} and available on 
 GitHub\footnote{\url{https://github.com/Washington-University/Pipelines/releases/tag/v3.19.0}}. 
 For each pipeline, we identified the set F of files produced for all
 subjects in all conditions. For each condition pair and each pipeline, 
 we computed a binary reproducibility matrix U of size $|F|\times|S|$, 
-where $U_{i,j}$ is true iif file $i$ of subject $j$ was different in 
+where $U_{i,j}$ is true if and only if file $i$ of subject $j$ was different in 
 each condition. Rows of $U$ were ordered by ascending file modification 
 time in a random subject in S.
 
@@ -484,7 +484,7 @@ lines.
         \includegraphics[width=\columnwidth]{data/Utility_Matrix/FS-100files/FS-First-bound-100files.png}
   \caption{FS (100 files), C6 vs C7}
   \end{subfigure}
-  \caption{Utility matrices, PreFreesurfer (PFS) and Freesurfer (FS) pipelines}
+  \caption{Utility matrices for PreFreesurfer (PFS) and Freesurfer (FS). White cells denote reproducibility errors.}
     \label{fig:utility-matrices}
 \end{figure}
 
@@ -493,7 +493,7 @@ lines.
 \label{sec:results}
 
 We conducted two experiments for each reproducibility matrix, to evaluate the performance of our 
-predictions using (1) ALS without biases, and (2) ALS with biases. We 
+predictions using (1) ALS without biases, and (2) ALS with subject and file biases. We 
 compare the performance of our sampling methods to (1) a dummy 
 classifier that always predicts the value in the majority class and (2) 
 the Random Unreal method, used as the baseline sampling technique. All 
@@ -520,7 +520,7 @@ negative constraints set to true.
 %~ FP is the number of False Positives, TN is the number of true negatives 
 %~ and FN is the number of false negatives. \todo{Check if we want to report sensitivity and specificity, otherwise remove.}
 
-\subsection{Synthetic Data}
+\subsection{Accuracy on Synthetic Data}
 
 \subsubsection{ALS without Bias}
  Figure~\ref{fig:results-synthetic} shows accuracy results for ALS 
@@ -532,11 +532,9 @@ perform better than the dummy classifier, and their accuracy decreases
 as the number of subject types increases.
 
 However, only 3 methods are able to provide accuracy values above 0.85 
-for all subject types: Random Subjects (RS), RFNU and RFNTL. This is 
-due to the fact that these methods are the only ones that can sample 
-files produced toward the end of the execution while maintaining a 
-reduced number of empty columns. Surprisingly, RFNTS does not perform 
-well for more than 2 subject types, even for a training ratio of 0.9.
+for all subject types: Random Subjects (RS), RFNU and RFNTL. 
+Surprisingly, RFNTS does not perform well for more than 2 subject 
+types, even for a training ratio of 0.9.
 
 \begin{figure*}
 \begin{subfigure}[b]{\columnwidth}
@@ -576,7 +574,7 @@ to Random Unreal, but the achieved accuracy is much lower than without
 biases. This is presumably due to 
 the fact that file biases are all close to 0.5 in the synthetic data. 
 In such a situation, biases are detrimental to the accuracy of the 
-collaborative filtering process and shouldn't be included.
+collaborative filtering process and should not be included.
 
 \begin{figure*}
 \begin{subfigure}[b]{\columnwidth}
@@ -608,14 +606,14 @@ collaborative filtering process and shouldn't be included.
 \label{fig:results-synthetic-als-bias}
 \end{figure*}
 
-\subsection{Real Data}
+\subsection{Accuracy on  Real Data}
 
 \subsubsection{ALS without bias}
 
 Figure~\ref{fig:results-real-als} shows the accuracy results for ALS without bias. Among the methods that performed 
 well in the synthetic dataset, RFNU performs the best, with an accuracy 
 higher than 0.95 for all datasets, when the training ratio is larger 
-than 0.5. RS and RFNTL are slightly underperforming compared to RFNU. 
+than 0.5. RS and RFNTL are underperforming compared to RFNU. 
 Complete rows and complete columns do not even reach the accuracy of 
 the dummy classifier. The reference method, Random Unreal, has an 
 accuracy close to 1, which shows that collaborative filtering works 
@@ -646,7 +644,7 @@ well on this dataset too.
 
 Figure~\ref{fig:results-real-als-bias} shows the accuracy results for 
 ALS with bias. From a training ratio of 0.5, all methods have a very 
-good accuracy for all datasets, except complete columns in 
+good accuracy for all real datasets, except complete columns in 
 Figure~\ref{fig:pfs-c5vsc7-bias}. All methods except RFNU, RFNTL and 
 RFNTS also perform well for a training ratio lower than 0.5. Overall, 
 the accuracy of the methods is much higher than without bias, due to 
@@ -705,41 +703,44 @@ RFNTL & 0.81 & 0.97\\
 RFNTS & 0.65 & 0.93 \\
 Random Unreal & 1 & 1
 \end{tabular}
-\caption{Average sensitivity and specificity values for the 6 synthetic datasets and Freesurfer.}
+\caption{Average sensitivity and specificity values for the 6 synthetic datasets and Freesurfer ($\alpha=0.9$).}
 \label{table:roc}
 \end{table}
 
-\subsection{Varying the number of factors}
+\subsection{Effect of the number of factors}
 Figure~\ref{fig:factors} shows the effect of the number of factors used 
 in the ALS optimization for the RFNU method, and the synthetic dataset with 8 types. 
-For training ratios greater or equal than 0.5, the accuracy obtained 
+For training ratios greater than 0.5, the accuracy obtained 
 with 3 factors is substantially higher than with 2 factors. Beyond 
 3, the number of factors does not have an effect on the accuracy. 
 This shows that the data is best explained by 3 factors. For training 
 ratios lower than 0.5, the number of factors does not have any effect 
-on the accuracy, presumably due to the low accuracy of the method.\todo{Soudabeh, check if the factors can be interpreted.}
+on the accuracy.
 
 \begin{figure}[h]
 \includegraphics[width=0.9\columnwidth]{data/results/means_of_results/ALS/Synthetic/8type-RFNU-Differ-Num-Factors/ALS-8-types-ranks.pdf}
-\caption{Effect of the number of factors used in ALS, RFNU method, synthetic dataset.}
+\caption{Effect of the number of factors used in ALS, (RFNU, synthetic dataset, 8 types, 5 iterations).}
 \label{fig:factors}
 \end{figure}
 
-\begin{figure}[h]
-\includegraphics[width=0.9\columnwidth]{figures/5i-3f-ALS-r1-08-userFactors.pdf}
-\caption{The three subject latent factor vectors from a matrix decomposition of the synthetic matrix of 8 subject types}
-\label{fig:userfactors}
-\end{figure}
-
-As in figures ~\ref{fig:userfactors} and  ~\ref{fig:itemfactors} shown by use of three latent factors the RFNU method indeed separates the files of synthetic matrix of 8 subject type into three blocks and also its subjects into eight types.
+Figure~\ref{fig:factors3d} confirms that 3 factors are indeed enough to 
+separate the files of the synthetic dataset with 8 subject types in 3 
+blocks, and the subjects in 8 types.
 
 \begin{figure}[h]
-\includegraphics[width=0.9\columnwidth]{figures/5i-3f-ALS-r1-08-itemFactors.pdf}
-\caption{The three file latent factor vectors from a matrix decomposition of the synthetic matrix of 8 subject types}
-\label{fig:itemfactors}
+\begin{subfigure}{\columnwidth}
+\includegraphics[width=0.9\columnwidth]{./data/results/latent-factors/5i-3f-ALS-r1-08-userFactors.pdf}
+\caption{Subject factors}
+\end{subfigure}
+\begin{subfigure}{\columnwidth}
+\includegraphics[width=0.9\columnwidth]{./data/results/latent-factors/5i-3f-ALS-r1-08-itemFactors.pdf}
+\caption{File factors}
+\end{subfigure}
+\caption{Subject and file factors produced by the collaborative filtering method (RFNU, synthetic dataset, 8 types, 3 factors, 5 iterations).}
+\label{fig:factors3d}
 \end{figure}
 
-\subsection{Varying the number of iterations}
+\subsection{Effect of the number of iterations}
 Figure~\ref{fig:iterations} illustrates the effect of the number of 
 iterations used in the ALS optimization, for the 
 RFNU method, the synthetic dataset with 8 types, and 50 factors. 
@@ -750,11 +751,11 @@ which only degrades the accuracy slightly compared to 15 or 20 iterations.
 
 \begin{figure}[h]
 \includegraphics[width=0.9\columnwidth]{data/results/means_of_results/ALS/Synthetic/8type-RFNU-Differ-Num-Iterations-rank50/ALS-8-types-iteration.pdf}
-\caption{Effect of the number of iterations used in ALS, RFNU method, 50 factors, synthetic dataset.}
+\caption{Effect of the number of iterations used in ALS, (RFNU, synthetic dataset, 8 types, 50 factors).}
 \label{fig:iterations}
 \end{figure}
 
-\subsection{Error localization}
+\subsection{Prediction error localization}
 
 Figure~\ref{fig:overlap} compares the prediction errors made by RFNU, 
 RFNTL and RFNTS. The matrices in this Figure represent the training set 
@@ -771,7 +772,7 @@ a low training ratio. On the contrary, RFNTL
 subject from 0.85$N_f$, but the probability to have a complete column 
 is 0 (the one complete column in Figure~\ref{fig:overlap-rfntl} is the 
 one included to prevent cold start issues), which leads to a ``stripe" 
-of errors at the bottom of the matrix. RFNTS 
+of prediction errors at the bottom of the matrix. RFNTS 
 (Figure~\ref{fig:overlap-rfnts}) doesn't have this issue, as it 
 includes many complete columns in the training set. However, it comes at 
 the cost of several columns with a number of files lower than 
@@ -779,19 +780,19 @@ the cost of several columns with a number of files lower than
 the reduced accuracy compared to RFNU.
 
 \begin{figure*}
-\begin{subfigure}[b]{0.6\columnwidth}
+\begin{subfigure}[b]{0.5\columnwidth}
         \includegraphics[width=\columnwidth]{figures/RFNU_Syn_8_ALS_09_test_data_matrix_run1.png}
         \caption{RFNU: $U(0.8N_f, N_f)$}
         \label{fig:overlap-rfnu}
 \end{subfigure}
 \hfill
-\begin{subfigure}[b]{0.6\columnwidth}
+\begin{subfigure}[b]{0.5\columnwidth}
         \includegraphics[width=\columnwidth]{figures/RFNT-L_Syn_8_ALS_09_test_data_matrix_run2.png}
         \caption{RFNTL: $T(0.85N_f, 0.85N_f, N_f)$}
         \label{fig:overlap-rfntl}
 \end{subfigure}
 \hfill
-\begin{subfigure}[b]{0.6\columnwidth}
+\begin{subfigure}[b]{0.5\columnwidth}
         \includegraphics[width=\columnwidth]{figures/RFNT-S_Syn_8_ALS_09_test_data_matrix_run1.png}
         \caption{RFNTS: 0.3$T(0, N_f, N_f)$+0.7$N_f$}
         \label{fig:overlap-rfnts}
@@ -854,7 +855,7 @@ should be initiated, and it should be terminated in a random uniform
 way, assuming that files are uniformly produced throughout the 
 execution. On more complex matrices, such as the synthetic dataset 
 studied here, the training ratio required to get a 95\% accuracy 
-increases to 0.85 to 0.9.
+increases to 0.85.
 
 
 
@@ -870,10 +871,10 @@ the inclusion of biases in the model to remain valid.
 
 % Other possible examples
 The variable of interest in our study was the reproducibility of files 
-produced by the processing of a given subject, and it was controlled by 
+produced by the processing of a given subject. This variable was controlled by 
 a process, the evaluated pipeline. This process was hidden, since we 
-considered the pipeline as a black box (we did not inspect its source 
-code), it was deterministic, since it was implemented as a program, it 
+we did not inspect the pipeline source 
+code, it was deterministic, since it was implemented as a program, it 
 was parametrized, as it behaved differently on different input datasets 
 and parameters, and it was time-dependent, as the value of the 
 variable of interest varied throughout the course of the pipeline 
