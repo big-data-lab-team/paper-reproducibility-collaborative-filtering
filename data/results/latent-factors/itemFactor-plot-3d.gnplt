@@ -7,7 +7,10 @@ set ylabel "Factor 2"
 set xlabel "Factor 1"
 set zlabel "Factor 3" rotate
 set style fill noborder
-set key outside 
+set key above
+set xtics 0.2
+set ytics 0.2
+set ztics 0.2
 
 set style data histograms
 set style fill transparent solid 0.5
