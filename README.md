@@ -24,5 +24,5 @@ Fork the repository, edit ```paper.tex``` and ```biblio.bib```, and make a pull-
 
 # Data and code
 
-* Prediction results in `data/results` were obtained from utility matrices in `data/Utility_Matrix`, using `predict.py` from [repro-tools](https://github.com/big-data-lab-team/repro-tools) version 0.1. 
-* Figures in `figures` containing matrices were obtained using `plot_matrix.py` from [repro-tools](https://github.com/big-data-lab-team/repro-tools) version 0.1. 
+* Prediction results in `data/results` were obtained from utility matrices in `data/Utility_Matrix`, using `predict.py` from [repro-tools](https://github.com/big-data-lab-team/repro-tools) version 0.1.1.
+* Figures in `figures` containing matrices were obtained using `plot_matrix.py` from [repro-tools](https://github.com/big-data-lab-team/repro-tools) version 0.1.1. 

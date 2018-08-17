@@ -502,9 +502,6 @@ as available in \texttt{pyspark.ml}, with 50 factors, a
 regularization parameter of 0.01, a maximum of 5 iterations and non 
 negative constraints set to true. The code and data used to obtain the results are available through GitHub at
 \url{https://github.com/big-data-lab-team/paper-reproducibility-collaborative-filtering}.
-\todo{Soudabeh: push your code to reprotools. Tristan: release and check.}
-\todo{publish code on zenodo}
-
 
 %~ , sensitivity and specificity defined as follows:
 %~ \[
@@ -518,7 +515,7 @@ negative constraints set to true. The code and data used to obtain the results a
 %~ \]
 %~ Where TP is the number of True Positives (correctly predicted reproducibility errors), 
 %~ FP is the number of False Positives, TN is the number of true negatives 
-%~ and FN is the number of false negatives. \todo{Check if we want to report sensitivity and specificity, otherwise remove.}
+%~ and FN is the number of false negatives. 
 
 \subsection{Accuracy on Synthetic Data}
 
@@ -821,6 +818,14 @@ Finally, the method described in this paper could possibly be used to predict
 the outcome of other time-constrained processes, for instance 
 markers of chronic disease activity.
 
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.6\columnwidth]{figures/RFNU_FS100F_ALS_06_test_data_matrix_run1.png}
+\caption{Prediction results for RFNU on the Freesurfer dataset, $\alpha=0.6$.}
+\label{fig:error-locality}
+\end{figure}
+
+
 \section*{Acknowledgement}
 
 We thank Compute Canada for providing the compute and storage resources
@@ -828,13 +833,6 @@ required for this study.
 
 \bibliographystyle{IEEEtran}
 \bibliography{IEEEabrv,biblio.bib}
-
-\begin{figure}
-\centering
-\includegraphics[width=0.6\columnwidth]{figures/RFNU_FS100F_ALS_06_test_data_matrix_run1.png}
-\caption{Prediction results for RFNU on the Freesurfer dataset, $\alpha=0.6$.}
-\label{fig:error-locality}
-\end{figure}
 
 \newpage
 
