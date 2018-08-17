@@ -37,7 +37,7 @@
 \maketitle
 
 \begin{abstract}
-With the rise of the reproducibility crisis, evaluating the 
+Evaluating the 
 computational reproducibility of data analysis pipelines has become a 
 critical issue. It is, however, a cumbersome 
 process for analyses that involve data from large populations of 
@@ -59,20 +59,20 @@ evaluations substantially, with a reduced accuracy loss.
 
 \section{Introduction}
 
-Computational reproducibility, the ability to recompute data analyses 
+Computational reproducibility, the ability to recompute analyses 
 over time and 
 space~\cite{peng2011reproducible}, has become a critical component of 
 scientific methodology as many researchers acknowledge the existence of 
-a reproducibility crisis~\cite{baker2016there}. Infrastructural 
+a reproducibility crisis~\cite{baker2016there}. Among other factors, infrastructural 
 characteristics play an important role in making experiments 
-reproducible, among other factors, such as data and code sharing. For 
+reproducible. For 
 instance, in 
-neuroinformatics, our primary field of interest, several studies have 
+neuroinformatics, our primary field of interest, studies have 
 shown the effect of the 
 operating system on computational 
 results~\cite{gronenschild2012effects, glatard2015reproducibility}.
 However, conducting such reproducibility studies at scale is cumbersome 
-due to the computational and storage requirements of data analysis 
+due to the computational and storage requirements of analysis 
 pipelines.
 
 Neuroinformatics pipelines are generally iterated on data coming from 10 to 
@@ -81,7 +81,7 @@ adjust specific data acquisition conditions. Subject data often capture
 anatomical and functional characteristics of their brain, for instance through
 Magnetic Resonance Imaging (MRI) or Electroencephalography (EEG). The number of input files 
 associated with a subject may vary, and these files may also be of 
-different sizes. Typical data processing times range from 15 minutes to 
+different sizes. Typical processing times range from 15 minutes to 
 15 hours per subject, with input ranging from 100~MB to 15~GB per subject, and 
 outputs ranging from 1~GB to 500~GB.
 
@@ -92,11 +92,11 @@ the public database released by the Human Connectome
 Project~\cite{van2013wu}, subjects may have one or two anatomical 
 images of each modality; when two images are present, they are
 aligned together and averaged. Acquisition artifacts, for instance due to motion,
-may also trigger corrections not otherwise required. Some 
-branches of the pipeline may also be executed only for specific 
+may also trigger corrections not otherwise required, and some 
+branches of the pipeline may be executed only for specific 
 acquisition 
 parameters. These remarks are 
-consistent with recent findings that showed that variations in the 
+consistent with recent findings showing that variations in the 
 results of a functional MRI analysis are dependent on the dataset being 
 analyzed~\cite{bowring2018exploring}. To capture such variations, 
 reproducibility evaluations need to be conducted on many subjects, 
@@ -149,12 +149,12 @@ Our goal is to predict the test set $\mathbb{T'}$ of missing values of
 $U$ from a training set $\mathbb{T}$ of known ones, where $\mathbb{T} 
 \cap \mathbb{T'} = \emptyset$ and $\mathbb{T} \cup \mathbb{T'} = 
 \{U_{i,j}\}$. In contrast with the traditional collaborative filtering 
-problem, we have control over the construction of the training set, 
-for instance we can choose to include only files producde by specific 
+problem, we have control over the construction of the training set. 
+For instance, we can choose to include only files produced by specific 
 subjects, or the first files produced by the processing of every 
 subject. Moreover, the construction of the training set is constrained by 
 the 
-order on the matrix rows, which is formalized as follows: 
+order of the matrix rows, which is formalized as follows: 
 \begin{equation}
 \begin{array}{l}
 \forall (i, j, k) \in \llbracket 1, N_f \rrbracket \times \llbracket 1, N_f \rrbracket \times \llbracket 1, N_s \rrbracket, \\
@@ -289,7 +289,7 @@ will then predict the reproducibility of the remaining files.
                   \caption{Random Unreal}
                   \label{fig:Random-Unreal-Sample-Training-set}
         \end{subfigure}
-        \caption{Training sets for different sampling methods; $\alpha=0.4$ (dark elements are in the training set).}
+        \caption{Training sets for different sampling methods, $\alpha=0.4$ (dark elements are in the training set).}
         \label{fig:sampling}
 \end{figure}
 
@@ -298,8 +298,7 @@ will then predict the reproducibility of the remaining files.
 the training set by selecting the files from random subjects until the 
 training ratio is reached. The file selected in a subject is the file 
 with the lowest index in this subject that has not been already 
-selected in the training set. This respects the time constraints as files are 
-sampled according to their modification time-stamps.
+selected in the training set, which respects the time constraints.
 
 \subsubsection{Random File Numbers (Uniform) -- RFNU (Figure~\ref{fig:Diagonal-Sample-Training-set})}
 The number of files selected for every subject is randomly selected in
@@ -313,7 +312,7 @@ number of files $N_{f}$ and \textit{a} is set according to training ratio $\alph
   \end{cases}
 \]
  For $\alpha \leq 0.5$, we ensure that the average number of selected 
- files by subject is $\alpha N_f$, by sampling the number of 
+ files by subject is $\alpha N_f$ by sampling the number of 
  files in every subject from $U(0,N_f)$ with 
  probability $2\alpha$, and setting it to 0 otherwise. For $\alpha > 
  0.5$, this is ensured by the value of $a$, which leads the 
@@ -358,7 +357,7 @@ and set to $N_f$ otherwise.
 \end{itemize}
 
 As illustrated in Figures~\ref{fig:triangular-L-Sample-Training-set} 
-and~\ref{fig:triangular-S-Sample-Training-set}, the motivation for the 
+and~\ref{fig:triangular-S-Sample-Training-set}, the point of the 
 RFNTL method is to guarantee that, for large enough values of 
 $\alpha$, all subjects will have at least a few files in the training 
 set (no empty column), which is not the case for RFNU or RFNTS.
@@ -371,10 +370,9 @@ set (no empty column), which is not the case for RFNU or RFNTS.
 
 \subsubsection{Random Unreal (Figure 
 ~\ref{fig:Random-Unreal-Sample-Training-set})} The training set is 
-sampled in a random uniform way, regardless of the file generation 
+sampled in a random uniform way, regardless of the file creation 
 times. This method does not respect the time constraints in 
-Equation~\ref{eq:time}: it will be used as a baseline for comparison 
-with other methods.
+Equation~\ref{eq:time}: it will be used as a baseline for comparison.
 
 In each method, we also included the first row of the matrix (first 
  file of each subject) and a random column (all files of a 
@@ -391,17 +389,17 @@ We generated synthetic matrices as shown in
 Figure~\ref{fig:synthetic-data}. Each matrix has 100 files and 100 
 subjects of different \emph{types}. Subjects of the same type behave 
 identically and all types contain the same number of subjects $\pm$ 1. 
-Such a decomposition by subject type correspond to the case where 
+Such a decomposition by subject type corresponds to a situation where 
 different subjects may have data of different nature, as is the case in the
-dataset of the Human Connectome Project~\cite{van2013wu} where not all the 
+Human Connectome Project data~\cite{van2013wu} where not all the 
 subjects have the same amount of images.
 
  For subjects of a given type, the matrix consists of 
  $log(n)$  blocks, where $n$ is the number of types. Blocks are 
  defined with all the possible variation patterns: some types do not 
- vary at all, while other ones vary in every block. Such 
+ vary at all, while other ones vary between every block. Such 
  patterns are meant to mimic the logic of data 
-processing pipelines. Each block of files represents the files produced 
+processing pipelines: each block of files represents the files produced 
 at a given stage of the pipeline, which may or may not contain 
 reproducibility errors depending on the subject type.
 
@@ -441,21 +439,21 @@ reproducibility errors depending on the subject type.
 
 \subsection{Real Dataset}
 
-We collected data to evaluate the computational reproducibility of analysis
-pipelines of the Human Connectome Project~\cite{glasser2013minimal}. We
+We
 processed a set S of 94 subjects randomly selected in the S500 HCP 
-release\footnote{\url{https://db.humanconnectome.org}} in three 
-execution conditions with different versions of the CentOS operating 
-system (5.11, 6.8 and 7.2 -- referred as C5, C6 and C7), using the 
+release\footnote{\url{https://db.humanconnectome.org}} of the Human 
+Connectome Project~\cite{glasser2013minimal}, in three execution 
+conditions with different versions of the CentOS operating system 
+(5.11, 6.8 and 7.2 -- referred as C5, C6 and C7), using the 
 PreFreesurfer and Freesurfer pipelines described 
 in~\cite{glasser2013minimal} and available on 
 GitHub\footnote{\url{https://github.com/Washington-University/Pipelines/releases/tag/v3.19.0}}. 
-For each pipeline, we identified the set F of files produced for all
+For each pipeline, we identified the set F of files produced for all 
 subjects in all conditions. For each condition pair and each pipeline, 
 we computed a binary reproducibility matrix U of size $|F|\times|S|$, 
-where $U_{i,j}$ is true if and only if file $i$ of subject $j$ was different in 
-each condition. Rows of $U$ were ordered by ascending file modification 
-time in a random subject in S.
+where $U_{i,j}$ is true if and only if file $i$ of subject $j$ was 
+different in each condition. Rows of $U$ were ordered by ascending file 
+modification time in a random subject in S.
 
 Figure~\ref{fig:utility-matrices} shows the matrices
 for PreFreesurfer and Freesufer. The
@@ -497,10 +495,10 @@ classifier that always predicts the value in the majority class and (2)
 the Random Unreal method, used as the baseline sampling technique. All 
 reported values are averages over 5 repetitions. Due to sampling 
 issues, it is possible that the actual training ratio obtained with 
-some of the sampling methods does not 
+some of the sampling methods does not exactly
 match the target one. We checked that the difference between the target 
 and real training ratios was lower than 0.01. We used Spark's ALS model 
-as available in package \texttt{pyspark.ml}, with 50 factors, a 
+as available in \texttt{pyspark.ml}, with 50 factors, a 
 regularization parameter of 0.01, a maximum of 5 iterations and non 
 negative constraints set to true. The code and data used to obtain the results are available through GitHub at
 \url{https://github.com/big-data-lab-team/paper-reproducibility-collaborative-filtering}.
@@ -532,7 +530,7 @@ negative constraints set to true. The code and data used to obtain the results a
  All the other methods 
 perform better than the dummy classifier, and their accuracy decreases 
 as the number of subject types increases.
-However, only 3 methods provide accuracy values above 0.85 
+However, only 3 methods can provide accuracy values above 0.85 
 for all subject types: Random Subjects (RS), RFNU and RFNTL. 
 Surprisingly, RFNTS does not perform well for more than 2 subject 
 types, even for $\alpha=0.9$.
@@ -723,7 +721,7 @@ iterations used in the ALS optimization, for the
 RFNU method and the synthetic dataset with 8 types. 
 From a training ratio of 0.7, the number of iterations has a moderate 
 effect on the accuracy. We used 5 iterations in our experiments, 
-which slightly degrades the accuracy compared to 15 or 20.
+which only slightly degrades the accuracy compared to 15 or 20.
 
 \subsection{Prediction error localization}
 
@@ -743,19 +741,19 @@ subject from 0.85$N_f$, but the probability to have a complete column
 is 0 (the one complete column in Figure~\ref{fig:overlap-rfntl} is the 
 one included to prevent cold start issues), which leads to a ``stripe" 
 of prediction errors at the bottom of the matrix. RFNTS 
-(Figure~\ref{fig:overlap-rfnts}) doesn't have this issue, as it 
+(Figure~\ref{fig:overlap-rfnts}) does not have this issue, as it 
 includes many complete columns in the training set. However, it comes at 
 the cost of several columns with a number of files lower than 
 60\%: in such columns, the prediction is often entirely wrong, which explains
 the reduced accuracy compared to RFNU.
 
-Figure~\ref{fig:error-locality} shows the results obtained by RFNU on 
+Figure~\ref{fig:error-locality} shows the RFNU results on 
 the Freesurfer dataset for a training ratio of 0.6. The prediction 
 error is localized (1) at the bottom of the matrix, which corresponds 
 to the end of the execution, and (2) in the regions where file 
 reproducibility varies across subjects, i.e., lines are not entirely 
-black or entirely white.
-
+black or entirely white. This is consistent with our expectations and 
+confirms the validity of our results.
 
 \section{Conclusion}
 
@@ -791,21 +789,21 @@ conducted using only 50\% of the files produced, with an accuracy above
 95\%. Potentially, this could reduce the computing time and storage 
 required for such studies by a factor of 2. However, such studies could 
 not be conducted by processing only half of the subjects entirely, 
-which would correspond to the Complete Columns sampling method. 
-Instead, the processing of all the subjects should be initiated, and it 
-should be terminated in a random uniform way, assuming that files are 
-uniformly produced throughout the execution. On more complex matrices, 
-such as the synthetic dataset studied here, the training ratio required 
+which would correspond to the complete columns sampling method. 
+Instead, the processing of all the subjects should be initiated and 
+terminated in a random uniform way, assuming that files are uniformly 
+produced throughout the execution. On more complex matrices, such as 
+the synthetic dataset studied here, the training ratio required 
 to get a 95\% accuracy increases to 0.85.
 
 % What are the limitations
 Our study could be extended to real-valued reproducibility 
 matrices instead of just binary ones. It is indeed common for file 
 differences to be quantified using specific similarity measures or 
-distances, such as Levenshtein distance between strings, or the sum of 
-squared distances between voxels of an image. Our sampling methods 
+distances, such as the Levenshtein distance between strings, or the sum of 
+squared distances among voxels of an image. Our sampling methods 
 could be directly applied to real-valued matrices, and we expect our 
-conclusions regarding the best-performing sampling method (RFNU) and 
+conclusions on the best-performing sampling method (RFNU) and 
 the inclusion of biases in the model to remain valid.
 
 % Other possible examples
