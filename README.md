@@ -1,6 +1,7 @@
 # How to get a pdf
 
 A pdf is uploaded for every release of the paper:
+
 * There is no release yet.
 
 See instructions below to create a pdf for the current version.
@@ -20,3 +21,8 @@ Fork the repository, edit ```paper.tex``` and ```biblio.bib```, and make a pull-
 1. Generate the figures: ```./plot_figures.sh``` (requires ```gnuplot```)
 2. Compile the document: ```pdflatex paper ; pdflatex paper``` (yes, twice).
 3. Generate the bibliography: ```bibtex paper ; pdflatex paper``` (yes, once again).
+
+# Data and code
+
+* Prediction results in `data/results` were obtained from utility matrices in `data/Utility_Matrix`, using `predict.py` from [repro-tools](https://github.com/big-data-lab-team/repro-tools) version 0.1. 
+* Figures in `figures` containing matrices were obtained using `plot_matrix.py` from [repro-tools](https://github.com/big-data-lab-team/repro-tools) version 0.1. 
