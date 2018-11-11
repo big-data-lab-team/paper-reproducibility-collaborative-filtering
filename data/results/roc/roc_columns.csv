@@ -1,7 +1,7 @@
 columns ../means_of_results/ALS/FS-100files/ALS-FS100files-columns-average.txt 0.962191780822 0.9663249013314001 0.948005925585
-columns ../means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-16type-syn-columns-average.txt 0.6500000000000001 0.2964721579376 1.0
+# columns ../means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-16type-syn-columns-average.txt 0.6500000000000001 0.2964721579376 1.0
 columns ../means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-2type-syn-columns-average.txt 1.0 1.0 1.0
-columns ../means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-32type-syn-columns-average.txt 0.588 0.2039734587876 1.0
-columns ../means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-4type-syn-columns-average.txt 0.78 0.6700514352337998 0.8340138775283998
+# columns ../means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-32type-syn-columns-average.txt 0.588 0.2039734587876 1.0
+# columns ../means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-4type-syn-columns-average.txt 0.78 0.6700514352337998 0.8340138775283998
 columns ../means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-64type-syn-columns-average.txt 0.56 0.20523914643 1.0
 columns ../means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-8type-syn-columns-average.txt 0.6527999999999999 0.34806268373419996 1.0

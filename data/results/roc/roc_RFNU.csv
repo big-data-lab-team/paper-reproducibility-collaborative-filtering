@@ -1,7 +1,7 @@
 RFNU ../means_of_results/ALS/FS-100files/ALS-FS100files-RFNU-average.txt 0.9416438356164001 0.9338922407126 0.9654840120272
-RFNU ../means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-16type-syn-RFNU-average.txt 0.9850000000000001 0.971115719015 1.0
+# RFNU ../means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-16type-syn-RFNU-average.txt 0.9850000000000001 0.971115719015 1.0
 RFNU ../means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-2type-syn-RFNU-average.txt 1.0 1.0 1.0
-RFNU ../means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-32type-syn-RFNU-average.txt 0.9656 0.935477163164 0.9920763386288
-RFNU ../means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-4type-syn-RFNU-average.txt 0.9650000000000001 0.9483480269375999 0.9806201550388
+# RFNU ../means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-32type-syn-RFNU-average.txt 0.9656 0.935477163164 0.9920763386288
+# RFNU ../means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-4type-syn-RFNU-average.txt 0.9650000000000001 0.9483480269375999 0.9806201550388
 RFNU ../means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-64type-syn-RFNU-average.txt 0.8554 0.7305478511779999 0.9721639119623999
 RFNU ../means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-8type-syn-RFNU-average.txt 0.975 0.9526604501914001 1.0

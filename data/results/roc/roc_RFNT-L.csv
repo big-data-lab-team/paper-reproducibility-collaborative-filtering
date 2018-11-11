@@ -1,7 +1,7 @@
 RFNT-L ../means_of_results/ALS/FS-100files/ALS-FS100files-RFNT-L-average.txt 0.8361643835616 0.8059918140147999 0.941397680995
-RFNT-L ../means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-16type-syn-RFNT-L-average.txt 0.8778 0.7729474871502001 0.9846039215686
+# RFNT-L ../means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-16type-syn-RFNT-L-average.txt 0.8778 0.7729474871502001 0.9846039215686
 RFNT-L ../means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-2type-syn-RFNT-L-average.txt 0.95 0.9038450588209999 1.0
-RFNT-L ../means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-32type-syn-RFNT-L-average.txt 0.8754000000000002 0.7890576176132 0.9664271923532001
-RFNT-L ../means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-4type-syn-RFNT-L-average.txt 0.905 0.8677556826696 0.9414147144806
+# RFNT-L ../means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-32type-syn-RFNT-L-average.txt 0.8754000000000002 0.7890576176132 0.9664271923532001
+# RFNT-L ../means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-4type-syn-RFNT-L-average.txt 0.905 0.8677556826696 0.9414147144806
 RFNT-L ../means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-64type-syn-RFNT-L-average.txt 0.8800000000000001 0.7903491653118 0.975714832487
 RFNT-L ../means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-8type-syn-RFNT-L-average.txt 0.8674 0.770812731265 0.9704623717127999

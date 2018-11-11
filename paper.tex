@@ -25,6 +25,8 @@
   \color{blue}\emph{[Note: #1]}
   \color{black}
 }
+\newcommand{\english}[1]{\uwave{#1}}  
+
 
 \begin{document}
 
@@ -408,27 +410,15 @@ reproducibility errors depending on the subject type.
                   %\includegraphics[width=\columnwidth]{data/Utility_Matrix/Synthetic/synthetic_subject_types/1_SubjectType_utility_matrix.png}
                   %\caption{1 type}
         %\end{subfigure}
-        \begin{subfigure}[b]{0.45\columnwidth}
+        \begin{subfigure}[b]{0.3\columnwidth}
                   \includegraphics[width=\columnwidth]{data/Utility_Matrix/Synthetic/synthetic_subject_types/2_SubjectType_utility_matrix.png}
                   \caption{2 types}
         \end{subfigure}
-        \begin{subfigure}[b]{0.45\columnwidth}
-                  \includegraphics[width=\columnwidth]{data/Utility_Matrix/Synthetic/synthetic_subject_types/4_SubjectType_utility_matrix.png}
-                  \caption{4 types}
-        \end{subfigure}
-                \begin{subfigure}[b]{0.45\columnwidth}
+                \begin{subfigure}[b]{0.3\columnwidth}
                   \includegraphics[width=\columnwidth]{data/Utility_Matrix/Synthetic/synthetic_subject_types/8_SubjectType_utility_matrix.png}
                   \caption{8 types}
         \end{subfigure}
-                \begin{subfigure}[b]{0.45\columnwidth}
-                  \includegraphics[width=\columnwidth]{data/Utility_Matrix/Synthetic/synthetic_subject_types/16_SubjectType_utility_matrix.png}
-                  \caption{16 types}
-        \end{subfigure}
-                \begin{subfigure}[b]{0.45\columnwidth}
-                  \includegraphics[width=\columnwidth]{data/Utility_Matrix/Synthetic/synthetic_subject_types/32_SubjectType_utility_matrix.png}
-                  \caption{32 types}
-        \end{subfigure}
-                \begin{subfigure}[b]{0.45\columnwidth}
+                \begin{subfigure}[b]{0.3\columnwidth}
                   \includegraphics[width=\columnwidth]{data/Utility_Matrix/Synthetic/synthetic_subject_types/64_SubjectType_utility_matrix.png}
                   \caption{64 types}
         \end{subfigure}
@@ -441,9 +431,9 @@ reproducibility errors depending on the subject type.
 We
 processed a set S of 94 subjects randomly selected in the S500 HCP 
 release\footnote{\url{https://db.humanconnectome.org}} of the Human 
-Connectome Project~\cite{glasser2013minimal}, in three execution 
+Connectome Project~\cite{glasser2013minimal}, in two execution 
 conditions with different versions of the CentOS operating system 
-(5.11, 6.8 and 7.2 -- referred as C5, C6 and C7), using the 
+(6.8 and 7.2 -- referred as C6 and C7), using the 
 PreFreesurfer and Freesurfer pipelines described 
 in~\cite{glasser2013minimal} and available on 
 GitHub\footnote{\url{https://github.com/Washington-University/Pipelines/releases/tag/v3.19.0}}. 
@@ -466,20 +456,12 @@ lines.
 \begin{figure}[h!]
   \centering
   \begin{subfigure}[b]{0.45\columnwidth}
-        \includegraphics[width=\columnwidth]{data/Utility_Matrix/PreFreeSurfer/PFS_5v6_utility_matrix.png}
-  \caption{PFS, C5 vs C6}
+        \includegraphics[width=0.8\columnwidth]{data/Utility_Matrix/PreFreeSurfer/PFS_6v7_utility_matrix.png}
+  \caption{PFS}
   \end{subfigure}
   \begin{subfigure}[b]{0.45\columnwidth}
-         \includegraphics[width=\columnwidth]{data/Utility_Matrix/PreFreeSurfer/PFS_5v7_utility_matrix.png}
-  \caption{PFS, C5 vs C7}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.45\columnwidth}
-        \includegraphics[width=\columnwidth]{data/Utility_Matrix/PreFreeSurfer/PFS_6v7_utility_matrix.png}
-  \caption{PFS, C6 vs C7}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.45\columnwidth}
-        \includegraphics[width=\columnwidth]{data/Utility_Matrix/FS-100files/FS-First-bound-100files.png}
-  \caption{FS (100 files), C6 vs C7}
+        \includegraphics[width=0.8\columnwidth]{data/Utility_Matrix/FS-100files/FS-First-bound-100files.png}
+  \caption{FS (100 files)}
   \end{subfigure}
   \caption{Utility matrices for PreFreesurfer (PFS) and Freesurfer (FS). White cells denote reproducibility errors.}
     \label{fig:utility-matrices}
@@ -532,33 +514,41 @@ Surprisingly, RFNTS does not perform well for more than 2 subject
 types, even for $\alpha=0.9$.
 
 \begin{figure*}
-\begin{subfigure}[b]{\columnwidth}
-        \includegraphics[width=0.8\columnwidth]{data/results/means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-2-types.pdf}
+\begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{data/results/means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-2-types.pdf}
         \caption{2 subject types}
 \end{subfigure}
-\begin{subfigure}[b]{\columnwidth}
-        \includegraphics[width=0.8\columnwidth]{data/results/means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-4-types.pdf}
-        \caption{4 subject types}
-\end{subfigure}
-\begin{subfigure}[b]{\columnwidth}
-        \includegraphics[width=0.8\columnwidth]{data/results/means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-8-types.pdf}
+\hfill
+\begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{data/results/means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-8-types.pdf}
         \caption{8 subject types}
 \end{subfigure}
-\begin{subfigure}[b]{\columnwidth}
-        \includegraphics[width=0.8\columnwidth]{data/results/means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-16-types.pdf}
-        \caption{16 subject types}
-\end{subfigure}
-\begin{subfigure}[b]{\columnwidth}
-        \includegraphics[width=0.8\columnwidth]{data/results/means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-32-types.pdf}
-        \caption{32 subject types}
-\end{subfigure}
 \hfill
-\begin{subfigure}[b]{\columnwidth}
-        \includegraphics[width=0.8\columnwidth]{data/results/means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-64-types.pdf}
+\begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{data/results/means_of_results/ALS/Synthetic/synthetic_subject_types/ALS-64-types.pdf}
         \caption{64 subject types}
 \end{subfigure}
 \caption{Accuracy results on synthetic data, ALS \emph{without} bias.}
 \label{fig:results-synthetic}
+\end{figure*}
+\begin{figure*}
+\centering
+\begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{data/results/means_of_results/ALS-Bias/Synthetic/synthetic_subject_types/ALS-Bias-2-types.pdf}
+        \caption{2 subject types}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{data/results/means_of_results/ALS-Bias/Synthetic/synthetic_subject_types/ALS-Bias-8-types.pdf}
+        \caption{8 subject types}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{data/results/means_of_results/ALS-Bias/Synthetic/synthetic_subject_types/ALS-Bias-64-types.pdf}
+        \caption{64 subject types}
+\end{subfigure}
+\caption{Accuracy results on synthetic data, ALS \emph{with} bias.}
+\label{fig:results-synthetic-als-bias}
 \end{figure*}
 
 \subsubsection{ALS with Bias}
@@ -569,36 +559,6 @@ to Random Unreal, but their accuracy is much lower than without
 biases. This is presumably due to 
 the fact that file biases are all close to 0.5. 
 In such a situation, biases are detrimental and should not be included.
-
-\begin{figure*}
-\begin{subfigure}[b]{\columnwidth}
-        \includegraphics[width=0.8\columnwidth]{data/results/means_of_results/ALS-Bias/Synthetic/synthetic_subject_types/ALS-Bias-2-types.pdf}
-        \caption{2 subject types}
-\end{subfigure}
-\begin{subfigure}[b]{\columnwidth}
-        \includegraphics[width=0.8\columnwidth]{data/results/means_of_results/ALS-Bias/Synthetic/synthetic_subject_types/ALS-Bias-4-types.pdf}
-        \caption{4 subject types}
-\end{subfigure}
-\begin{subfigure}[b]{\columnwidth}
-        \includegraphics[width=0.8\columnwidth]{data/results/means_of_results/ALS-Bias/Synthetic/synthetic_subject_types/ALS-Bias-8-types.pdf}
-        \caption{8 subject types}
-\end{subfigure}
-\begin{subfigure}[b]{\columnwidth}
-        \includegraphics[width=0.8\columnwidth]{data/results/means_of_results/ALS-Bias/Synthetic/synthetic_subject_types/ALS-Bias-16-types.pdf}
-        \caption{16 subject types}
-\end{subfigure}
-\begin{subfigure}[b]{\columnwidth}
-        \includegraphics[width=0.8\columnwidth]{data/results/means_of_results/ALS-Bias/Synthetic/synthetic_subject_types/ALS-Bias-32-types.pdf}
-        \caption{32 subject types}
-\end{subfigure}
-\hfill
-\begin{subfigure}[b]{\columnwidth}
-        \includegraphics[width=0.8\columnwidth]{data/results/means_of_results/ALS-Bias/Synthetic/synthetic_subject_types/ALS-Bias-64-types.pdf}
-        \caption{64 subject types}
-\end{subfigure}
-\caption{Accuracy results on synthetic data, ALS \emph{with} bias.}
-\label{fig:results-synthetic-als-bias}
-\end{figure*}
 
 \subsection{Accuracy on  Real Data}
 
@@ -612,59 +572,42 @@ the dummy classifier. Random Unreal has an
 accuracy close to 1, which shows that collaborative filtering works 
 well on this dataset too.
 
-\begin{figure*}
-\begin{subfigure}[b]{\columnwidth}
-        \includegraphics[width=0.8\columnwidth]{data/results/means_of_results/ALS/PreFreeSurfer/ALS-PFS-5v6.pdf}
-        \caption{PFS, CentOS5 vs CentOS6}
-\end{subfigure}
-\begin{subfigure}[b]{\columnwidth}
-        \includegraphics[width=0.8\columnwidth]{data/results/means_of_results/ALS/PreFreeSurfer/ALS-PFS-5v7.pdf}
-        \caption{PFS, CentOS5 vs CentOS7}
-\end{subfigure}
-\begin{subfigure}[b]{\columnwidth}
-        \includegraphics[width=0.8\columnwidth]{data/results/means_of_results/ALS/PreFreeSurfer/ALS-PFS-6v7.pdf}
-        \caption{PFS, CentOS6 vs CentOS7}
+\begin{figure}
+\begin{subfigure}[b]{0.5\columnwidth}
+        \includegraphics[width=\textwidth]{data/results/means_of_results/ALS/PreFreeSurfer/ALS-PFS-6v7.pdf}
+        \caption{PFS}
 \end{subfigure}\hfill
-\begin{subfigure}[b]{\columnwidth}
-        \includegraphics[width=0.8\columnwidth]{data/results/means_of_results/ALS/FS-100files/ALS-FS100files.pdf}
-        \caption{FS, CentOS6 vs CentOS7}
+\begin{subfigure}[b]{0.5\columnwidth}
+        \includegraphics[width=\textwidth]{data/results/means_of_results/ALS/FS-100files/ALS-FS100files.pdf}
+        \caption{FS}
 \end{subfigure}
 \caption{Accuracy results on PreFresurfer (PFS) and Freesurfer (FS) data, ALS \emph{without} bias.}
 \label{fig:results-real-als}
-\end{figure*}
+\end{figure}
 
 \subsubsection{ALS with bias}
 
 Figure~\ref{fig:results-real-als-bias} shows the accuracy for ALS with 
 bias. From a training ratio of 0.5, all methods perform well for all 
-datasets, except complete columns in 
-Figure~\ref{fig:pfs-c5vsc7-bias}. All methods except RFNU, RFNTL and 
+datasets. All methods except RFNU, RFNTL and 
 RFNTS also perform well for a training ratio lower than 0.5. Overall, 
 the accuracy is much higher than without bias, due to the fact that the 
 file biases are very strong. In the remainder, all the 
 results are obtained using ALS without bias.
 
-\begin{figure*}
-\begin{subfigure}[b]{\columnwidth}
-        \includegraphics[width=0.8\columnwidth]{data/results/means_of_results/ALS-Bias/PreFreeSurfer/ALS-Bias-PFS-5v6.pdf}
-        \caption{PFS, CentOS5 vs CentOS6}
-\end{subfigure}
-\begin{subfigure}[b]{\columnwidth}
-        \includegraphics[width=0.8\columnwidth]{data/results/means_of_results/ALS-Bias/PreFreeSurfer/ALS-Bias-PFS-5v7.pdf}
-        \caption{PFS, CentOS5 vs CentOS7}
-        \label{fig:pfs-c5vsc7-bias}
-\end{subfigure}
-\begin{subfigure}[b]{\columnwidth}
-        \includegraphics[width=0.8\columnwidth]{data/results/means_of_results/ALS-Bias/PreFreeSurfer/ALS-Bias-PFS-6v7.pdf}
-        \caption{PFS, CentOS6 vs CentOS7}
+\begin{figure}
+\centering
+\begin{subfigure}[b]{0.5\columnwidth}
+        \includegraphics[width=\textwidth]{data/results/means_of_results/ALS-Bias/PreFreeSurfer/ALS-Bias-PFS-6v7.pdf}
+        \caption{PFS}
 \end{subfigure}\hfill
-\begin{subfigure}[b]{\columnwidth}
-        \includegraphics[width=0.8\columnwidth]{data/results/means_of_results/ALS-Bias/FS-100files/ALS-Bias-FS100files.pdf}
-        \caption{FS, CentOS6 vs CentOS7}
+\begin{subfigure}[b]{0.5\columnwidth}
+        \includegraphics[width=\textwidth]{data/results/means_of_results/ALS-Bias/FS-100files/ALS-Bias-FS100files.pdf}
+        \caption{FS}
 \end{subfigure}
 \caption{Accuracy results on PreFresurfer (PFS) and Freesurfer (FS) data, ALS \emph{with} bias.}
 \label{fig:results-real-als-bias}
-\end{figure*}
+\end{figure}
 
 \subsection{ROC analysis}
 
@@ -675,30 +618,84 @@ RFNU, RS and complete rows is undefined at this training ratio (the
 test set only contains positive elements). The average sensitivity and specificity values 
 are reported in Table~\ref{table:roc}, which confirms that RFNU is the best 
 performing method on average.
-
-\begin{figure*}
-\includegraphics[width=\columnwidth]{data/results/roc/roc.pdf}
-\includegraphics[width=\columnwidth]{data/results/roc/roc-closeup.pdf}
-\caption{Comparison of the sampling methods in the ROC space for the 6 synthetic datasets and Freesurfer (ALS without bias). Right: entire dataset. Left: close-up on the top-left part.}
+\begin{figure}
+\centering
+\includegraphics[width=0.5\columnwidth]{data/results/roc/roc.pdf}\hfill
+\includegraphics[width=0.5\columnwidth]{data/results/roc/roc-closeup.pdf}
+\caption{Comparison of the sampling methods in the ROC space for the 3 synthetic datasets and Freesurfer (ALS without bias). Right: entire dataset. Left: close-up on the top-left part.}
 \label{fig:roc}
-\end{figure*}
-
+\end{figure}
 \begin{table}
 \centering
 \begin{tabular}{ccc}
 & Sensitivity & Specificity \\
 \hline
-Complete Columns & 0.53 & 0.97\\
-Complete Rows & 0.43 & 0.89\\
-Random Subjects & 0.88 & 0.99\\
-RFNU & 0.92 & 0.99 \\
-RFNTL & 0.81 & 0.97\\
-RFNTS & 0.65 & 0.93 \\
-Random Unreal & 1 & 1
+Complete Columns & 0.63 & 0.99\\
+Complete Rows & 0.50 & 0.91\\
+Random Subjects & 0.89 & 0.98\\
+RFNU & 0.90 & 0.98 \\
+RFNTL & 0.82 & 0.97\\
+RFNTS & 0.72 & 0.94 \\
+Random Unreal & 1.00 & 0.99
 \end{tabular}
 \caption{Average sensitivity and specificity for the synthetic datasets and Freesurfer ($\alpha=0.9$, ALS without bias).}
 \label{table:roc}
 \end{table}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.6\columnwidth]{data/results/means_of_results/ALS/Synthetic/8type-RFNU-Differ-Num-Factors/ALS-8-types-ranks.pdf}
+\caption{Effect of the number of factors used in ALS, (RFNU, synthetic dataset, 8 types, 5 iterations).}
+\label{fig:factors}
+\end{figure}
+\begin{figure}
+\begin{subfigure}{0.5\columnwidth}
+\includegraphics[width=\columnwidth]{./data/results/latent-factors/5i-3f-ALS-r1-08-userFactors.pdf}
+\caption{Subject factors}
+\end{subfigure}\hfill
+\begin{subfigure}{0.5\columnwidth}
+\includegraphics[width=\columnwidth]{./data/results/latent-factors/5i-3f-ALS-r1-08-itemFactors.pdf}
+\caption{File factors}
+\end{subfigure}
+\caption{Subject and file factors produced by collaborative filtering (RFNU, synthetic dataset, 8 types, 3 factors, 5 iterations).}
+\label{fig:factors3d}
+\end{figure}
+
+
+\begin{figure}
+\centering
+\includegraphics[width=0.6\columnwidth]{data/results/means_of_results/ALS/Synthetic/8type-RFNU-Differ-Num-Iterations-rank50/ALS-8-types-iteration.pdf}
+\caption{Effect of the number of iterations used in ALS, (RFNU, synthetic dataset, 8 types, 50 factors).}
+\label{fig:iterations}
+\end{figure}
+
+\begin{figure}
+\centering
+\begin{subfigure}[b]{0.4\columnwidth}
+        \includegraphics[width=\columnwidth]{figures/RFNU_Syn_8_ALS_09_test_data_matrix_run1.png}
+        \caption{RFNU: $U(0.8N_f, N_f)$}
+        \label{fig:overlap-rfnu}
+\end{subfigure}\\
+\begin{subfigure}[b]{0.4\columnwidth}
+        \includegraphics[width=\columnwidth]{figures/RFNT-L_Syn_8_ALS_09_test_data_matrix_run2.png}
+        \caption{RFNTL: $T(0.85N_f, 0.85N_f, N_f)$}
+        \label{fig:overlap-rfntl}
+\end{subfigure}\\
+\begin{subfigure}[b]{0.4\columnwidth}
+        \includegraphics[width=\columnwidth]{figures/RFNT-S_Syn_8_ALS_09_test_data_matrix_run1.png}
+        \caption{RFNTS: 0.3$T(0, N_f, N_f)$+0.7$N_f$}
+        \label{fig:overlap-rfnts}
+\end{subfigure}
+\caption{Comparison between RFNU, RFNTL and RFNTS on synthetic dataset with 8 types, $\alpha=0.9$.}
+\label{fig:overlap}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.6\columnwidth]{figures/RFNU_FS100F_ALS_06_test_data_matrix_run1.png}
+\caption{Prediction results for RFNU on the Freesurfer dataset, $\alpha=0.6$.}
+\label{fig:error-locality}
+\end{figure}
 
 \subsection{Effect of the number of factors} Figure~\ref{fig:factors} 
 shows the effect of the number of factors used in the ALS optimization 
@@ -709,7 +706,7 @@ the number of factors does not have any effect, which shows that the
 data is best 
 explained by 3 factors. Figure~\ref{fig:factors3d} confirms that 3 
 factors are enough to separate the files of this dataset in 3 
-blocks, and the subjects in 8 types.
+blocks, and the subjects in 8 types. \enlargethispage{5mm}
 
 \subsection{Effect of the maximum number of iterations}
 Figure~\ref{fig:iterations} illustrates the effect of the number of 
@@ -817,12 +814,7 @@ Finally, the method described in this paper could possibly be used to predict
 the outcome of other time-constrained processes, for instance 
 markers of chronic disease activity.
 
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.6\columnwidth]{figures/RFNU_FS100F_ALS_06_test_data_matrix_run1.png}
-\caption{Prediction results for RFNU on the Freesurfer dataset, $\alpha=0.6$.}
-\label{fig:error-locality}
-\end{figure}
+
 
 
 \section*{Acknowledgement}
@@ -832,58 +824,5 @@ required for this study.
 
 \bibliographystyle{IEEEtran}
 \bibliography{IEEEabrv,biblio.bib}
-
-\newpage
-
-\onecolumn
-
-\begin{figure}
-\begin{minipage}{0.45\textwidth}
-\includegraphics[width=\columnwidth]{data/results/means_of_results/ALS/Synthetic/8type-RFNU-Differ-Num-Factors/ALS-8-types-ranks.pdf}
-\caption{Effect of the number of factors used in ALS, (RFNU, synthetic dataset, 8 types, 5 iterations).}
-\label{fig:factors}
-\end{minipage}\hfill
-\begin{minipage}{0.45\textwidth}
-\includegraphics[width=\columnwidth]{data/results/means_of_results/ALS/Synthetic/8type-RFNU-Differ-Num-Iterations-rank50/ALS-8-types-iteration.pdf}
-\caption{Effect of the number of iterations used in ALS, (RFNU, synthetic dataset, 8 types, 50 factors).}
-\label{fig:iterations}
-\end{minipage}
-\end{figure}
-
-\begin{figure*}
-\begin{subfigure}{0.5\columnwidth}
-\includegraphics[width=\columnwidth]{./data/results/latent-factors/5i-3f-ALS-r1-08-userFactors.pdf}
-\caption{Subject factors}
-\end{subfigure}
-\hfill
-\begin{subfigure}{0.5\columnwidth}
-\includegraphics[width=\columnwidth]{./data/results/latent-factors/5i-3f-ALS-r1-08-itemFactors.pdf}
-\caption{File factors}
-\end{subfigure}
-\caption{Subject and file factors produced by collaborative filtering (RFNU, synthetic dataset, 8 types, 3 factors, 5 iterations).}
-\label{fig:factors3d}
-\end{figure*}
-
-\begin{figure*}
-\begin{subfigure}[b]{0.3\columnwidth}
-        \includegraphics[width=\columnwidth]{figures/RFNU_Syn_8_ALS_09_test_data_matrix_run1.png}
-        \caption{RFNU: $U(0.8N_f, N_f)$}
-        \label{fig:overlap-rfnu}
-\end{subfigure}
-\hfill
-\begin{subfigure}[b]{0.3\columnwidth}
-        \includegraphics[width=\columnwidth]{figures/RFNT-L_Syn_8_ALS_09_test_data_matrix_run2.png}
-        \caption{RFNTL: $T(0.85N_f, 0.85N_f, N_f)$}
-        \label{fig:overlap-rfntl}
-\end{subfigure}
-\hfill
-\begin{subfigure}[b]{0.3\columnwidth}
-        \includegraphics[width=\columnwidth]{figures/RFNT-S_Syn_8_ALS_09_test_data_matrix_run1.png}
-        \caption{RFNTS: 0.3$T(0, N_f, N_f)$+0.7$N_f$}
-        \label{fig:overlap-rfnts}
-\end{subfigure}
-\caption{Comparison between RFNU, RFNTL and RFNTS on synthetic dataset with 8 types, $\alpha=0.9$.}
-\label{fig:overlap}
-\end{figure*}
 
 \end{document}
