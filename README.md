@@ -2,6 +2,7 @@
 
 A pdf is uploaded for every release of the paper:
 
+* [Release 1.0](https://github.com/big-data-lab-team/paper-reproducibility-collaborative-filtering/releases/download/1.0/paper.pdf): final version for IEEE Big Data 2018.
 * [Release 
 0.1.2](https://github.com/big-data-lab-team/paper-reproducibility-collaborative-filtering/releases/download/0.1.2/paper.pdf): 
 submitted to IEEE Big Data 2018 and arxiv pre-print.
